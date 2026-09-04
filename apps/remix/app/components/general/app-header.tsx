@@ -1,13 +1,10 @@
-import { getRootHref } from '@documenso/lib/utils/params';
 import { trpc } from '@documenso/trpc/react';
 import { cn } from '@documenso/ui/lib/utils';
 import { Button } from '@documenso/ui/primitives/button';
 import { ReadStatus } from '@prisma/client';
 import { InboxIcon, MenuIcon, SearchIcon } from 'lucide-react';
 import { type HTMLAttributes, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router';
-
-import { BrandingLogo } from '~/components/general/branding-logo';
+import { Link } from 'react-router';
 
 import { AppCommandMenu } from './app-command-menu';
 import { AppNavDesktop } from './app-nav-desktop';
@@ -20,8 +17,6 @@ export type HeaderProps = HTMLAttributes<HTMLDivElement> & {
 };
 
 export const Header = ({ className, fullWidth = false, ...props }: HeaderProps) => {
-  const params = useParams();
-
   const [isCommandMenuOpen, setIsCommandMenuOpen] = useState(false);
   const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
@@ -61,13 +56,6 @@ export const Header = ({ className, fullWidth = false, ...props }: HeaderProps) 
         )}
         data-testid="app-header-container"
       >
-        <Link
-          to={getRootHref(params)}
-          className="hidden rounded-md ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:inline"
-        >
-          <BrandingLogo className="h-6 w-auto" />
-        </Link>
-
         <AppNavDesktop setIsCommandMenuOpen={setIsCommandMenuOpen} />
 
         <Button asChild variant="outline" className="relative hidden h-10 w-10 rounded-lg md:flex">

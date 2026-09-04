@@ -1,4 +1,3 @@
-import LogoImage from '@documenso/assets/logo.png';
 import { authClient } from '@documenso/auth/client';
 import { useSession } from '@documenso/lib/client-only/providers/session';
 import { trpc } from '@documenso/trpc/react';
@@ -9,6 +8,7 @@ import { ReadStatus } from '@prisma/client';
 import { useMemo } from 'react';
 import { Link } from 'react-router';
 
+import { ForkAttributionFooter } from '~/components/general/fork-attribution-footer';
 import { useOptionalCurrentTeam } from '~/providers/team';
 
 export type AppNavMobileProps = {
@@ -79,11 +79,7 @@ export const AppNavMobile = ({ isMenuOpen, onMenuOpenChange }: AppNavMobileProps
   return (
     <Sheet open={isMenuOpen} onOpenChange={onMenuOpenChange}>
       <SheetContent className="flex w-full max-w-[350px] flex-col">
-        <Link to="/" onClick={handleMenuItemClick}>
-          <img src={LogoImage} alt="Documenso Logo" className="dark:invert" width={170} height={25} />
-        </Link>
-
-        <div className="mt-8 flex w-full flex-col items-start gap-y-4">
+        <div className="flex w-full flex-col items-start gap-y-4">
           {menuNavigationLinks.map(({ href, text }) => (
             <Link
               key={href}
@@ -113,11 +109,7 @@ export const AppNavMobile = ({ isMenuOpen, onMenuOpenChange }: AppNavMobileProps
             <ThemeSwitcher />
           </div>
 
-          <p className="text-muted-foreground text-sm">
-            © {new Date().getFullYear()} Documenso, Inc.
-            <br />
-            <Trans>All rights reserved.</Trans>
-          </p>
+          <ForkAttributionFooter className="justify-start px-0 py-0" />
         </div>
       </SheetContent>
     </Sheet>

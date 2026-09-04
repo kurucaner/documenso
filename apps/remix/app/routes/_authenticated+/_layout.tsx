@@ -12,6 +12,7 @@ import { Link, Outlet, redirect } from 'react-router';
 
 import { AppBanner } from '~/components/general/app-banner';
 import { Header } from '~/components/general/app-header';
+import { ForkAttributionFooter } from '~/components/general/fork-attribution-footer';
 import { GenericErrorLayout } from '~/components/general/generic-error-layout';
 import { OrganisationBillingBanner } from '~/components/general/organisations/organisation-billing-banner';
 import { OrganisationQuotaBanner } from '~/components/general/organisations/organisation-quota-banner';
@@ -130,6 +131,8 @@ export default function Layout({ loaderData, params, matches }: Route.ComponentP
           >
             <Outlet />
           </main>
+
+          {!hideHeader && layoutMode !== 'settings' && <ForkAttributionFooter />}
         </div>
       </TeamProvider>
     </OrganisationProvider>
