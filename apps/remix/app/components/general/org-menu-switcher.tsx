@@ -306,19 +306,6 @@ export const OrgMenuSwitcher = () => {
                 <Trans>Language</Trans>
               </DropdownMenuItem>
 
-              {currentOrganisation && (
-                <DropdownMenuItem className="px-4 py-2 text-muted-foreground" asChild>
-                  <Link
-                    to={{
-                      pathname: `/o/${currentOrganisation.url}/support`,
-                      search: currentTeam ? `?team=${currentTeam.id}` : '',
-                    }}
-                  >
-                    <Trans>Support</Trans>
-                  </Link>
-                </DropdownMenuItem>
-              )}
-
               <DropdownMenuItem
                 className="hover:!text-muted-foreground px-4 py-2 text-muted-foreground"
                 onSelect={async () => authClient.signOut()}
