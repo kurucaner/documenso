@@ -142,7 +142,29 @@ export const SignUpForm = ({
         inviteToken,
       });
 
-      await navigate(returnTo ? returnTo : '/unverified-account');
+      analytics.capture('App: User Sign Up', {
+        email,
+        timestamp: new Date().toISOString(),
+        custom_campaign_params: { src: utmSrc },
+      });
+
+      if (inviteToken) {
+        toast({
+          title: _(msg`Registration Successful`),
+          description: _(msg`Your account has been created. Signing you in now.`),
+          duration: 5000,
+        });
+
+        await authClient.emailPassword.signIn({
+          email,
+          password,
+          captchaToken: token ?? undefined,
+        });
+
+        return;
+      }
+
+      await navigate(returnTo ?? '/unverified-account');
 
       toast({
         title: _(msg`Registration Successful`),
@@ -150,12 +172,6 @@ export const SignUpForm = ({
           msg`You have successfully registered. Please verify your account by clicking on the link you received in the email.`,
         ),
         duration: 5000,
-      });
-
-      analytics.capture('App: User Sign Up', {
-        email,
-        timestamp: new Date().toISOString(),
-        custom_campaign_params: { src: utmSrc },
       });
     } catch (err) {
       const error = AppError.parseError(err);

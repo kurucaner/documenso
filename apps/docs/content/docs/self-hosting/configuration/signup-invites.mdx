@@ -16,7 +16,7 @@ The invite flow works like this:
 1. An operator calls the internal signup invite API with a shared secret
 2. Documenso creates a pending invite and sends an email with a unique link
 3. The invitee opens `/signup-invite/{token}` and completes email/password registration
-4. The invite is consumed and cannot be reused
+4. The invite is consumed, the email is marked as verified, and the user is signed in automatically
 
 <Callout type="info">
   Invite bypass currently applies to **email/password signup only**. OAuth signup (Google, Microsoft, OIDC) remains blocked when the master signup switch is enabled.
@@ -166,7 +166,11 @@ The page shows invite details and a signup form with the email field locked to t
 | `REVOKED` | "Invitation revoked" message |
 | Accepted  | Redirect or confirmation that the invite was already used |
 
-After successful registration, the invite is marked as accepted and the token cannot be reused.
+After successful registration, the invite is marked as accepted and the token cannot be reused. Invited users skip the email verification step — the invite link serves as proof of email ownership — and are signed in automatically after creating their account.
+
+<Callout type="info">
+  Regular public signup still requires email verification. Only users who register through a valid invite link bypass `/unverified-account`.
+</Callout>
 
 ---
 

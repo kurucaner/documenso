@@ -239,7 +239,13 @@ export const emailPasswordRoute = new Hono<HonoAuthContext>()
       });
     }
 
-    const user = await createUser({ name, email, password, signature }).catch((err) => {
+    const user = await createUser({
+      name,
+      email,
+      password,
+      signature,
+      emailVerified: inviteToken ? new Date() : undefined,
+    }).catch((err) => {
       console.error(err);
       throw err;
     });
@@ -248,12 +254,14 @@ export const emailPasswordRoute = new Hono<HonoAuthContext>()
       await consumeSignupInvite(inviteToken);
     }
 
-    await jobsClient.triggerJob({
-      name: 'send.signup.confirmation.email',
-      payload: {
-        email: user.email,
-      },
-    });
+    if (!inviteToken) {
+      await jobsClient.triggerJob({
+        name: 'send.signup.confirmation.email',
+        payload: {
+          email: user.email,
+        },
+      });
+    }
 
     return c.text('OK', 201);
   })

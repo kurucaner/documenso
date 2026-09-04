@@ -5,6 +5,8 @@ import { expect, test } from '@playwright/test';
 import { SignupInviteStatus } from '@prisma/client';
 import { nanoid } from 'nanoid';
 
+import { signSignaturePad } from '../fixtures/signature';
+
 const WEBAPP_BASE_URL = NEXT_PUBLIC_WEBAPP_URL();
 const SIGNUP_INVITE_SECRET = process.env.NEXT_PRIVATE_SIGNUP_INVITE_SECRET ?? 'test-signup-invite-secret';
 
@@ -163,5 +165,80 @@ test.describe('Signup invite page', () => {
 
     await expect(page.getByText('Invitation revoked')).toBeVisible();
     await expect(page.getByText(email)).toBeVisible();
+  });
+});
+
+test.describe('Signup invite registration', () => {
+  test.use({ storageState: { cookies: [], origins: [] } });
+
+  test('should complete signup, skip email verification, and sign in automatically', async ({ page, request }) => {
+    const email = `invite-signup-${Date.now()}@example.com`;
+    const password = 'Password123#';
+    const name = 'Invited User';
+
+    const createResponse = await request.post(`${WEBAPP_BASE_URL}/api/internal/signup-invites`, {
+      headers: {
+        Authorization: `Bearer ${SIGNUP_INVITE_SECRET}`,
+      },
+      data: {
+        email,
+        expiresInDays: 7,
+      },
+    });
+
+    expect(createResponse.ok()).toBeTruthy();
+
+    const createdInvite = await createResponse.json();
+
+    await page.goto(createdInvite.inviteUrl);
+
+    await page.getByLabel('Full Name').fill(name);
+    await expect(page.getByLabel('Email Address')).toHaveValue(email.toLowerCase());
+    await page.getByLabel('Password', { exact: true }).fill(password);
+
+    await signSignaturePad(page);
+
+    await page.getByRole('button', { name: 'Create account', exact: true }).click();
+
+    await page.waitForURL((url) => !url.pathname.includes('/unverified-account'));
+
+    const team = await prisma.team.findFirstOrThrow({
+      where: {
+        organisation: {
+          members: {
+            some: {
+              user: {
+                email: email.toLowerCase(),
+              },
+            },
+          },
+        },
+      },
+    });
+
+    await page.waitForURL(`/t/${team.url}/documents`);
+    await expect(page).toHaveURL(`/t/${team.url}/documents`);
+
+    const user = await prisma.user.findFirstOrThrow({
+      where: {
+        email: email.toLowerCase(),
+      },
+      select: {
+        emailVerified: true,
+      },
+    });
+
+    expect(user.emailVerified).not.toBeNull();
+
+    const invite = await prisma.signupInvite.findFirstOrThrow({
+      where: {
+        token: createdInvite.token,
+      },
+      select: {
+        status: true,
+      },
+    });
+
+    expect(invite.status).toBe(SignupInviteStatus.ACCEPTED);
   });
 });
