@@ -1,11 +1,11 @@
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
+import { isInternalSecretConfigured } from '@documenso/lib/server-only/internal-api/is-internal-secret-configured';
+import { verifyInternalSecret } from '@documenso/lib/server-only/internal-api/verify-internal-secret';
 import { createRateLimitMiddleware } from '@documenso/lib/server-only/rate-limit/rate-limit-middleware';
 import { signupInviteRateLimit } from '@documenso/lib/server-only/rate-limit/rate-limits';
 import { createSignupInvite } from '@documenso/lib/server-only/signup-invite/create-signup-invite';
 import { getSignupInviteByToken } from '@documenso/lib/server-only/signup-invite/get-signup-invite-by-token';
-import { isSignupInviteSecretConfigured } from '@documenso/lib/server-only/signup-invite/is-signup-invite-secret-configured';
 import { revokeSignupInvite } from '@documenso/lib/server-only/signup-invite/revoke-signup-invite';
-import { verifySignupInviteSecret } from '@documenso/lib/server-only/signup-invite/verify-signup-invite-secret';
 import { ZNameSchema } from '@documenso/lib/types/name';
 import { zEmail } from '@documenso/lib/utils/zod';
 import { sValidator } from '@hono/standard-validator';
@@ -24,14 +24,14 @@ const ZCreateSignupInviteRequestSchema = z.object({
   teamName: ZNameSchema.optional(),
 });
 
-const requireSignupInviteSecret = (authorizationHeader: string | null | undefined) => {
-  if (!isSignupInviteSecretConfigured()) {
+const requireInternalSecret = (authorizationHeader: string | null | undefined) => {
+  if (!isInternalSecretConfigured()) {
     throw new HTTPException(503, {
-      message: 'Signup invite API is not configured',
+      message: 'Internal API is not configured',
     });
   }
 
-  if (!verifySignupInviteSecret(authorizationHeader)) {
+  if (!verifyInternalSecret(authorizationHeader)) {
     throw new HTTPException(401, {
       message: 'Unauthorized',
     });
@@ -41,7 +41,7 @@ const requireSignupInviteSecret = (authorizationHeader: string | null | undefine
 export const signupInvitesRoute = new Hono<HonoEnv>()
   .use('*', signupInviteRateLimitMiddleware)
   .post('/', sValidator('json', ZCreateSignupInviteRequestSchema), async (c) => {
-    requireSignupInviteSecret(c.req.header('authorization'));
+    requireInternalSecret(c.req.header('authorization'));
 
     const body = c.req.valid('json');
 
@@ -55,7 +55,7 @@ export const signupInvitesRoute = new Hono<HonoEnv>()
     return c.json(invite, 201);
   })
   .get('/:token', async (c) => {
-    requireSignupInviteSecret(c.req.header('authorization'));
+    requireInternalSecret(c.req.header('authorization'));
 
     const { token } = c.req.param();
 
@@ -79,7 +79,7 @@ export const signupInvitesRoute = new Hono<HonoEnv>()
     });
   })
   .delete('/:token', async (c) => {
-    requireSignupInviteSecret(c.req.header('authorization'));
+    requireInternalSecret(c.req.header('authorization'));
 
     const { token } = c.req.param();
 

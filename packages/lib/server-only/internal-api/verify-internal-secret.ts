@@ -1,6 +1,6 @@
 import { timingSafeEqual } from 'node:crypto';
 
-import { getSignupInviteSecret } from './is-signup-invite-secret-configured';
+import { getInternalSecret } from './is-internal-secret-configured';
 
 const parseAuthorizationSecret = (authorizationHeader: string | null | undefined): string | null => {
   if (!authorizationHeader) {
@@ -27,8 +27,8 @@ const areSecretsEqual = (providedSecret: string, configuredSecret: string): bool
   return timingSafeEqual(providedBuffer, configuredBuffer);
 };
 
-export const verifySignupInviteSecret = (authorizationHeader: string | null | undefined): boolean => {
-  const configuredSecret = getSignupInviteSecret();
+export const verifyInternalSecret = (authorizationHeader: string | null | undefined): boolean => {
+  const configuredSecret = getInternalSecret();
 
   if (!configuredSecret) {
     return false;

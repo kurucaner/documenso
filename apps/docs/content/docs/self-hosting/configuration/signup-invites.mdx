@@ -30,7 +30,7 @@ Before using signup invites, configure:
 
 1. **Email delivery** — Invites are sent by email. See [Email Configuration](/docs/self-hosting/configuration/email).
 2. **Database migration** — The `SignupInvite` table must exist. Run pending Prisma migrations after upgrading.
-3. **Invite secret** — Set `NEXT_PRIVATE_SIGNUP_INVITE_SECRET` to enable the internal API.
+3. **Internal secret** — Set `NEXT_PRIVATE_INTERNAL_SECRET` to enable the internal API (including signup invites).
 
 ---
 
@@ -38,7 +38,7 @@ Before using signup invites, configure:
 
 | Variable                               | Required | Default | Description |
 | -------------------------------------- | -------- | ------- | ----------- |
-| `NEXT_PRIVATE_SIGNUP_INVITE_SECRET`    | Yes      |         | Shared secret for the internal invite API. When unset, the API returns `503`. |
+| `NEXT_PRIVATE_INTERNAL_SECRET`         | Yes      |         | Shared secret for all `/api/internal/*` endpoints. When unset, internal APIs return `503`. |
 | `NEXT_PRIVATE_SIGNUP_INVITE_EXPIRY_DAYS` | No     | `7`     | Default invite lifetime in days (max 30). Can be overridden per invite. |
 | `NEXT_PRIVATE_DEFAULT_ORGANISATION_NAME` | No     |         | Default personal organisation display name when not set on the invite |
 | `NEXT_PRIVATE_DEFAULT_TEAM_NAME`         | No     |         | Default personal team display name when not set on the invite |
@@ -48,8 +48,8 @@ Before using signup invites, configure:
 # Block public signup
 NEXT_PUBLIC_DISABLE_SIGNUP="true"
 
-# Enable the invite API
-NEXT_PRIVATE_SIGNUP_INVITE_SECRET="your-long-random-secret"
+# Enable internal API (signup invites and future /api/internal/* routes)
+NEXT_PRIVATE_INTERNAL_SECRET="your-long-random-secret"
 
 # Optional: default expiry (days)
 NEXT_PRIVATE_SIGNUP_INVITE_EXPIRY_DAYS="7"
@@ -60,7 +60,7 @@ NEXT_PRIVATE_DEFAULT_TEAM_NAME="My Team"
 ```
 
 <Callout type="warn">
-  Treat `NEXT_PRIVATE_SIGNUP_INVITE_SECRET` like a root credential. Anyone with this secret can create signup invites.
+  Treat `NEXT_PRIVATE_INTERNAL_SECRET` like a root credential. Anyone with this secret can call internal API endpoints, including creating signup invites.
 </Callout>
 
 For the full list of signup-related flags, see [Environment Variables — Signup Restrictions](/docs/self-hosting/configuration/environment#signup-restrictions).
@@ -203,7 +203,7 @@ Set `NEXT_PUBLIC_DISABLE_SIGNUP="true"` and restart the application.
 <Step>
 ### Configure the invite secret
 
-Generate a long random string and set `NEXT_PRIVATE_SIGNUP_INVITE_SECRET`.
+Generate a long random string and set `NEXT_PRIVATE_INTERNAL_SECRET`.
 </Step>
 
 <Step>
@@ -223,7 +223,7 @@ Example minimal configuration for a closed instance:
 
 ```bash
 NEXT_PUBLIC_DISABLE_SIGNUP="true"
-NEXT_PRIVATE_SIGNUP_INVITE_SECRET="replace-with-a-long-random-secret"
+NEXT_PRIVATE_INTERNAL_SECRET="replace-with-a-long-random-secret"
 NEXT_PRIVATE_SIGNUP_INVITE_EXPIRY_DAYS="7"
 ```
 
@@ -234,7 +234,7 @@ NEXT_PRIVATE_SIGNUP_INVITE_EXPIRY_DAYS="7"
 | Status | Meaning |
 | ------ | ------- |
 | `401`  | Missing or invalid `Authorization` header |
-| `503`  | `NEXT_PRIVATE_SIGNUP_INVITE_SECRET` is not configured |
+| `503`  | `NEXT_PRIVATE_INTERNAL_SECRET` is not configured |
 | `404`  | Invite token not found |
 | `400`  | Invite already accepted or cannot be revoked |
 | `429`  | Rate limit exceeded (30 requests per hour) |

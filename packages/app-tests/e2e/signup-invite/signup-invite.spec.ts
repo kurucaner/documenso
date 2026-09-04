@@ -8,7 +8,7 @@ import { nanoid } from 'nanoid';
 import { signSignaturePad } from '../fixtures/signature';
 
 const WEBAPP_BASE_URL = NEXT_PUBLIC_WEBAPP_URL();
-const SIGNUP_INVITE_SECRET = process.env.NEXT_PRIVATE_SIGNUP_INVITE_SECRET ?? 'test-signup-invite-secret';
+const INTERNAL_SECRET = process.env.NEXT_PRIVATE_INTERNAL_SECRET ?? 'test-internal-secret';
 
 test.describe('Signup invite API', () => {
   test('should reject requests without a secret', async ({ request }) => {
@@ -26,7 +26,7 @@ test.describe('Signup invite API', () => {
 
     const createResponse = await request.post(`${WEBAPP_BASE_URL}/api/internal/signup-invites`, {
       headers: {
-        Authorization: `Bearer ${SIGNUP_INVITE_SECRET}`,
+        Authorization: `Bearer ${INTERNAL_SECRET}`,
       },
       data: {
         email,
@@ -44,7 +44,7 @@ test.describe('Signup invite API', () => {
 
     const getResponse = await request.get(`${WEBAPP_BASE_URL}/api/internal/signup-invites/${createdInvite.token}`, {
       headers: {
-        Authorization: SIGNUP_INVITE_SECRET,
+        Authorization: INTERNAL_SECRET,
       },
     });
 
@@ -59,7 +59,7 @@ test.describe('Signup invite API', () => {
       `${WEBAPP_BASE_URL}/api/internal/signup-invites/${createdInvite.token}`,
       {
         headers: {
-          Authorization: `Bearer ${SIGNUP_INVITE_SECRET}`,
+          Authorization: `Bearer ${INTERNAL_SECRET}`,
         },
       },
     );
@@ -178,7 +178,7 @@ test.describe('Signup invite registration', () => {
 
     const createResponse = await request.post(`${WEBAPP_BASE_URL}/api/internal/signup-invites`, {
       headers: {
-        Authorization: `Bearer ${SIGNUP_INVITE_SECRET}`,
+        Authorization: `Bearer ${INTERNAL_SECRET}`,
       },
       data: {
         email,
@@ -251,7 +251,7 @@ test.describe('Signup invite registration', () => {
 
     const createResponse = await request.post(`${WEBAPP_BASE_URL}/api/internal/signup-invites`, {
       headers: {
-        Authorization: `Bearer ${SIGNUP_INVITE_SECRET}`,
+        Authorization: `Bearer ${INTERNAL_SECRET}`,
       },
       data: {
         email,

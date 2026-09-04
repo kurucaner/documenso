@@ -12,9 +12,9 @@ import { createElement } from 'react';
 import { getI18nInstance } from '../../client-only/providers/i18n-server';
 import { generateDatabaseId } from '../../universal/id';
 import { renderEmailWithI18N } from '../../utils/render-email-with-i18n';
+import { isInternalSecretConfigured } from '../internal-api/is-internal-secret-configured';
 import { computeSignupInviteExpiresAt, resolveSignupInviteExpiryDays } from './get-default-signup-invite-expiry-days';
 import { normalizeSignupInviteEmail } from './get-signup-invite-by-token';
-import { isSignupInviteSecretConfigured } from './is-signup-invite-secret-configured';
 
 export type CreateSignupInviteOptions = {
   email: string;
@@ -73,9 +73,9 @@ export const createSignupInvite = async ({
   organisationName,
   teamName,
 }: CreateSignupInviteOptions): Promise<CreateSignupInviteResult> => {
-  if (!isSignupInviteSecretConfigured()) {
+  if (!isInternalSecretConfigured()) {
     throw new AppError(AppErrorCode.NOT_SETUP, {
-      message: 'Signup invite secret is not configured',
+      message: 'Internal API secret is not configured',
     });
   }
 
