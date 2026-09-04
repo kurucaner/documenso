@@ -8,8 +8,18 @@ import { ORGANISATION_INTERNAL_GROUPS } from '../../constants/organisations';
 import { AppError, AppErrorCode } from '../../errors/app-error';
 import { INTERNAL_CLAIM_ID } from '../../types/subscription';
 import { generateDatabaseId, prefixedId } from '../../universal/id';
+import { env } from '../../utils/env';
 import { generateDefaultOrganisationSettings } from '../../utils/organisations';
 import { createTeam } from '../team/create-team';
+
+const DEFAULT_PERSONAL_ORGANISATION_NAME = 'Personal Organisation';
+const DEFAULT_PERSONAL_TEAM_NAME = 'Personal Team';
+
+const resolvePersonalOrganisationName = (organisationName?: string) =>
+  organisationName ?? env('NEXT_PRIVATE_DEFAULT_ORGANISATION_NAME') ?? DEFAULT_PERSONAL_ORGANISATION_NAME;
+
+const resolvePersonalTeamName = (teamName?: string) =>
+  teamName ?? env('NEXT_PRIVATE_DEFAULT_TEAM_NAME') ?? DEFAULT_PERSONAL_TEAM_NAME;
 
 type CreateOrganisationOptions = {
   userId: number;
@@ -139,6 +149,8 @@ export const createOrganisation = async ({ name, url, type, userId, customerId, 
 type CreatePersonalOrganisationOptions = {
   userId: number;
   orgUrl?: string;
+  organisationName?: string;
+  teamName?: string;
   throwErrorOnOrganisationCreationFailure?: boolean;
   inheritMembers?: boolean;
   type?: OrganisationType;
@@ -147,6 +159,8 @@ type CreatePersonalOrganisationOptions = {
 export const createPersonalOrganisation = async ({
   userId,
   orgUrl,
+  organisationName,
+  teamName,
   throwErrorOnOrganisationCreationFailure = false,
   inheritMembers = true,
   type = OrganisationType.PERSONAL,
@@ -154,7 +168,7 @@ export const createPersonalOrganisation = async ({
   const freeSubscriptionClaim = await getSubscriptionClaim(INTERNAL_CLAIM_ID.FREE);
 
   const organisation = await createOrganisation({
-    name: 'Personal Organisation',
+    name: resolvePersonalOrganisationName(organisationName),
     userId,
     url: orgUrl,
     type,
@@ -172,7 +186,7 @@ export const createPersonalOrganisation = async ({
   if (organisation) {
     await createTeam({
       userId,
-      teamName: 'Personal Team',
+      teamName: resolvePersonalTeamName(teamName),
       teamUrl: prefixedId('personal'),
       organisationId: organisation.id,
       inheritMembers,

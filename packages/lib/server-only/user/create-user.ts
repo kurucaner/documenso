@@ -6,15 +6,28 @@ import { SALT_ROUNDS } from '../../constants/auth';
 import { AppError, AppErrorCode } from '../../errors/app-error';
 import { createPersonalOrganisation } from '../organisation/create-organisation';
 
+export type PersonalOrganisationOptions = {
+  organisationName?: string;
+  teamName?: string;
+};
+
 export interface CreateUserOptions {
   name: string;
   email: string;
   password: string;
   signature?: string | null;
   emailVerified?: Date | null;
+  personalOrganisation?: PersonalOrganisationOptions;
 }
 
-export const createUser = async ({ name, email, password, signature, emailVerified }: CreateUserOptions) => {
+export const createUser = async ({
+  name,
+  email,
+  password,
+  signature,
+  emailVerified,
+  personalOrganisation,
+}: CreateUserOptions) => {
   const hashedPassword = await hash(password, SALT_ROUNDS);
 
   const userExists = await prisma.user.findFirst({
@@ -64,7 +77,7 @@ export const createUser = async ({ name, email, password, signature, emailVerifi
   // });
 
   // Not used at the moment, uncomment if required.
-  await onCreateUserHook(user).catch((err) => {
+  await onCreateUserHook(user, { personalOrganisation }).catch((err) => {
     // Todo: (RR7) Add logging.
     console.error(err);
   });
@@ -82,6 +95,7 @@ export type OnCreateUserHookOptions = {
    * personal organisation for every new user.
    */
   skipPersonalOrganisation?: boolean;
+  personalOrganisation?: PersonalOrganisationOptions;
 };
 
 /**
@@ -91,7 +105,11 @@ export type OnCreateUserHookOptions = {
  */
 export const onCreateUserHook = async (user: User, options: OnCreateUserHookOptions = {}) => {
   if (!options.skipPersonalOrganisation) {
-    await createPersonalOrganisation({ userId: user.id });
+    await createPersonalOrganisation({
+      userId: user.id,
+      organisationName: options.personalOrganisation?.organisationName,
+      teamName: options.personalOrganisation?.teamName,
+    });
   }
 
   return user;

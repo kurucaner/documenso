@@ -218,12 +218,12 @@ export const emailPasswordRoute = new Hono<HonoAuthContext>()
       ipAddress: requestMetadata.ipAddress,
     });
 
-    if (inviteToken) {
-      await validateSignupInvite({
-        token: inviteToken,
-        email,
-      });
-    }
+    const invite = inviteToken
+      ? await validateSignupInvite({
+          token: inviteToken,
+          email,
+        })
+      : null;
 
     if (!isEmailDomainAllowedForSignup(email)) {
       throw new AppError(AuthenticationErrorCode.SignupDisabled, {
@@ -245,6 +245,12 @@ export const emailPasswordRoute = new Hono<HonoAuthContext>()
       password,
       signature,
       emailVerified: inviteToken ? new Date() : undefined,
+      personalOrganisation: invite
+        ? {
+            organisationName: invite.organisationName ?? undefined,
+            teamName: invite.teamName ?? undefined,
+          }
+        : undefined,
     }).catch((err) => {
       console.error(err);
       throw err;

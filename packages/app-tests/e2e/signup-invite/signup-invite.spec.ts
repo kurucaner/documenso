@@ -241,4 +241,62 @@ test.describe('Signup invite registration', () => {
 
     expect(invite.status).toBe(SignupInviteStatus.ACCEPTED);
   });
+
+  test('should apply custom organisation and team names from the invite', async ({ page, request }) => {
+    const email = `invite-names-${Date.now()}@example.com`;
+    const password = 'Password123#';
+    const name = 'Invited User';
+    const organisationName = 'Acme Corp';
+    const teamName = 'Legal Team';
+
+    const createResponse = await request.post(`${WEBAPP_BASE_URL}/api/internal/signup-invites`, {
+      headers: {
+        Authorization: `Bearer ${SIGNUP_INVITE_SECRET}`,
+      },
+      data: {
+        email,
+        expiresInDays: 7,
+        organisationName,
+        teamName,
+      },
+    });
+
+    expect(createResponse.ok()).toBeTruthy();
+
+    const createdInvite = await createResponse.json();
+
+    expect(createdInvite.organisationName).toBe(organisationName);
+    expect(createdInvite.teamName).toBe(teamName);
+
+    await page.goto(createdInvite.inviteUrl);
+
+    await page.getByLabel('Full Name').fill(name);
+    await page.getByLabel('Password', { exact: true }).fill(password);
+
+    await signSignaturePad(page);
+
+    await page.getByRole('button', { name: 'Create account', exact: true }).click();
+
+    await page.waitForURL((url) => !url.pathname.includes('/unverified-account'));
+
+    const team = await prisma.team.findFirstOrThrow({
+      where: {
+        organisation: {
+          members: {
+            some: {
+              user: {
+                email: email.toLowerCase(),
+              },
+            },
+          },
+        },
+      },
+      include: {
+        organisation: true,
+      },
+    });
+
+    expect(team.name).toBe(teamName);
+    expect(team.organisation.name).toBe(organisationName);
+  });
 });

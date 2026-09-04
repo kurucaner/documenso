@@ -19,6 +19,8 @@ import { isSignupInviteSecretConfigured } from './is-signup-invite-secret-config
 export type CreateSignupInviteOptions = {
   email: string;
   expiresInDays?: number;
+  organisationName?: string;
+  teamName?: string;
 };
 
 export type CreateSignupInviteResult = {
@@ -27,6 +29,8 @@ export type CreateSignupInviteResult = {
   token: string;
   expiresAt: Date;
   inviteUrl: string;
+  organisationName: string | null;
+  teamName: string | null;
   status: typeof SignupInviteStatus.PENDING;
 };
 
@@ -66,6 +70,8 @@ const sendSignupInviteEmail = async ({
 export const createSignupInvite = async ({
   email,
   expiresInDays,
+  organisationName,
+  teamName,
 }: CreateSignupInviteOptions): Promise<CreateSignupInviteResult> => {
   if (!isSignupInviteSecretConfigured()) {
     throw new AppError(AppErrorCode.NOT_SETUP, {
@@ -96,6 +102,8 @@ export const createSignupInvite = async ({
         token,
         expiresAt,
         status: SignupInviteStatus.PENDING,
+        organisationName,
+        teamName,
       },
     });
   });
@@ -112,6 +120,8 @@ export const createSignupInvite = async ({
     token: invite.token,
     expiresAt: invite.expiresAt,
     inviteUrl: `${NEXT_PUBLIC_WEBAPP_URL()}/signup-invite/${invite.token}`,
+    organisationName: invite.organisationName,
+    teamName: invite.teamName,
     status: SignupInviteStatus.PENDING,
   };
 };

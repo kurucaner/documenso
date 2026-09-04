@@ -274,6 +274,8 @@ For detailed certificate setup, see [Signing Certificate](/docs/self-hosting/con
 | `NEXT_PRIVATE_ALLOWED_SIGNUP_DOMAINS`        | Comma-separated list of email domains allowed to sign up (e.g., `example.com,acme.org`) |         |
 | `NEXT_PRIVATE_SIGNUP_INVITE_SECRET`          | Shared secret for the internal signup invite API                                      |         |
 | `NEXT_PRIVATE_SIGNUP_INVITE_EXPIRY_DAYS`     | Default number of days before a signup invite expires (max 30)                          | `7`     |
+| `NEXT_PRIVATE_DEFAULT_ORGANISATION_NAME`     | Default display name for personal organisations created at signup                     |         |
+| `NEXT_PRIVATE_DEFAULT_TEAM_NAME`           | Default display name for personal teams created at signup                             |         |
 | `NEXT_PUBLIC_DISABLE_SIGNIN`                 | Master switch. Disable all signin methods application-wide                          | `false` |
 | `NEXT_PUBLIC_DISABLE_EMAIL_PASSWORD_SIGNIN`  | Disable email/password signin. Also closes `/forgot-password` and `/reset-password` | `false` |
 | `NEXT_PUBLIC_DISABLE_GOOGLE_SIGNIN`          | Hide the Google signin button                                                       | `false` |
@@ -293,6 +295,8 @@ You can control who is allowed to create accounts on your instance with the foll
 - **`NEXT_PRIVATE_ALLOWED_SIGNUP_DOMAINS`**: Restrict signups to specific email domains. When set, only users whose email address matches one of the listed domains can create an account. Leave empty to allow all domains.
 - **`NEXT_PRIVATE_SIGNUP_INVITE_SECRET`**: Enables the internal signup invite API at `/api/internal/signup-invites`. When set together with `NEXT_PUBLIC_DISABLE_SIGNUP="true"`, invited users can still create email/password accounts. See [Signup Invites](/docs/self-hosting/configuration/signup-invites).
 - **`NEXT_PRIVATE_SIGNUP_INVITE_EXPIRY_DAYS`**: Default invite lifetime in days. Can be overridden per invite when creating via the API.
+- **`NEXT_PRIVATE_DEFAULT_ORGANISATION_NAME`**: Default display name for personal organisations created during signup. Overridden by per-invite `organisationName` when set via the [Signup Invites](/docs/self-hosting/configuration/signup-invites) API.
+- **`NEXT_PRIVATE_DEFAULT_TEAM_NAME`**: Default display name for personal teams created during signup. Overridden by per-invite `teamName` when set via the invite API.
 
 Sign-in for existing users is never affected, only the creation of brand-new accounts.
 
@@ -496,6 +500,8 @@ NEXT_PRIVATE_SIGNING_PASSPHRASE="your-certificate-password"
 # NEXT_PRIVATE_ALLOWED_SIGNUP_DOMAINS="example.com,acme.org"
 # NEXT_PRIVATE_SIGNUP_INVITE_SECRET="your-long-random-secret"
 # NEXT_PRIVATE_SIGNUP_INVITE_EXPIRY_DAYS="7"
+# NEXT_PRIVATE_DEFAULT_ORGANISATION_NAME="My Organisation"
+# NEXT_PRIVATE_DEFAULT_TEAM_NAME="My Team"
 
 # Sign-in restrictions (optional)
 # NEXT_PUBLIC_DISABLE_SIGNIN="true"

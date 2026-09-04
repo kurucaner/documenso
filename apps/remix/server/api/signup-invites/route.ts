@@ -6,6 +6,7 @@ import { getSignupInviteByToken } from '@documenso/lib/server-only/signup-invite
 import { isSignupInviteSecretConfigured } from '@documenso/lib/server-only/signup-invite/is-signup-invite-secret-configured';
 import { revokeSignupInvite } from '@documenso/lib/server-only/signup-invite/revoke-signup-invite';
 import { verifySignupInviteSecret } from '@documenso/lib/server-only/signup-invite/verify-signup-invite-secret';
+import { ZNameSchema } from '@documenso/lib/types/name';
 import { zEmail } from '@documenso/lib/utils/zod';
 import { sValidator } from '@hono/standard-validator';
 import { Hono } from 'hono';
@@ -19,6 +20,8 @@ const signupInviteRateLimitMiddleware = createRateLimitMiddleware(signupInviteRa
 const ZCreateSignupInviteRequestSchema = z.object({
   email: zEmail(),
   expiresInDays: z.number().int().min(1).max(30).optional(),
+  organisationName: ZNameSchema.optional(),
+  teamName: ZNameSchema.optional(),
 });
 
 const requireSignupInviteSecret = (authorizationHeader: string | null | undefined) => {
@@ -45,6 +48,8 @@ export const signupInvitesRoute = new Hono<HonoEnv>()
     const invite = await createSignupInvite({
       email: body.email,
       expiresInDays: body.expiresInDays,
+      organisationName: body.organisationName,
+      teamName: body.teamName,
     });
 
     return c.json(invite, 201);
@@ -67,6 +72,8 @@ export const signupInvitesRoute = new Hono<HonoEnv>()
       email: invite.email,
       expiresAt: invite.expiresAt,
       status: invite.status,
+      organisationName: invite.organisationName,
+      teamName: invite.teamName,
       createdAt: invite.createdAt,
       acceptedAt: invite.acceptedAt,
     });
@@ -84,6 +91,8 @@ export const signupInvitesRoute = new Hono<HonoEnv>()
         email: invite.email,
         expiresAt: invite.expiresAt,
         status: invite.status,
+        organisationName: invite.organisationName,
+        teamName: invite.teamName,
         createdAt: invite.createdAt,
         acceptedAt: invite.acceptedAt,
       });

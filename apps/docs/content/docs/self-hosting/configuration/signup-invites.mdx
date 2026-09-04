@@ -40,6 +40,8 @@ Before using signup invites, configure:
 | -------------------------------------- | -------- | ------- | ----------- |
 | `NEXT_PRIVATE_SIGNUP_INVITE_SECRET`    | Yes      |         | Shared secret for the internal invite API. When unset, the API returns `503`. |
 | `NEXT_PRIVATE_SIGNUP_INVITE_EXPIRY_DAYS` | No     | `7`     | Default invite lifetime in days (max 30). Can be overridden per invite. |
+| `NEXT_PRIVATE_DEFAULT_ORGANISATION_NAME` | No     |         | Default personal organisation display name when not set on the invite |
+| `NEXT_PRIVATE_DEFAULT_TEAM_NAME`         | No     |         | Default personal team display name when not set on the invite |
 | `NEXT_PUBLIC_DISABLE_SIGNUP`           | No       | `false` | Set to `true` to block public signup. Invited users can still register via email. |
 
 ```bash
@@ -51,6 +53,10 @@ NEXT_PRIVATE_SIGNUP_INVITE_SECRET="your-long-random-secret"
 
 # Optional: default expiry (days)
 NEXT_PRIVATE_SIGNUP_INVITE_EXPIRY_DAYS="7"
+
+# Optional: default personal org/team names (overridden by per-invite API fields)
+NEXT_PRIVATE_DEFAULT_ORGANISATION_NAME="My Organisation"
+NEXT_PRIVATE_DEFAULT_TEAM_NAME="My Team"
 ```
 
 <Callout type="warn">
@@ -83,10 +89,12 @@ The API is rate-limited to 30 requests per hour per instance.
 
 `POST /api/internal/signup-invites`
 
-| Field           | Type   | Required | Description |
-| --------------- | ------ | -------- | ----------- |
-| `email`         | string | Yes      | Email address to invite (normalized to lowercase) |
-| `expiresInDays` | number | No       | Override default expiry (1–30 days) |
+| Field                | Type   | Required | Description |
+| -------------------- | ------ | -------- | ----------- |
+| `email`              | string | Yes      | Email address to invite (normalized to lowercase) |
+| `expiresInDays`      | number | No       | Override default expiry (1–30 days) |
+| `organisationName` | string | No       | Display name for the user's personal organisation (applied at signup) |
+| `teamName`           | string | No       | Display name for the user's personal team (applied at signup) |
 
 <Tabs items={['curl']}>
 <Tab value="curl">
@@ -96,7 +104,9 @@ curl -X POST "https://documenso.example.com/api/internal/signup-invites" \
   -H "Content-Type: application/json" \
   -d '{
     "email": "newuser@example.com",
-    "expiresInDays": 7
+    "expiresInDays": 7,
+    "organisationName": "Acme Corp",
+    "teamName": "Legal"
   }'
 ```
 </Tab>
@@ -111,11 +121,17 @@ Example `201` response:
   "token": "xYz789AbC",
   "expiresAt": "2025-01-22T10:30:00.000Z",
   "inviteUrl": "https://documenso.example.com/signup-invite/xYz789AbC",
+  "organisationName": "Acme Corp",
+  "teamName": "Legal",
   "status": "PENDING"
 }
 ```
 
 Creating a new invite for an email address automatically revokes any existing pending invites for that address.
+
+<Callout type="info">
+  Organisation and team names are display-only. URL slugs remain auto-generated. When omitted, names fall back to `NEXT_PRIVATE_DEFAULT_ORGANISATION_NAME` / `NEXT_PRIVATE_DEFAULT_TEAM_NAME`, then the built-in defaults (`Personal Organisation`, `Personal Team`).
+</Callout>
 
 ### Get an Invite
 

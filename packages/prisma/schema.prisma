@@ -961,13 +961,15 @@ enum SignupInviteStatus {
 }
 
 model SignupInvite {
-  id         String             @id
-  email      String
-  token      String             @unique
-  expiresAt  DateTime
-  status     SignupInviteStatus @default(PENDING)
-  createdAt  DateTime           @default(now())
-  acceptedAt DateTime?
+  id               String             @id
+  email            String
+  token            String             @unique
+  expiresAt        DateTime
+  status           SignupInviteStatus @default(PENDING)
+  organisationName String?
+  teamName         String?
+  createdAt        DateTime           @default(now())
+  acceptedAt       DateTime?
 
   @@index([email, status])
   @@index([expiresAt])
