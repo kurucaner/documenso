@@ -1,6 +1,4 @@
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
-import { isInternalSecretConfigured } from '@documenso/lib/server-only/internal-api/is-internal-secret-configured';
-import { verifyInternalSecret } from '@documenso/lib/server-only/internal-api/verify-internal-secret';
 import { createRateLimitMiddleware } from '@documenso/lib/server-only/rate-limit/rate-limit-middleware';
 import { signupInviteRateLimit } from '@documenso/lib/server-only/rate-limit/rate-limits';
 import { createSignupInvite } from '@documenso/lib/server-only/signup-invite/create-signup-invite';
@@ -13,6 +11,7 @@ import { Hono } from 'hono';
 import { HTTPException } from 'hono/http-exception';
 import { z } from 'zod';
 
+import { requireInternalSecret } from '../../internal-api/require-internal-secret';
 import type { HonoEnv } from '../../router';
 
 const signupInviteRateLimitMiddleware = createRateLimitMiddleware(signupInviteRateLimit);
@@ -23,20 +22,6 @@ const ZCreateSignupInviteRequestSchema = z.object({
   organisationName: ZNameSchema.optional(),
   teamName: ZNameSchema.optional(),
 });
-
-const requireInternalSecret = (authorizationHeader: string | null | undefined) => {
-  if (!isInternalSecretConfigured()) {
-    throw new HTTPException(503, {
-      message: 'Internal API is not configured',
-    });
-  }
-
-  if (!verifyInternalSecret(authorizationHeader)) {
-    throw new HTTPException(401, {
-      message: 'Unauthorized',
-    });
-  }
-};
 
 export const signupInvitesRoute = new Hono<HonoEnv>()
   .use('*', signupInviteRateLimitMiddleware)

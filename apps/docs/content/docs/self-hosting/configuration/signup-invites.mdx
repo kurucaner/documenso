@@ -69,6 +69,20 @@ For the full list of signup-related flags, see [Environment Variables — Signup
 
 ## Internal API
 
+All internal endpoints authenticate with `NEXT_PRIVATE_INTERNAL_SECRET`:
+
+```
+Authorization: Bearer your-long-random-secret
+```
+
+Each endpoint is rate-limited to 30 requests per hour per instance.
+
+<Callout type="info">
+  **Invites vs direct provisioning:** Use signup invites when the user should set their own password and signature in the Documenso UI. Use direct user provisioning when your backend must create a fully provisioned account in one call (your app handles sign-in separately via the normal auth API).
+</Callout>
+
+### Signup Invites
+
 Base path:
 
 ```
@@ -76,14 +90,6 @@ POST   /api/internal/signup-invites
 GET    /api/internal/signup-invites/{token}
 DELETE /api/internal/signup-invites/{token}
 ```
-
-All endpoints require the invite secret in the `Authorization` header:
-
-```
-Authorization: Bearer your-long-random-secret
-```
-
-The API is rate-limited to 30 requests per hour per instance.
 
 ### Create an Invite
 
@@ -162,6 +168,58 @@ curl -X DELETE "https://documenso.example.com/api/internal/signup-invites/xYz789
 ```
 </Tab>
 </Tabs>
+
+### Direct User Provisioning
+
+`POST /api/internal/users`
+
+Creates a fully provisioned email/password user in one request. Bypasses `NEXT_PUBLIC_DISABLE_SIGNUP`, skips email verification, and does not send a confirmation email. Your application must sign the user in separately (for example via `/api/auth/email-password/signin`).
+
+| Field                | Type   | Required | Description |
+| -------------------- | ------ | -------- | ----------- |
+| `name`               | string | Yes      | User display name |
+| `email`              | string | Yes      | Email address (normalized to lowercase) |
+| `password`           | string | Yes      | Must meet the standard Documenso password policy |
+| `signature`          | string | Yes      | Initial user signature (typed or image data) |
+| `organisationName` | string | No       | Display name for the user's personal organisation |
+| `teamName`           | string | No       | Display name for the user's personal team |
+
+<Tabs items={['curl']}>
+<Tab value="curl">
+```bash
+curl -X POST "https://documenso.example.com/api/internal/users" \
+  -H "Authorization: Bearer your-long-random-secret" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Jane Doe",
+    "email": "jane@example.com",
+    "password": "SecurePass123!",
+    "signature": "Jane Doe",
+    "organisationName": "Acme Corp",
+    "teamName": "Legal"
+  }'
+```
+</Tab>
+</Tabs>
+
+Example `201` response:
+
+```json
+{
+  "userId": 42,
+  "email": "jane@example.com",
+  "orgUrl": "org_abc123",
+  "teamUrl": "personal_xyz789"
+}
+```
+
+| Status | Meaning |
+| ------ | ------- |
+| `201`  | User created |
+| `400`  | Validation error (weak password, missing signature, disposable email) |
+| `401`  | Invalid or missing secret |
+| `409`  | Email already registered |
+| `503`  | `NEXT_PRIVATE_INTERNAL_SECRET` is not configured |
 
 ---
 

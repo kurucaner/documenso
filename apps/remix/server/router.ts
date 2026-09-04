@@ -27,6 +27,7 @@ import type { Logger } from 'pino';
 import { aiRoute } from './api/ai/route';
 import { downloadRoute } from './api/download/download';
 import { filesRoute } from './api/files/files';
+import { internalUsersRoute } from './api/internal-users/route';
 import { signupInvitesRoute } from './api/signup-invites/route';
 import { type AppContext, appContext } from './context';
 import { appMiddleware } from './middleware';
@@ -108,6 +109,7 @@ app.route('/api/auth', auth);
 
 // Signup invite provisioning (secret-authenticated internal API).
 app.route('/api/internal/signup-invites', signupInvitesRoute);
+app.route('/api/internal/users', internalUsersRoute);
 
 // Files route.
 app.use('/api/files/upload-pdf', fileRateLimitMiddleware);

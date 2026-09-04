@@ -117,3 +117,9 @@ export const signupInviteRateLimit = createRateLimit({
   max: 30,
   window: '1h',
 });
+
+export const internalUserRateLimit = createRateLimit({
+  action: 'api.internal-user',
+  max: 30,
+  window: '1h',
+});
