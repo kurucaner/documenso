@@ -78,7 +78,7 @@ Authorization: Bearer your-long-random-secret
 Each endpoint is rate-limited to 30 requests per hour per instance.
 
 <Callout type="info">
-  **Invites vs direct provisioning:** Use signup invites when the user should set their own password and signature in the Documenso UI. Use direct user provisioning when your backend must create a fully provisioned account in one call (your app handles sign-in separately via the normal auth API).
+  **Invites vs direct provisioning:** Use signup invites when the user should set their own password and signature in the Documenso UI. Use direct user provisioning when your backend must create a fully provisioned account in one call (your app handles sign-in separately via the normal auth API). Use team API token provisioning to mint `api_...` tokens for v2 API access after a user/team exists.
 </Callout>
 
 ### Signup Invites
@@ -220,6 +220,63 @@ Example `201` response:
 | `401`  | Invalid or missing secret |
 | `409`  | Email already registered |
 | `503`  | `NEXT_PRIVATE_INTERNAL_SECRET` is not configured |
+
+### Team API Token Provisioning
+
+`POST /api/internal/teams/{teamUrl}/api-tokens`
+
+Creates a team API token in one request. The plaintext token is returned **once** in the response — store it immediately. Use the token as `Authorization: Bearer api_...` for v2 API calls (webhooks, envelopes, etc.).
+
+Typical flow:
+
+1. `POST /api/internal/users` → get `teamUrl` and `userId`
+2. `POST /api/internal/teams/{teamUrl}/api-tokens` → get `api_...` token
+3. Call v2 endpoints with the team API token
+
+| Field              | Type    | Required | Description |
+| ------------------ | ------- | -------- | ----------- |
+| `tokenName`        | string  | Yes      | Display name for the token |
+| `expirationDate`   | string  | No       | `ONE_WEEK`, `ONE_MONTH`, `THREE_MONTHS`, `SIX_MONTHS`, `ONE_YEAR`, or omit/`null` for never |
+| `userId`           | number  | No       | Associate token with a team member; omit to use org-owner fallback at API call time |
+
+<Tabs items={['curl']}>
+<Tab value="curl">
+```bash
+curl -X POST "https://documenso.example.com/api/internal/teams/personal_xyz789/api-tokens" \
+  -H "Authorization: Bearer your-long-random-secret" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "tokenName": "Acme Integration",
+    "expirationDate": "ONE_YEAR",
+    "userId": 42
+  }'
+```
+</Tab>
+</Tabs>
+
+Example `201` response:
+
+```json
+{
+  "id": 7,
+  "token": "api_xxxxxxxxxxxxxxxx",
+  "teamId": 42,
+  "teamUrl": "personal_xyz789",
+  "expiresAt": "2026-06-04T12:00:00.000Z"
+}
+```
+
+| Status | Meaning |
+| ------ | ------- |
+| `201`  | Token created (plaintext shown once) |
+| `400`  | Invalid body, invalid expiration, or user not on team |
+| `401`  | Invalid or missing secret |
+| `404`  | Team not found |
+| `503`  | `NEXT_PRIVATE_INTERNAL_SECRET` is not configured |
+
+<Callout type="warn">
+  Treat API tokens like passwords. Anyone with the plaintext `api_...` value can act on behalf of the team. Tokens created without `userId` fall back to the organisation owner when used for v2 API calls.
+</Callout>
 
 ---
 

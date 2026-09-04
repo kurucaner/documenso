@@ -123,3 +123,9 @@ export const internalUserRateLimit = createRateLimit({
   max: 30,
   window: '1h',
 });
+
+export const internalApiTokenRateLimit = createRateLimit({
+  action: 'api.internal-api-token',
+  max: 30,
+  window: '1h',
+});

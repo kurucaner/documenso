@@ -1,18 +1,9 @@
 import { prisma } from '@documenso/prisma';
-import type { Duration } from 'luxon';
-import { DateTime } from 'luxon';
 
 import { TEAM_MEMBER_ROLE_PERMISSIONS_MAP } from '../../constants/teams';
-// temporary choice for testing only
-import * as timeConstants from '../../constants/time';
 import { AppError, AppErrorCode } from '../../errors/app-error';
-import { alphaid } from '../../universal/id';
 import { buildTeamWhereQuery } from '../../utils/teams';
-import { hashString } from '../auth/hash';
-
-type TimeConstants = typeof timeConstants & {
-  [key: string]: number | Duration;
-};
+import { createApiTokenRecord } from './create-api-token-record';
 
 type CreateApiTokenInput = {
   userId: number;
@@ -22,12 +13,6 @@ type CreateApiTokenInput = {
 };
 
 export const createApiToken = async ({ userId, teamId, tokenName, expiresIn }: CreateApiTokenInput) => {
-  const apiToken = `api_${alphaid(16)}`;
-
-  const hashedToken = hashString(apiToken);
-
-  const timeConstantsRecords: TimeConstants = timeConstants;
-
   const team = await prisma.team.findFirst({
     where: buildTeamWhereQuery({
       teamId,
@@ -42,18 +27,15 @@ export const createApiToken = async ({ userId, teamId, tokenName, expiresIn }: C
     });
   }
 
-  const storedToken = await prisma.apiToken.create({
-    data: {
-      name: tokenName,
-      token: hashedToken,
-      expires: expiresIn ? DateTime.now().plus(timeConstantsRecords[expiresIn]).toJSDate() : null,
-      userId,
-      teamId,
-    },
+  const { id, token } = await createApiTokenRecord({
+    teamId,
+    tokenName,
+    expiresIn,
+    userId,
   });
 
   return {
-    id: storedToken.id,
-    token: apiToken,
+    id,
+    token,
   };
 };
