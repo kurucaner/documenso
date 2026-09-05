@@ -29,6 +29,7 @@ import { downloadRoute } from './api/download/download';
 import { filesRoute } from './api/files/files';
 import { internalApiTokensRoute } from './api/internal-api-tokens/route';
 import { internalOrganisationTeamsRoute } from './api/internal-organisation-teams/route';
+import { internalTeamRoute } from './api/internal-team/route';
 import { internalUsersRoute } from './api/internal-users/route';
 import { signupInvitesRoute } from './api/signup-invites/route';
 import { type AppContext, appContext } from './context';
@@ -113,6 +114,7 @@ app.route('/api/auth', auth);
 app.route('/api/internal/signup-invites', signupInvitesRoute);
 app.route('/api/internal/users', internalUsersRoute);
 app.route('/api/internal/organisations/:orgUrl/teams', internalOrganisationTeamsRoute);
+app.route('/api/internal/teams/:teamReference', internalTeamRoute);
 app.route('/api/internal/teams/:teamUrl/api-tokens', internalApiTokensRoute);
 
 // Files route.

@@ -135,3 +135,9 @@ export const internalTeamRateLimit = createRateLimit({
   max: 30,
   window: '1h',
 });
+
+export const internalTeamReadRateLimit = createRateLimit({
+  action: 'api.internal-team-read',
+  max: 120,
+  window: '1h',
+});

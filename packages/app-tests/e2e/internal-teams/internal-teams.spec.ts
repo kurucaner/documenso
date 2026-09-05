@@ -119,3 +119,68 @@ test.describe('Internal organisation team creation', () => {
     expect(response.status()).toBe(409);
   });
 });
+
+test.describe('Internal team lookup', () => {
+  test('should reject GET requests without a secret', async ({ request }) => {
+    const response = await request.get(`${WEBAPP_BASE_URL}/api/internal/teams/team_missing`);
+
+    expect(response.status()).toBe(401);
+  });
+
+  test('should return 404 for an unknown team', async ({ request }) => {
+    const response = await request.get(`${WEBAPP_BASE_URL}/api/internal/teams/team_missing_${Date.now()}`, {
+      headers: {
+        Authorization: `Bearer ${INTERNAL_SECRET}`,
+      },
+    });
+
+    expect(response.status()).toBe(404);
+  });
+
+  test('should return current team metadata by teamUrl', async ({ request }) => {
+    const { team } = await seedUser();
+    const renamedTeamName = `Renamed Team ${Date.now()}`;
+
+    await prisma.team.update({
+      where: {
+        id: team.id,
+      },
+      data: {
+        name: renamedTeamName,
+      },
+    });
+
+    const response = await request.get(`${WEBAPP_BASE_URL}/api/internal/teams/${team.url}`, {
+      headers: {
+        Authorization: `Bearer ${INTERNAL_SECRET}`,
+      },
+    });
+
+    expect(response.status()).toBe(200);
+
+    const body = await response.json();
+
+    expect(body.teamId).toBe(team.id);
+    expect(body.teamUrl).toBe(team.url);
+    expect(body.teamName).toBe(renamedTeamName);
+    expect(body.organisationId).toBeTruthy();
+  });
+
+  test('should return current team metadata by numeric teamId', async ({ request }) => {
+    const { team } = await seedUser();
+
+    const response = await request.get(`${WEBAPP_BASE_URL}/api/internal/teams/${team.id}`, {
+      headers: {
+        Authorization: `Bearer ${INTERNAL_SECRET}`,
+      },
+    });
+
+    expect(response.status()).toBe(200);
+
+    const body = await response.json();
+
+    expect(body.teamId).toBe(team.id);
+    expect(body.teamUrl).toBe(team.url);
+    expect(body.teamName).toBe(team.name);
+  });
+});

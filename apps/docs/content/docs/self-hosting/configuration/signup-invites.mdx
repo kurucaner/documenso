@@ -266,6 +266,40 @@ Example `201` response:
 | `409`  | Team URL already exists |
 | `503`  | `NEXT_PRIVATE_INTERNAL_SECRET` is not configured |
 
+### Team Metadata Lookup
+
+`GET /api/internal/teams/{teamReference}`
+
+Returns current team metadata for server-to-server sync. `teamReference` may be the team URL slug or numeric team id.
+
+<Tabs items={['curl']}>
+<Tab value="curl">
+```bash
+curl "https://documenso.example.com/api/internal/teams/oak_street_duplex_a1b2" \
+  -H "Authorization: Bearer your-long-random-secret"
+```
+</Tab>
+</Tabs>
+
+Example `200` response:
+
+```json
+{
+  "teamId": 84,
+  "teamName": "Oak Street Duplex",
+  "teamUrl": "oak_street_duplex_a1b2",
+  "organisationId": "org_abc123uuid"
+}
+```
+
+| Status | Meaning |
+| ------ | ------- |
+| `200`  | Team found |
+| `400`  | Invalid team reference |
+| `401`  | Invalid or missing secret |
+| `404`  | Team not found |
+| `503`  | `NEXT_PRIVATE_INTERNAL_SECRET` is not configured |
+
 ### Team API Token Provisioning
 
 `POST /api/internal/teams/{teamUrl}/api-tokens`
