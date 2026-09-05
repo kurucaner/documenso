@@ -354,6 +354,29 @@ Example `201` response:
 | `404`  | Team not found |
 | `503`  | `NEXT_PRIVATE_INTERNAL_SECRET` is not configured |
 
+### Team API Token Deletion
+
+`DELETE /api/internal/teams/{teamUrl}/api-tokens/{tokenId}`
+
+Deletes a team API token created via the internal provisioning API. Use during integration disconnect cleanup after webhook removal.
+
+<Tabs items={['curl']}>
+<Tab value="curl">
+```bash
+curl -X DELETE "https://documenso.example.com/api/internal/teams/personal_xyz789/api-tokens/7" \
+  -H "Authorization: Bearer your-long-random-secret"
+```
+</Tab>
+</Tabs>
+
+| Status | Meaning |
+| ------ | ------- |
+| `204`  | Token deleted |
+| `400`  | Invalid token ID |
+| `401`  | Invalid or missing secret |
+| `404`  | Team or token not found |
+| `503`  | `NEXT_PRIVATE_INTERNAL_SECRET` is not configured |
+
 <Callout type="warn">
   Treat API tokens like passwords. Anyone with the plaintext `api_...` value can act on behalf of the team. Tokens created without `userId` fall back to the organisation owner when used for v2 API calls.
 </Callout>

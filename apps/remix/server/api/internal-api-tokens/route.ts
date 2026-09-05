@@ -1,5 +1,6 @@
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
 import { createInternalApiToken } from '@documenso/lib/server-only/internal-api/create-internal-api-token';
+import { deleteInternalApiToken } from '@documenso/lib/server-only/internal-api/delete-internal-api-token';
 import { createRateLimitMiddleware } from '@documenso/lib/server-only/rate-limit/rate-limit-middleware';
 import { internalApiTokenRateLimit } from '@documenso/lib/server-only/rate-limit/rate-limits';
 import { ZApiTokenExpirationSchema } from '@documenso/lib/types/api-token-expiration';
@@ -60,6 +61,50 @@ export const internalApiTokensRoute = new Hono<HonoEnv>()
 
       if (appError.code === AppErrorCode.INVALID_REQUEST) {
         throw new HTTPException(400, {
+          message: appError.message,
+        });
+      }
+
+      throw error;
+    }
+  })
+  .delete('/:tokenId', async (c) => {
+    requireInternalSecret(c.req.header('authorization'));
+
+    const teamUrl = c.req.param('teamUrl');
+    const tokenIdParam = c.req.param('tokenId');
+
+    if (!teamUrl) {
+      throw new HTTPException(400, {
+        message: 'Team URL is required',
+      });
+    }
+
+    const tokenId = Number(tokenIdParam);
+    if (!Number.isInteger(tokenId) || tokenId <= 0) {
+      throw new HTTPException(400, {
+        message: 'Invalid token ID',
+      });
+    }
+
+    try {
+      await deleteInternalApiToken({
+        teamUrl,
+        tokenId,
+      });
+
+      return c.body(null, 204);
+    } catch (error) {
+      const appError = AppError.parseError(error);
+
+      if (appError.code === AppErrorCode.NOT_FOUND) {
+        throw new HTTPException(404, {
+          message: appError.message ?? 'API token not found',
+        });
+      }
+
+      if (appError.code === AppErrorCode.NOT_SETUP && appError.statusCode === 503) {
+        throw new HTTPException(503, {
           message: appError.message,
         });
       }

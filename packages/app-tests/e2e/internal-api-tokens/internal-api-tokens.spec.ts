@@ -121,3 +121,74 @@ test.describe('Internal API token creation', () => {
     expect(response.status()).toBe(400);
   });
 });
+
+test.describe('Internal API token deletion', () => {
+  test('should reject DELETE requests without a secret', async ({ request }) => {
+    const response = await request.delete(`${WEBAPP_BASE_URL}/api/internal/teams/unknown_team/api-tokens/1`);
+
+    expect(response.status()).toBe(401);
+  });
+
+  test('should return 404 for an unknown team', async ({ request }) => {
+    const response = await request.delete(
+      `${WEBAPP_BASE_URL}/api/internal/teams/unknown_team_${Date.now()}/api-tokens/1`,
+      {
+        headers: {
+          Authorization: `Bearer ${INTERNAL_SECRET}`,
+        },
+      },
+    );
+
+    expect(response.status()).toBe(404);
+  });
+
+  test('should return 404 for an unknown token id', async ({ request }) => {
+    const { team } = await seedUser();
+
+    const response = await request.delete(`${WEBAPP_BASE_URL}/api/internal/teams/${team.url}/api-tokens/999999999`, {
+      headers: {
+        Authorization: `Bearer ${INTERNAL_SECRET}`,
+      },
+    });
+
+    expect(response.status()).toBe(404);
+  });
+
+  test('should delete a token by teamUrl and tokenId', async ({ request }) => {
+    const { user, team } = await seedUser();
+    const tokenName = `internal-delete-token-${Date.now()}`;
+
+    const createResponse = await request.post(`${WEBAPP_BASE_URL}/api/internal/teams/${team.url}/api-tokens`, {
+      headers: {
+        Authorization: `Bearer ${INTERNAL_SECRET}`,
+      },
+      data: {
+        tokenName,
+        userId: user.id,
+      },
+    });
+
+    expect(createResponse.status()).toBe(201);
+
+    const body = await createResponse.json();
+
+    const deleteResponse = await request.delete(
+      `${WEBAPP_BASE_URL}/api/internal/teams/${team.url}/api-tokens/${body.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${INTERNAL_SECRET}`,
+        },
+      },
+    );
+
+    expect(deleteResponse.status()).toBe(204);
+
+    const storedToken = await prisma.apiToken.findUnique({
+      where: {
+        id: body.id,
+      },
+    });
+
+    expect(storedToken).toBeNull();
+  });
+});
