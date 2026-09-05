@@ -129,3 +129,9 @@ export const internalApiTokenRateLimit = createRateLimit({
   max: 30,
   window: '1h',
 });
+
+export const internalTeamRateLimit = createRateLimit({
+  action: 'api.internal-team',
+  max: 30,
+  window: '1h',
+});

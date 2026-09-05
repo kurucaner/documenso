@@ -78,7 +78,7 @@ Authorization: Bearer your-long-random-secret
 Each endpoint is rate-limited to 30 requests per hour per instance.
 
 <Callout type="info">
-  **Invites vs direct provisioning:** Use signup invites when the user should set their own password and signature in the Documenso UI. Use direct user provisioning when your backend must create a fully provisioned account in one call (your app handles sign-in separately via the normal auth API). Use team API token provisioning to mint `api_...` tokens for v2 API access after a user/team exists.
+  **Invites vs direct provisioning:** Use signup invites when the user should set their own password and signature in the Documenso UI. Use direct user provisioning when your backend must create a fully provisioned account in one call (your app handles sign-in separately via the normal auth API). Use team creation when adding additional property-scoped teams to an existing organisation. Use team API token provisioning to mint `api_...` tokens for v2 API access after a user/team exists.
 </Callout>
 
 ### Signup Invites
@@ -221,6 +221,51 @@ Example `201` response:
 | `409`  | Email already registered |
 | `503`  | `NEXT_PRIVATE_INTERNAL_SECRET` is not configured |
 
+### Organisation Team Provisioning
+
+`POST /api/internal/organisations/{orgUrl}/teams`
+
+Creates an additional team under an existing organisation. Use after the user account exists — for example when connecting a second property in an external app. The `userId` must belong to a member who can manage the organisation (typically the org owner).
+
+| Field      | Type   | Required | Description |
+| ---------- | ------ | -------- | ----------- |
+| `teamName` | string | Yes      | Display name for the team (e.g. property name) |
+| `userId`   | number | Yes      | Documenso user id with permission to create teams in the org |
+| `teamUrl`  | string | No       | URL slug for the team; auto-generated from `teamName` when omitted |
+
+<Tabs items={['curl']}>
+<Tab value="curl">
+```bash
+curl -X POST "https://documenso.example.com/api/internal/organisations/org_abc123/teams" \
+  -H "Authorization: Bearer your-long-random-secret" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "teamName": "Oak Street Duplex",
+    "userId": 42
+  }'
+```
+</Tab>
+</Tabs>
+
+Example `201` response:
+
+```json
+{
+  "teamId": 84,
+  "teamUrl": "oak_street_duplex_a1b2",
+  "organisationId": "org_abc123uuid"
+}
+```
+
+| Status | Meaning |
+| ------ | ------- |
+| `201`  | Team created |
+| `400`  | Invalid body, invalid team URL, or plan team limit exceeded |
+| `401`  | Invalid or missing secret |
+| `404`  | Organisation not found or user cannot manage it |
+| `409`  | Team URL already exists |
+| `503`  | `NEXT_PRIVATE_INTERNAL_SECRET` is not configured |
+
 ### Team API Token Provisioning
 
 `POST /api/internal/teams/{teamUrl}/api-tokens`
@@ -229,9 +274,10 @@ Creates a team API token in one request. The plaintext token is returned **once*
 
 Typical flow:
 
-1. `POST /api/internal/users` → get `teamUrl` and `userId`
-2. `POST /api/internal/teams/{teamUrl}/api-tokens` → get `api_...` token
-3. Call v2 endpoints with the team API token
+1. `POST /api/internal/users` → get `teamUrl`, `userId`, and `orgUrl` (first property / account)
+2. `POST /api/internal/organisations/{orgUrl}/teams` → get a new `teamUrl` for each additional property-scoped team
+3. `POST /api/internal/teams/{teamUrl}/api-tokens` → get `api_...` token
+4. Call v2 endpoints with the team API token
 
 | Field              | Type    | Required | Description |
 | ------------------ | ------- | -------- | ----------- |
