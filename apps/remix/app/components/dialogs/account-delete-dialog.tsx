@@ -36,6 +36,19 @@ export const AccountDeleteDialog = ({ className }: AccountDeleteDialogProps) => 
 
   const { mutateAsync: deleteAccount, isPending: isDeletingAccount } = trpc.profile.deleteAccount.useMutation();
 
+  if (user.accountDeletionDisabled) {
+    return (
+      <Alert className={className} variant="neutral">
+        <AlertTitle>
+          <Trans>Delete Account</Trans>
+        </AlertTitle>
+        <AlertDescription>
+          <Trans>Account deletion is managed by your organization.</Trans>
+        </AlertDescription>
+      </Alert>
+    );
+  }
+
   const onDeleteAccount = async () => {
     try {
       await deleteAccount();
