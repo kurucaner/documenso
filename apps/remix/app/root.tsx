@@ -95,7 +95,7 @@ export async function loader({ context, request }: Route.LoaderArgs) {
   );
 }
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
   const { theme, basePath } = useLoaderData<typeof loader>() || {};
 
   return (
@@ -124,7 +124,7 @@ function DatadogRumBootstrap() {
   );
 }
 
-export function LayoutContent({ children }: { children: React.ReactNode }) {
+export function LayoutContent({ children }: Readonly<{ children: React.ReactNode }>) {
   const {
     publicEnv,
     session,
