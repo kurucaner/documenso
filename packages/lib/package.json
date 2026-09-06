@@ -25,6 +25,7 @@
     "@bull-board/api": "^6.20.6",
     "@bull-board/hono": "^6.20.6",
     "@bull-board/ui": "^6.20.6",
+    "@datadog/browser-rum": "^7.8.0",
     "@documenso/assets": "*",
     "@documenso/email": "*",
     "@documenso/prisma": "*",
