@@ -19,6 +19,7 @@ const ZCreateInternalOrganisationForUserRequestSchema = z.object({
   organisationName: ZNameSchema,
   orgUrl: z.string().trim().min(1).optional(),
   teamName: ZNameSchema.optional(),
+  teamUrl: z.string().trim().min(1).optional(),
 });
 
 function parseUserIdParam(userIdParam: string | undefined): number {
@@ -92,6 +93,7 @@ export const internalUserOrganisationsRoute = new Hono<HonoEnv>()
           organisationName: body.organisationName,
           orgUrl: body.orgUrl,
           teamName: body.teamName,
+          teamUrl: body.teamUrl,
           userId,
         });
 

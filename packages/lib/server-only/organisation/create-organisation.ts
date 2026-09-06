@@ -151,6 +151,7 @@ type CreatePersonalOrganisationOptions = {
   orgUrl?: string;
   organisationName?: string;
   teamName?: string;
+  teamUrl?: string;
   throwErrorOnOrganisationCreationFailure?: boolean;
   inheritMembers?: boolean;
   type?: OrganisationType;
@@ -161,6 +162,7 @@ export const createPersonalOrganisation = async ({
   orgUrl,
   organisationName,
   teamName,
+  teamUrl,
   throwErrorOnOrganisationCreationFailure = false,
   inheritMembers = true,
   type = OrganisationType.PERSONAL,
@@ -184,10 +186,12 @@ export const createPersonalOrganisation = async ({
   });
 
   if (organisation) {
+    const resolvedTeamUrl = teamUrl?.trim() || prefixedId('personal');
+
     await createTeam({
       userId,
       teamName: resolvePersonalTeamName(teamName),
-      teamUrl: prefixedId('personal'),
+      teamUrl: resolvedTeamUrl,
       organisationId: organisation.id,
       inheritMembers,
     }).catch((err) => {

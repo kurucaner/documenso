@@ -126,6 +126,53 @@ test.describe('Internal user rebind API', () => {
     expect(ownedOrganisations[1]?.name).toBe(secondOrganisationName);
   });
 
+  test('should create a second organisation with an explicit teamUrl', async ({ request }) => {
+    const email = `rebind-explicit-team-url-${Date.now()}@example.com`;
+    const explicitTeamUrl = `oak_street_duplex_${Date.now()}`;
+
+    const provisionResponse = await request.post(`${WEBAPP_BASE_URL}/api/internal/users`, {
+      headers: internalAuthHeaders,
+      data: validUserPayload(email),
+    });
+
+    expect(provisionResponse.status()).toBe(201);
+
+    const provisionBody = await provisionResponse.json();
+
+    const createOrgResponse = await request.post(
+      `${WEBAPP_BASE_URL}/api/internal/users/${provisionBody.userId}/organisations`,
+      {
+        headers: internalAuthHeaders,
+        data: {
+          organisationName: 'Property Organisation',
+          teamName: 'Oak Street Duplex',
+          teamUrl: explicitTeamUrl,
+        },
+      },
+    );
+
+    expect(createOrgResponse.status()).toBe(201);
+
+    const createOrgBody = await createOrgResponse.json();
+
+    expect(createOrgBody.teamUrl).toBe(explicitTeamUrl);
+
+    const createdTeam = await prisma.team.findFirstOrThrow({
+      select: {
+        name: true,
+        url: true,
+      },
+      where: {
+        organisationId: createOrgBody.organisationId,
+      },
+    });
+
+    expect(createdTeam).toEqual({
+      name: 'Oak Street Duplex',
+      url: explicitTeamUrl,
+    });
+  });
+
   test('should return 404 when listing organisations for an unknown user', async ({ request }) => {
     const response = await request.get(`${WEBAPP_BASE_URL}/api/internal/users/999999999/organisations`, {
       headers: internalAuthHeaders,

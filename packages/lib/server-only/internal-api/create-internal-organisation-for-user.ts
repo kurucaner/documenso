@@ -8,6 +8,7 @@ export type CreateInternalOrganisationForUserOptions = {
   organisationName: string;
   orgUrl?: string;
   teamName?: string;
+  teamUrl?: string;
   userId: number;
 };
 
@@ -22,6 +23,7 @@ export const createInternalOrganisationForUser = async ({
   organisationName,
   orgUrl,
   teamName,
+  teamUrl,
   userId,
 }: CreateInternalOrganisationForUserOptions): Promise<CreateInternalOrganisationForUserResult> => {
   if (!isInternalSecretConfigured()) {
@@ -50,6 +52,7 @@ export const createInternalOrganisationForUser = async ({
     organisationName,
     orgUrl,
     teamName,
+    teamUrl,
     throwErrorOnOrganisationCreationFailure: true,
     userId,
   });
