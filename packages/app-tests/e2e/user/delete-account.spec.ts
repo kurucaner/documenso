@@ -8,7 +8,7 @@ import { DocumentStatus, EnvelopeType, SubscriptionStatus } from '@documenso/pri
 import { seedBlankDocument } from '@documenso/prisma/seed/documents';
 import { seedOrganisationMembers } from '@documenso/prisma/seed/organisations';
 import { seedUser } from '@documenso/prisma/seed/users';
-import type { Page } from '@playwright/test';
+import type { APIRequestContext, Page } from '@playwright/test';
 import { expect, test } from '@playwright/test';
 
 import { apiSignin } from '../fixtures/authentication';
@@ -16,6 +16,45 @@ import { apiSignin } from '../fixtures/authentication';
 test.describe.configure({ mode: 'parallel' });
 
 const WEBAPP_BASE_URL = NEXT_PUBLIC_WEBAPP_URL();
+const INTERNAL_SECRET = process.env.NEXT_PRIVATE_INTERNAL_SECRET ?? 'test-internal-secret';
+const PROVISIONED_USER_PASSWORD = 'Password123#';
+
+/**
+ * Calls a tRPC mutation directly using the cookies of whoever is currently
+ * signed in on the page context.
+ */
+const trpcMutation = async (page: Page, procedure: string, input?: Record<string, unknown>) => {
+  return await page.request.post(`${WEBAPP_BASE_URL}/api/trpc/${procedure}`, {
+    headers: { 'content-type': 'application/json' },
+    data: JSON.stringify(input ? { json: input } : {}),
+  });
+};
+
+const provisionInternalUser = async (
+  request: APIRequestContext,
+  email: string,
+  options?: { disableAccountDeletion?: boolean },
+) => {
+  const response = await request.post(`${WEBAPP_BASE_URL}/api/internal/users`, {
+    headers: {
+      Authorization: `Bearer ${INTERNAL_SECRET}`,
+    },
+    data: {
+      name: 'Provisioned User',
+      email,
+      password: PROVISIONED_USER_PASSWORD,
+      signature: 'Provisioned User',
+      ...(options?.disableAccountDeletion ? { disableAccountDeletion: true } : {}),
+    },
+  });
+
+  expect(response.status()).toBe(201);
+
+  return {
+    email: email.toLowerCase(),
+    password: PROVISIONED_USER_PASSWORD,
+  };
+};
 
 /**
  * The deleted-account service account is where orphaned DOCUMENT envelopes land
@@ -392,4 +431,36 @@ test('[USER][DELETE_ACCOUNT]: a wrong confirmation email keeps the account, org 
   expect(docAfter?.teamId).toBe(team.id);
   expect(docAfter?.userId).toBe(user.id);
   expect(docAfter?.deletedAt).toBeNull();
+});
+
+// ─── Provisioned users: self-delete blocked when flag is set ────────────────
+
+test('[USER][DELETE_ACCOUNT]: provisioned user with deletion disabled cannot delete via UI or API', async ({
+  page,
+  request,
+}) => {
+  const email = `provisioned-no-delete-${Date.now()}@example.com`;
+
+  await provisionInternalUser(request, email, { disableAccountDeletion: true });
+
+  await apiSignin({
+    page,
+    email,
+    password: PROVISIONED_USER_PASSWORD,
+    redirectPath: '/settings/profile',
+  });
+
+  await expect(page.getByRole('button', { name: 'Delete Account' })).not.toBeVisible();
+  await expect(page.getByText('Account deletion is managed by your organization.')).toBeVisible();
+
+  const deleteResponse = await trpcMutation(page, 'profile.deleteAccount');
+
+  expect(deleteResponse.ok()).toBeFalsy();
+
+  const user = await prisma.user.findFirstOrThrow({
+    where: { email },
+    select: { id: true, accountDeletionDisabled: true },
+  });
+
+  expect(user.accountDeletionDisabled).toBe(true);
 });

@@ -183,6 +183,7 @@ Creates a fully provisioned email/password user in one request. Bypasses `NEXT_P
 | `signature`          | string | Yes      | Initial user signature (typed or image data) |
 | `organisationName` | string | No       | Display name for the user's personal organisation |
 | `teamName`           | string | No       | Display name for the user's personal team |
+| `disableAccountDeletion` | boolean | No  | When `true`, blocks self-service account deletion in profile settings (default `false`) |
 
 <Tabs items={['curl']}>
 <Tab value="curl">

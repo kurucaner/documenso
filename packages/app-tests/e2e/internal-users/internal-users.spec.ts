@@ -76,6 +76,57 @@ test.describe('Internal user provisioning API', () => {
     expect(organisation.teams[0]?.name).toBe(teamName);
   });
 
+  test('should create a user with account deletion disabled when requested', async ({ request }) => {
+    const email = `internal-user-no-delete-${Date.now()}@example.com`;
+
+    const response = await request.post(`${WEBAPP_BASE_URL}/api/internal/users`, {
+      headers: {
+        Authorization: `Bearer ${INTERNAL_SECRET}`,
+      },
+      data: {
+        ...validUserPayload(email),
+        disableAccountDeletion: true,
+      },
+    });
+
+    expect(response.status()).toBe(201);
+
+    const user = await prisma.user.findFirstOrThrow({
+      where: {
+        email: email.toLowerCase(),
+      },
+      select: {
+        accountDeletionDisabled: true,
+      },
+    });
+
+    expect(user.accountDeletionDisabled).toBe(true);
+  });
+
+  test('should default account deletion to allowed when disableAccountDeletion is omitted', async ({ request }) => {
+    const email = `internal-user-delete-allowed-${Date.now()}@example.com`;
+
+    const response = await request.post(`${WEBAPP_BASE_URL}/api/internal/users`, {
+      headers: {
+        Authorization: `Bearer ${INTERNAL_SECRET}`,
+      },
+      data: validUserPayload(email),
+    });
+
+    expect(response.status()).toBe(201);
+
+    const user = await prisma.user.findFirstOrThrow({
+      where: {
+        email: email.toLowerCase(),
+      },
+      select: {
+        accountDeletionDisabled: true,
+      },
+    });
+
+    expect(user.accountDeletionDisabled).toBe(false);
+  });
+
   test('should return 409 when the email already exists', async ({ request }) => {
     const email = `duplicate-user-${Date.now()}@example.com`;
 
