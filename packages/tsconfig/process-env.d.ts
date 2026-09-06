@@ -137,6 +137,16 @@ declare namespace NodeJS {
     NEXT_PRIVATE_TURNSTILE_SECRET_KEY?: string;
 
     /**
+     * Datadog RUM (optional — all four required vars must be set to enable)
+     */
+    NEXT_PUBLIC_DD_RUM_APPLICATION_ID?: string;
+    NEXT_PUBLIC_DD_CLIENT_TOKEN?: string;
+    NEXT_PUBLIC_DD_RUM_PROXY_URL?: string;
+    NEXT_PUBLIC_DD_SERVICE?: string;
+    NEXT_PUBLIC_DD_ENV?: string;
+    NEXT_PUBLIC_DD_SITE?: string;
+
+    /**
      * Google Vertex AI environment variables
      */
     GOOGLE_VERTEX_PROJECT_ID?: string;
