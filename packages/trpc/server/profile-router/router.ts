@@ -1,5 +1,6 @@
 import type { SetAvatarImageOptions } from '@documenso/lib/server-only/profile/set-avatar-image';
 import { setAvatarImage } from '@documenso/lib/server-only/profile/set-avatar-image';
+import { assertAccountDeletionAllowedById } from '@documenso/lib/server-only/user/assert-account-deletion-allowed';
 import { deleteUser } from '@documenso/lib/server-only/user/delete-user';
 import { findUserSecurityAuditLogs } from '@documenso/lib/server-only/user/find-user-security-audit-logs';
 import { updateProfile } from '@documenso/lib/server-only/user/update-profile';
@@ -38,6 +39,8 @@ export const profileRouter = router({
         userId: ctx.user.id,
       },
     });
+
+    await assertAccountDeletionAllowedById({ userId: ctx.user.id });
 
     await deleteUser({
       id: ctx.user.id,
