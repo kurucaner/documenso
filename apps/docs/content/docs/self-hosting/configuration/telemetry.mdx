@@ -111,6 +111,76 @@ Once you set `DOCUMENSO_DISABLE_TELEMETRY=true` and restart your server, no tele
   but it will no longer be used or sent anywhere.
 </Callout>
 
+## Optional client observability
+
+The sections above describe **server-side** anonymous telemetry to Documenso. Separately, you can enable **browser observability** for your own Datadog or PostHog projects. These are opt-in, independent, and can run alongside each other.
+
+### PostHog
+
+PostHog is configured with `NEXT_PUBLIC_POSTHOG_KEY` (see [Environment Variables](/docs/self-hosting/configuration/environment)). Events are sent through the Documenso app's same-origin `/ingest` proxy to PostHog EU hosts. Leave the key blank to disable.
+
+### Datadog RUM
+
+Datadog Real User Monitoring (RUM) is **disabled unless all four required variables are set**. When enabled, the web app initializes `@datadog/browser-rum` on the client, syncs authenticated users and route views, and reports non-404 errors from the root error boundary. Signing and direct-template URL tokens are redacted before events are sent.
+
+RUM events must go through an **external intake proxy** (not the PostHog `/ingest` route). Point `NEXT_PUBLIC_DD_RUM_PROXY_URL` at a proxy that forwards obfuscated requests to Datadog browser intake — for example a dedicated RUM proxy on your stack. If you co-host with PropertyOS, you can point at its `apps/proxy` service (e.g. `http://localhost:8082`) and add your Documenso origin to the proxy's `CORS_ORIGINS`. The browser calls `{proxyUrl}/ingest?t=…`; the proxy forwards to `browser-intake-*` for your Datadog site.
+
+| Variable | Required | Description |
+| -------- | -------- | ----------- |
+| `NEXT_PUBLIC_DD_RUM_APPLICATION_ID` | Yes | Datadog RUM application ID |
+| `NEXT_PUBLIC_DD_CLIENT_TOKEN` | Yes | Datadog client token (public by design) |
+| `NEXT_PUBLIC_DD_RUM_PROXY_URL` | Yes | Base URL of your RUM intake proxy (no trailing slash), e.g. `https://rum-proxy.example.com` |
+| `NEXT_PUBLIC_DD_SERVICE` | Yes | RUM service name (e.g. `documenso-web`) |
+| `NEXT_PUBLIC_DD_ENV` | No | RUM environment tag (defaults to `production`; set to `local` to disable RUM) |
+| `NEXT_PUBLIC_DD_SITE` | No | Datadog site (defaults to `us5.datadoghq.com`) |
+
+<Tabs items={['docker-compose', 'env file']}>
+<Tab value="docker-compose">
+
+```yaml
+services:
+  app:
+    environment:
+      NEXT_PUBLIC_DD_RUM_APPLICATION_ID: "<rum-application-id>"
+      NEXT_PUBLIC_DD_CLIENT_TOKEN: "<client-token>"
+      NEXT_PUBLIC_DD_RUM_PROXY_URL: "https://rum-proxy.example.com"
+      NEXT_PUBLIC_DD_SERVICE: "documenso-web"
+      NEXT_PUBLIC_DD_ENV: "production"
+      NEXT_PUBLIC_DD_SITE: "us5.datadoghq.com"
+```
+
+</Tab>
+<Tab value="env file">
+
+```bash
+NEXT_PUBLIC_DD_RUM_APPLICATION_ID=<rum-application-id>
+NEXT_PUBLIC_DD_CLIENT_TOKEN=<client-token>
+NEXT_PUBLIC_DD_RUM_PROXY_URL=https://rum-proxy.example.com
+NEXT_PUBLIC_DD_SERVICE=documenso-web
+NEXT_PUBLIC_DD_ENV=production
+NEXT_PUBLIC_DD_SITE=us5.datadoghq.com
+```
+
+</Tab>
+</Tabs>
+
+`NEXT_PUBLIC_*` values are exposed to the browser via SSR (`window.__ENV__`). You can set them at **container runtime** without rebuilding the image.
+
+#### Verify Datadog RUM
+
+1. Create a RUM application in Datadog (separate from any other apps you operate).
+2. Deploy the RUM intake proxy and allow your Documenso origin in its CORS configuration.
+3. Set all four required env vars and restart Documenso.
+4. Open the web app → in browser DevTools **Network**, confirm POST requests to `{NEXT_PUBLIC_DD_RUM_PROXY_URL}/ingest?t=…`.
+5. In Datadog → **Digital Experience → RUM → Sessions**, confirm sessions with your `NEXT_PUBLIC_DD_SERVICE` and `NEXT_PUBLIC_DD_ENV`.
+6. Sign in → confirm the session user shows your account email/id.
+7. Navigate between pages → confirm view updates.
+8. Unset any required var and restart → confirm no RUM network traffic and no console errors.
+
+<Callout type="warn">
+  Do not point `NEXT_PUBLIC_DD_RUM_PROXY_URL` at Documenso's PostHog `/ingest` route. That path forwards to PostHog, not Datadog intake.
+</Callout>
+
 ## Questions or Concerns
 
 If you have questions about our telemetry practices or concerns about privacy, please reach out to us. We're committed to transparency and respect your choice to disable telemetry if you prefer.
@@ -119,5 +189,5 @@ If you have questions about our telemetry practices or concerns about privacy, p
 
 ## See Also
 
-- [Environment Variables](/docs/self-hosting/configuration/environment) - All configuration options
+- [Environment Variables](/docs/self-hosting/configuration/environment) - All configuration options (including `NEXT_PUBLIC_POSTHOG_KEY`)
 - [Quick Start](/docs/self-hosting/getting-started/quick-start) - Get started with self-hosting
