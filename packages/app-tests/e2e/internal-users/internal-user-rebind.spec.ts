@@ -1,7 +1,8 @@
 import { NEXT_PUBLIC_WEBAPP_URL } from '@documenso/lib/constants/app';
 import { prisma } from '@documenso/prisma';
+import { seedOrganisationMembers } from '@documenso/prisma/seed/organisations';
 import { expect, test } from '@playwright/test';
-import { OrganisationType } from '@prisma/client';
+import { OrganisationMemberRole, OrganisationType } from '@prisma/client';
 
 const WEBAPP_BASE_URL = NEXT_PUBLIC_WEBAPP_URL();
 const INTERNAL_SECRET = process.env.NEXT_PRIVATE_INTERNAL_SECRET ?? 'test-internal-secret';
@@ -123,6 +124,151 @@ test.describe('Internal user rebind API', () => {
       createOrgBody.orgUrl,
     ]);
     expect(ownedOrganisations[1]?.name).toBe(secondOrganisationName);
+  });
+
+  test('should return 404 when listing organisations for an unknown user', async ({ request }) => {
+    const response = await request.get(`${WEBAPP_BASE_URL}/api/internal/users/999999999/organisations`, {
+      headers: internalAuthHeaders,
+    });
+
+    expect(response.status()).toBe(404);
+  });
+
+  test('should list owned organisations for a provisioned user', async ({ request }) => {
+    const email = `rebind-list-owned-${Date.now()}@example.com`;
+
+    const provisionResponse = await request.post(`${WEBAPP_BASE_URL}/api/internal/users`, {
+      headers: internalAuthHeaders,
+      data: validUserPayload(email),
+    });
+
+    expect(provisionResponse.status()).toBe(201);
+
+    const provisionBody = await provisionResponse.json();
+
+    const ownedOrganisation = await prisma.organisation.findFirstOrThrow({
+      select: {
+        name: true,
+        url: true,
+      },
+      where: {
+        ownerUserId: provisionBody.userId,
+        url: provisionBody.orgUrl,
+      },
+    });
+
+    const listResponse = await request.get(
+      `${WEBAPP_BASE_URL}/api/internal/users/${provisionBody.userId}/organisations`,
+      {
+        headers: internalAuthHeaders,
+      },
+    );
+
+    expect(listResponse.status()).toBe(200);
+
+    const listBody = await listResponse.json();
+
+    expect(listBody.organisations).toEqual([
+      {
+        name: ownedOrganisation.name,
+        orgUrl: ownedOrganisation.url,
+      },
+    ]);
+  });
+
+  test('should list multiple owned organisations and exclude member-only orgs', async ({ request }) => {
+    const ownerEmail = `rebind-list-owner-${Date.now()}@example.com`;
+    const memberEmail = `rebind-list-member-${Date.now()}@example.com`;
+
+    const ownerProvisionResponse = await request.post(`${WEBAPP_BASE_URL}/api/internal/users`, {
+      headers: internalAuthHeaders,
+      data: validUserPayload(ownerEmail),
+    });
+
+    expect(ownerProvisionResponse.status()).toBe(201);
+
+    const ownerBody = await ownerProvisionResponse.json();
+
+    const memberProvisionResponse = await request.post(`${WEBAPP_BASE_URL}/api/internal/users`, {
+      headers: internalAuthHeaders,
+      data: validUserPayload(memberEmail),
+    });
+
+    expect(memberProvisionResponse.status()).toBe(201);
+
+    const memberBody = await memberProvisionResponse.json();
+
+    const ownerOrganisation = await prisma.organisation.findFirstOrThrow({
+      select: {
+        id: true,
+      },
+      where: {
+        ownerUserId: ownerBody.userId,
+        url: ownerBody.orgUrl,
+      },
+    });
+
+    await seedOrganisationMembers({
+      members: [
+        {
+          email: memberEmail,
+          organisationRole: OrganisationMemberRole.MEMBER,
+        },
+      ],
+      organisationId: ownerOrganisation.id,
+    });
+
+    const ownerOwnedOrganisation = await prisma.organisation.findFirstOrThrow({
+      select: {
+        name: true,
+        url: true,
+      },
+      where: {
+        ownerUserId: ownerBody.userId,
+        url: ownerBody.orgUrl,
+      },
+    });
+
+    const memberOwnedOrganisation = await prisma.organisation.findFirstOrThrow({
+      select: {
+        name: true,
+        url: true,
+      },
+      where: {
+        ownerUserId: memberBody.userId,
+        url: memberBody.orgUrl,
+      },
+    });
+
+    const ownerListResponse = await request.get(
+      `${WEBAPP_BASE_URL}/api/internal/users/${ownerBody.userId}/organisations`,
+      {
+        headers: internalAuthHeaders,
+      },
+    );
+
+    expect(ownerListResponse.status()).toBe(200);
+    expect((await ownerListResponse.json()).organisations).toEqual([
+      {
+        name: ownerOwnedOrganisation.name,
+        orgUrl: ownerOwnedOrganisation.url,
+      },
+    ]);
+
+    const memberListResponse = await request.get(
+      `${WEBAPP_BASE_URL}/api/internal/users/${memberBody.userId}/organisations`,
+      {
+        headers: internalAuthHeaders,
+      },
+    );
+
+    expect(memberListResponse.status()).toBe(200);
+    expect((await memberListResponse.json()).organisations).toEqual([
+      {
+        name: memberOwnedOrganisation.name,
+        orgUrl: memberOwnedOrganisation.url,
+      },
+    ]);
   });
 
   test('should still return 409 when provisioning a duplicate user email', async ({ request }) => {
