@@ -23,6 +23,7 @@ const ZProvisionInternalUserRequestSchema = z
     signature: z.string().min(1),
     organisationName: ZNameSchema.optional(),
     teamName: ZNameSchema.optional(),
+    disableAccountDeletion: z.boolean().optional().default(false),
   })
   .refine(
     (data) => {

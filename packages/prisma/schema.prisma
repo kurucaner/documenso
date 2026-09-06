@@ -51,6 +51,7 @@ model User {
   identityProvider IdentityProvider @default(DOCUMENSO) // Todo: (RR7) Remove after RR7 migration.
   avatarImageId    String?
   disabled         Boolean          @default(false)
+  accountDeletionDisabled Boolean   @default(false)
 
   accounts            Account[]
   sessions            Session[]

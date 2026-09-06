@@ -17,6 +17,7 @@ export interface CreateUserOptions {
   password: string;
   signature?: string | null;
   emailVerified?: Date | null;
+  accountDeletionDisabled?: boolean;
   personalOrganisation?: PersonalOrganisationOptions;
 }
 
@@ -26,6 +27,7 @@ export const createUser = async ({
   password,
   signature,
   emailVerified,
+  accountDeletionDisabled = false,
   personalOrganisation,
 }: CreateUserOptions) => {
   const hashedPassword = await hash(password, SALT_ROUNDS);
@@ -47,6 +49,7 @@ export const createUser = async ({
       password: hashedPassword, // Todo: (RR7) Drop password.
       signature,
       emailVerified,
+      accountDeletionDisabled,
     },
   });
 
