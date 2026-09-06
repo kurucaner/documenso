@@ -7,6 +7,7 @@ import { StrictMode, startTransition } from 'react';
 import { hydrateRoot } from 'react-dom/client';
 import { HydratedRouter } from 'react-router/dom';
 
+import { initDatadogRum, isDatadogRumEnabled, trackDatadogRumError } from './lib/datadog-rum';
 import './utils/polyfills/promise-with-resolvers';
 
 /**
@@ -75,8 +76,11 @@ function initPosthog() {
   }
 }
 
-/**
- * Surfaces hydration recoveries (React 19 discards the server HTML and
+function initDatadog() {
+  initDatadogRum();
+}
+
+/** Surfaces hydration recoveries (React 19 discards the server HTML and
  * re-renders on the client instead of dying) so we can track how often
  * extensions/early clicks interfere with hydration in the wild.
  */
@@ -91,6 +95,13 @@ function onRecoverableError(error: unknown, errorInfo: { componentStack?: string
           componentStack: errorInfo.componentStack,
         });
       }
+    });
+  }
+
+  if (isDatadogRumEnabled()) {
+    trackDatadogRumError(error, {
+      componentStack: errorInfo.componentStack,
+      source: 'hydration_recoverable',
     });
   }
 }
@@ -113,6 +124,7 @@ async function main() {
   });
 
   void initPosthog();
+  initDatadog();
 }
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises

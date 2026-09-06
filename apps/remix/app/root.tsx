@@ -1,6 +1,8 @@
 import { getOptionalSession } from '@documenso/auth/server/lib/utils/get-session';
 import { useAnalytics } from '@documenso/lib/client-only/hooks/use-analytics';
-import { SessionProvider } from '@documenso/lib/client-only/providers/session';
+import { SessionProvider, useOptionalSession } from '@documenso/lib/client-only/providers/session';
+import { DatadogRumUserSync } from '@documenso/lib/client-only/rum/datadog-rum-user-sync';
+import { DatadogRumViewTracker } from '@documenso/lib/client-only/rum/datadog-rum-view-tracker';
 import { getBasePath } from '@documenso/lib/constants/app';
 import { APP_I18N_OPTIONS, type SupportedLanguageCodes } from '@documenso/lib/constants/i18n';
 import { createPublicEnv } from '@documenso/lib/utils/env';
@@ -26,6 +28,7 @@ import { PreventFlashOnWrongTheme, ThemeProvider, useTheme } from 'remix-themes'
 import type { Route } from './+types/root';
 import stylesheet from './app.css?url';
 import { GenericErrorLayout } from './components/general/generic-error-layout';
+import { clearDatadogRumUser, setDatadogRumUser, trackDatadogRumError, trackDatadogRumView } from './lib/datadog-rum';
 import { langCookie } from './storage/lang-cookie.server';
 import { themeSessionResolver } from './storage/theme-session.server';
 import { appMetaTags } from './utils/meta';
@@ -102,6 +105,25 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
+function DatadogRumBootstrap() {
+  const { sessionData } = useOptionalSession();
+
+  const rumUser = sessionData?.user
+    ? {
+        email: sessionData.user.email,
+        id: String(sessionData.user.id),
+        name: sessionData.user.name ?? sessionData.user.email,
+      }
+    : null;
+
+  return (
+    <>
+      <DatadogRumViewTracker trackView={trackDatadogRumView} />
+      <DatadogRumUserSync clearUser={clearDatadogRumUser} setUser={setDatadogRumUser} user={rumUser} />
+    </>
+  );
+}
+
 export function LayoutContent({ children }: { children: React.ReactNode }) {
   const {
     publicEnv,
@@ -169,6 +191,7 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
 
         <NuqsAdapter>
           <SessionProvider initialSession={session}>
+            <DatadogRumBootstrap />
             <TooltipProvider>
               <TrpcProvider>
                 {children}
@@ -213,8 +236,9 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   useEffect(() => {
     if (errorCode !== 404) {
       analytics.captureException(error, { source: 'app', location: 'root_boundary' });
+      trackDatadogRumError(error, { location: 'root_boundary', source: 'app' });
     }
-  }, [error]);
+  }, [analytics, error, errorCode]);
 
   return <GenericErrorLayout errorCode={errorCode} />;
 }
