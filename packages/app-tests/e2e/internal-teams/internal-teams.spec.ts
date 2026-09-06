@@ -138,7 +138,7 @@ test.describe('Internal team lookup', () => {
   });
 
   test('should return current team metadata by teamUrl', async ({ request }) => {
-    const { team } = await seedUser();
+    const { organisation, team } = await seedUser();
     const renamedTeamName = `Renamed Team ${Date.now()}`;
 
     await prisma.team.update({
@@ -164,6 +164,7 @@ test.describe('Internal team lookup', () => {
     expect(body.teamUrl).toBe(team.url);
     expect(body.teamName).toBe(renamedTeamName);
     expect(body.organisationId).toBeTruthy();
+    expect(body.orgUrl).toBe(organisation.url);
   });
 
   test('should return current team metadata by numeric teamId', async ({ request }) => {
