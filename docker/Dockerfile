@@ -66,7 +66,7 @@ ENV NEXT_PRIVATE_TELEMETRY_KEY="$NEXT_PRIVATE_TELEMETRY_KEY"
 ARG NEXT_PRIVATE_TELEMETRY_HOST=""
 ENV NEXT_PRIVATE_TELEMETRY_HOST="$NEXT_PRIVATE_TELEMETRY_HOST"
 
-# Datadog RUM (optional — all four required NEXT_PUBLIC_DD_* vars must be set to enable).
+# Datadog RUM (optional — NEXT_PUBLIC_DD_RUM_APPLICATION_ID + NEXT_PUBLIC_DD_CLIENT_TOKEN required to enable).
 # Runtime env also works via createPublicEnv(); bake here only if you want defaults in the image.
 # ARG NEXT_PUBLIC_DD_RUM_APPLICATION_ID=""
 # ENV NEXT_PUBLIC_DD_RUM_APPLICATION_ID="$NEXT_PUBLIC_DD_RUM_APPLICATION_ID"

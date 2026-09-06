@@ -31,7 +31,7 @@ export interface IDatadogRumConfig {
   clientToken: string;
   env: string;
   plugins?: RumPlugin[];
-  proxyUrl: string;
+  proxyUrl?: string;
   service: string;
   site: string;
   version?: string;

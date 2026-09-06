@@ -1,24 +1,27 @@
 import { datadogRum } from '@datadog/browser-rum';
 
 import { buildObfuscatedProxyUrl, normalizeDatadogRumProxyUrl, sanitizeDatadogRumUrl } from './datadog-rum-proxy-url';
+import { DEFAULT_DD_RUM_SERVICE } from './extract-datadog-rum-config';
 import type { ICreateDatadogRumOptions, IDatadogRumClient, IDatadogRumConfig, IDatadogRumUser } from './types';
 
 const DEFAULT_DD_SITE = 'us5.datadoghq.com';
 
 export function resolveDatadogRumConfig(options: ICreateDatadogRumOptions): IDatadogRumConfig | null {
-  const { applicationId, clientToken, proxyUrl, service } = options;
+  const { applicationId, clientToken, proxyUrl } = options;
 
-  if (!applicationId || !clientToken || !proxyUrl || !service || options.env === 'local') {
+  if (!applicationId || !clientToken || options.env === 'local') {
     return null;
   }
+
+  const normalizedProxyUrl = proxyUrl?.trim() ? normalizeDatadogRumProxyUrl(proxyUrl) : undefined;
 
   return {
     applicationId,
     clientToken,
     env: options.env ?? 'production',
     plugins: options.plugins,
-    proxyUrl: normalizeDatadogRumProxyUrl(proxyUrl),
-    service,
+    proxyUrl: normalizedProxyUrl,
+    service: options.service?.trim() || DEFAULT_DD_RUM_SERVICE,
     site: options.site ?? DEFAULT_DD_SITE,
     version: options.version,
   };
@@ -52,8 +55,12 @@ export function createDatadogRum(options: ICreateDatadogRumOptions): IDatadogRum
       defaultPrivacyLevel: 'mask-user-input',
       env: config.env,
       plugins: config.plugins,
-      proxy: (proxyOptions: { parameters: string; path: string; subdomain?: string }) =>
-        buildObfuscatedProxyUrl(config.proxyUrl, proxyOptions),
+      ...(config.proxyUrl
+        ? {
+            proxy: (proxyOptions: { parameters: string; path: string; subdomain?: string }) =>
+              buildObfuscatedProxyUrl(config.proxyUrl!, proxyOptions),
+          }
+        : {}),
       service: config.service,
       sessionReplaySampleRate: 0,
       sessionSampleRate: 100,

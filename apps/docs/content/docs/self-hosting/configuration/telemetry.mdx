@@ -121,16 +121,18 @@ PostHog is configured with `NEXT_PUBLIC_POSTHOG_KEY` (see [Environment Variables
 
 ### Datadog RUM
 
-Datadog Real User Monitoring (RUM) is **disabled unless all four required variables are set**. When enabled, the web app initializes `@datadog/browser-rum` on the client, syncs authenticated users and route views, and reports non-404 errors from the root error boundary. Signing and direct-template URL tokens are redacted before events are sent.
+Datadog Real User Monitoring (RUM) is **disabled unless `NEXT_PUBLIC_DD_RUM_APPLICATION_ID` and `NEXT_PUBLIC_DD_CLIENT_TOKEN` are set**. When enabled, the web app initializes `@datadog/browser-rum` on the client, syncs authenticated users and route views, and reports non-404 errors from the root error boundary. Signing and direct-template URL tokens are redacted before events are sent.
 
-RUM events must go through an **external intake proxy** (not the PostHog `/ingest` route). Point `NEXT_PUBLIC_DD_RUM_PROXY_URL` at a proxy that forwards obfuscated requests to Datadog browser intake — for example a dedicated RUM proxy on your stack. If you co-host with PropertyOS, you can point at its `apps/proxy` service (e.g. `http://localhost:8082`) and add your Documenso origin to the proxy's `CORS_ORIGINS`. The browser calls `{proxyUrl}/ingest?t=…`; the proxy forwards to `browser-intake-*` for your Datadog site.
+Without `NEXT_PUBLIC_DD_RUM_PROXY_URL`, the browser sends RUM events **directly** to Datadog intake for your site. That works for quick setup but may be blocked by ad blockers or strict CSP — set a proxy URL for production.
+
+When using a proxy, point `NEXT_PUBLIC_DD_RUM_PROXY_URL` at a service that forwards obfuscated requests to Datadog browser intake (not the PostHog `/ingest` route). If you co-host with PropertyOS, you can use its `apps/proxy` service (e.g. `http://localhost:8082`) and add your Documenso origin to the proxy's `CORS_ORIGINS`. The browser calls `{proxyUrl}/ingest?t=…`; the proxy forwards to `browser-intake-*` for your Datadog site.
 
 | Variable | Required | Description |
 | -------- | -------- | ----------- |
 | `NEXT_PUBLIC_DD_RUM_APPLICATION_ID` | Yes | Datadog RUM application ID |
 | `NEXT_PUBLIC_DD_CLIENT_TOKEN` | Yes | Datadog client token (public by design) |
-| `NEXT_PUBLIC_DD_RUM_PROXY_URL` | Yes | Base URL of your RUM intake proxy (no trailing slash), e.g. `https://rum-proxy.example.com` |
-| `NEXT_PUBLIC_DD_SERVICE` | Yes | RUM service name (e.g. `documenso-web`) |
+| `NEXT_PUBLIC_DD_RUM_PROXY_URL` | No | RUM intake proxy base URL (no trailing slash). Omit for direct Datadog intake. |
+| `NEXT_PUBLIC_DD_SERVICE` | No | RUM service name (defaults to `documenso-web`) |
 | `NEXT_PUBLIC_DD_ENV` | No | RUM environment tag (defaults to `production`; set to `local` to disable RUM) |
 | `NEXT_PUBLIC_DD_SITE` | No | Datadog site (defaults to `us5.datadoghq.com`) |
 
@@ -155,8 +157,9 @@ services:
 ```bash
 NEXT_PUBLIC_DD_RUM_APPLICATION_ID=<rum-application-id>
 NEXT_PUBLIC_DD_CLIENT_TOKEN=<client-token>
-NEXT_PUBLIC_DD_RUM_PROXY_URL=https://rum-proxy.example.com
-NEXT_PUBLIC_DD_SERVICE=documenso-web
+# Optional — omit for direct Datadog intake; recommended for production:
+# NEXT_PUBLIC_DD_RUM_PROXY_URL=https://rum-proxy.example.com
+# NEXT_PUBLIC_DD_SERVICE=documenso-web
 NEXT_PUBLIC_DD_ENV=production
 NEXT_PUBLIC_DD_SITE=us5.datadoghq.com
 ```
@@ -169,13 +172,13 @@ NEXT_PUBLIC_DD_SITE=us5.datadoghq.com
 #### Verify Datadog RUM
 
 1. Create a RUM application in Datadog (separate from any other apps you operate).
-2. Deploy the RUM intake proxy and allow your Documenso origin in its CORS configuration.
-3. Set all four required env vars and restart Documenso.
-4. Open the web app → in browser DevTools **Network**, confirm POST requests to `{NEXT_PUBLIC_DD_RUM_PROXY_URL}/ingest?t=…`.
-5. In Datadog → **Digital Experience → RUM → Sessions**, confirm sessions with your `NEXT_PUBLIC_DD_SERVICE` and `NEXT_PUBLIC_DD_ENV`.
+2. Set application id and client token; optionally deploy a RUM intake proxy and allow your Documenso origin in its CORS configuration.
+3. Restart Documenso.
+4. Open the web app → in browser DevTools **Network**, confirm POST requests to Datadog intake (`browser-intake-*`) or, when using a proxy, `{NEXT_PUBLIC_DD_RUM_PROXY_URL}/ingest?t=…`.
+5. In Datadog → **Digital Experience → RUM → Sessions**, confirm sessions with service `documenso-web` (or your `NEXT_PUBLIC_DD_SERVICE`) and `NEXT_PUBLIC_DD_ENV`.
 6. Sign in → confirm the session user shows your account email/id.
 7. Navigate between pages → confirm view updates.
-8. Unset any required var and restart → confirm no RUM network traffic and no console errors.
+8. Unset application id or client token and restart → confirm no RUM network traffic and no console errors.
 
 <Callout type="warn">
   Do not point `NEXT_PUBLIC_DD_RUM_PROXY_URL` at Documenso's PostHog `/ingest` route. That path forwards to PostHog, not Datadog intake.

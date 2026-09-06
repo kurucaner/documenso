@@ -137,7 +137,7 @@ declare namespace NodeJS {
     NEXT_PRIVATE_TURNSTILE_SECRET_KEY?: string;
 
     /**
-     * Datadog RUM (optional — all four required vars must be set to enable)
+     * Datadog RUM (optional — application id + client token required to enable)
      */
     NEXT_PUBLIC_DD_RUM_APPLICATION_ID?: string;
     NEXT_PUBLIC_DD_CLIENT_TOKEN?: string;
