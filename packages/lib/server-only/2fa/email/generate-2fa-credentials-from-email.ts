@@ -2,9 +2,8 @@ import { hmac } from '@noble/hashes/hmac';
 import { sha256 } from '@noble/hashes/sha256';
 import { createTOTPKeyURI } from 'oslo/otp';
 
+import { APP_NAME } from '../../../constants/branding';
 import { DOCUMENSO_ENCRYPTION_KEY } from '../../../constants/crypto';
-
-const ISSUER = 'Documenso Email 2FA';
 
 export type GenerateTwoFactorCredentialsFromEmailOptions = {
   envelopeId: string;
@@ -25,11 +24,12 @@ export const generateTwoFactorCredentialsFromEmail = ({
     throw new Error('Missing DOCUMENSO_ENCRYPTION_KEY');
   }
 
+  const issuer = `${APP_NAME()} Email 2FA`;
   const identity = `email-2fa|v1|email:${email}|id:${envelopeId}`;
 
   const secret = hmac(sha256, DOCUMENSO_ENCRYPTION_KEY, identity);
 
-  const uri = createTOTPKeyURI(ISSUER, email, secret);
+  const uri = createTOTPKeyURI(issuer, email, secret);
 
   return {
     uri,

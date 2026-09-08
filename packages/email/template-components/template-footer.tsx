@@ -1,3 +1,9 @@
+import {
+  APP_ATTRIBUTION_URL,
+  APP_COMPANY_NAME,
+  APP_HIDE_POWERED_BY,
+  APP_NAME,
+} from '@documenso/lib/constants/branding';
 import { Trans } from '@lingui/react/macro';
 import { Fragment } from 'react';
 
@@ -12,6 +18,7 @@ export type TemplateFooterProps = {
 
 export const TemplateFooter = ({ isDocument = true, reportUrl }: TemplateFooterProps) => {
   const branding = useBranding();
+  const appName = APP_NAME();
 
   const safeBrandingUrl = branding.brandingEnabled ? getSafeBrandingUrl(branding.brandingUrl) : null;
 
@@ -29,12 +36,12 @@ export const TemplateFooter = ({ isDocument = true, reportUrl }: TemplateFooterP
         </Text>
       )}
 
-      {isDocument && !branding.brandingHidePoweredBy && (
+      {isDocument && !branding.brandingHidePoweredBy && !APP_HIDE_POWERED_BY() && (
         <Text className="my-4 text-base text-muted-foreground">
           <Trans>
             This document was sent using{' '}
-            <Link className="text-primary" href="https://documen.so/mail-footer">
-              Documenso
+            <Link className="text-primary" href={APP_ATTRIBUTION_URL()}>
+              {appName}
             </Link>
             .
           </Trans>
@@ -64,7 +71,7 @@ export const TemplateFooter = ({ isDocument = true, reportUrl }: TemplateFooterP
 
       {!branding.brandingEnabled && (
         <Text className="my-8 text-muted-foreground text-sm">
-          Documenso, Inc.
+          {APP_COMPANY_NAME()}
           <br />
           2261 Market Street, #5211, San Francisco, CA 94114, USA
         </Text>

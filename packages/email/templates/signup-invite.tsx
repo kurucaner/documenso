@@ -1,3 +1,4 @@
+import { APP_NAME } from '@documenso/lib/constants/branding';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
@@ -24,8 +25,9 @@ export const SignupInviteEmailTemplate = ({
   expiresAt = new Date(),
 }: SignupInviteEmailProps) => {
   const { _, i18n } = useLingui();
+  const appName = APP_NAME();
 
-  const previewText = msg`You've been invited to create a Documenso account`;
+  const previewText = msg`You've been invited to create a ${appName} account`;
   const formattedExpiresAt = i18n.date(expiresAt, {
     dateStyle: 'long',
     timeStyle: 'short',
@@ -48,7 +50,7 @@ export const SignupInviteEmailTemplate = ({
 
             <Section className="p-2 text-muted-foreground">
               <Text className="text-center font-medium text-foreground text-lg">
-                <Trans>Create your Documenso account</Trans>
+                <Trans>Create your {appName} account</Trans>
               </Text>
 
               <Text className="my-1 text-center text-base">

@@ -4,6 +4,7 @@ import { base32 } from '@scure/base';
 import crypto from 'crypto';
 import { createTOTPKeyURI } from 'oslo/otp';
 
+import { APP_NAME } from '../../constants/branding';
 import { DOCUMENSO_ENCRYPTION_KEY } from '../../constants/crypto';
 import { symmetricEncrypt } from '../../universal/crypto';
 
@@ -11,9 +12,8 @@ type SetupTwoFactorAuthenticationOptions = {
   user: Pick<User, 'id' | 'email'>;
 };
 
-const ISSUER = 'Documenso';
-
 export const setupTwoFactorAuthentication = async ({ user }: SetupTwoFactorAuthenticationOptions) => {
+  const issuer = APP_NAME();
   const key = DOCUMENSO_ENCRYPTION_KEY;
 
   if (!key) {
@@ -28,7 +28,7 @@ export const setupTwoFactorAuthentication = async ({ user }: SetupTwoFactorAuthe
     .map((code) => `${code.slice(0, 5)}-${code.slice(5)}`.toUpperCase());
 
   const accountName = user.email;
-  const uri = createTOTPKeyURI(ISSUER, accountName, secret);
+  const uri = createTOTPKeyURI(issuer, accountName, secret);
   const encodedSecret = base32.encode(new Uint8Array(secret));
 
   await prisma.user.update({

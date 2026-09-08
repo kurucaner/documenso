@@ -1,3 +1,4 @@
+import { APP_NAME, getAppLogoUrl } from '@documenso/lib/constants/branding';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 
@@ -11,12 +12,9 @@ export const AdminUserCreatedTemplate = ({
   assetBaseUrl = 'http://localhost:3002',
 }: TemplateAdminUserCreatedProps) => {
   const { _ } = useLingui();
+  const appName = APP_NAME();
 
-  const previewText = msg`Set your password for Documenso`;
-
-  const getAssetUrl = (path: string) => {
-    return new URL(path, assetBaseUrl).toString();
-  };
+  const previewText = msg`Set your password for ${appName}`;
 
   return (
     <Html>
@@ -27,7 +25,7 @@ export const AdminUserCreatedTemplate = ({
         <Section>
           <Container className="mx-auto mt-8 mb-2 max-w-xl rounded-lg border border-border border-solid p-4 backdrop-blur-sm">
             <Section>
-              <Img src={getAssetUrl('/static/logo.png')} alt="Documenso Logo" className="mb-4 h-6" />
+              <Img src={getAppLogoUrl(assetBaseUrl)} alt={`${appName} Logo`} className="mb-4 h-6" />
 
               <TemplateAdminUserCreated resetPasswordLink={resetPasswordLink} assetBaseUrl={assetBaseUrl} />
             </Section>

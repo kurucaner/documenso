@@ -1,3 +1,4 @@
+import { APP_NAME } from '@documenso/lib/constants/branding';
 import { Trans } from '@lingui/react/macro';
 
 import { Button, Section, Text } from '../components';
@@ -9,13 +10,15 @@ export type TemplateConfirmationEmailProps = {
 };
 
 export const TemplateConfirmationEmail = ({ confirmationLink, assetBaseUrl }: TemplateConfirmationEmailProps) => {
+  const appName = APP_NAME();
+
   return (
     <>
       <TemplateDocumentImage className="mt-6" assetBaseUrl={assetBaseUrl} />
 
       <Section className="flex-row items-center justify-center">
         <Text className="mx-auto mb-0 max-w-[80%] text-center font-semibold text-foreground text-lg">
-          <Trans>Welcome to Documenso!</Trans>
+          <Trans>Welcome to {appName}!</Trans>
         </Text>
 
         <Text className="my-1 text-center text-base text-muted-foreground">

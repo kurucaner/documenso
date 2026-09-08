@@ -5,6 +5,7 @@ import path from 'node:path';
 import { PostHog } from 'posthog-node';
 
 import { version } from '../../../../package.json';
+import { APP_NAME } from '../../constants/branding';
 import { prefixedId } from '../../universal/id';
 import { getSiteSetting } from '../site-settings/get-site-setting';
 import { SITE_SETTINGS_TELEMETRY_ID } from '../site-settings/schemas/telemetry';
@@ -104,7 +105,7 @@ export class TelemetryClient {
     this.nodeId = await this.getOrCreateNodeId();
 
     console.log(
-      '[Telemetry] Telemetry is enabled. Documenso collects anonymous usage data to help improve the product.',
+      `[Telemetry] Telemetry is enabled. ${APP_NAME()} collects anonymous usage data to help improve the product.`,
     );
     console.log(
       '[Telemetry] We collect: app version, installation ID, and node ID. No personal data, document contents, or user information is collected.',

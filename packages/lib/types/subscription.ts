@@ -1,6 +1,8 @@
 import type { SubscriptionClaim } from '@prisma/client';
 import { z } from 'zod';
 
+import { APP_NAME } from '../constants/branding';
+
 /**
  * Rate limit window schema.
  *
@@ -107,7 +109,7 @@ export const SUBSCRIPTION_CLAIM_FEATURE_FLAGS: Record<
   },
   hidePoweredBy: {
     key: 'hidePoweredBy',
-    label: 'Hide Documenso branding by',
+    label: `Hide ${APP_NAME()} branding by`,
   },
   emailDomains: {
     key: 'emailDomains',

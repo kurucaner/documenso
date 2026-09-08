@@ -6,6 +6,7 @@ import crypto from 'crypto';
 import { createElement } from 'react';
 import { getI18nInstance } from '../../../client-only/providers/i18n-server';
 import { NEXT_PUBLIC_WEBAPP_URL } from '../../../constants/app';
+import { APP_NAME } from '../../../constants/branding';
 import { DOCUMENSO_INTERNAL_EMAIL } from '../../../constants/email';
 import { ONE_DAY } from '../../../constants/time';
 import { renderEmailWithI18N } from '../../../utils/render-email-with-i18n';
@@ -53,6 +54,7 @@ export const run = async ({ payload, io }: { payload: TSendAdminUserCreatedEmail
   ]);
 
   const i18n = await getI18nInstance();
+  const appName = APP_NAME();
 
   return mailer.sendMail({
     to: {
@@ -60,7 +62,7 @@ export const run = async ({ payload, io }: { payload: TSendAdminUserCreatedEmail
       name: user.name || '',
     },
     from: DOCUMENSO_INTERNAL_EMAIL,
-    subject: i18n._(msg`Welcome to Documenso`),
+    subject: i18n._(msg`Welcome to ${appName}`),
     html,
     text,
   });

@@ -1,6 +1,7 @@
 import { mailer } from '@documenso/email/mailer';
 import { SignupInviteEmailTemplate } from '@documenso/email/templates/signup-invite';
 import { NEXT_PUBLIC_WEBAPP_URL } from '@documenso/lib/constants/app';
+import { APP_NAME } from '@documenso/lib/constants/branding';
 import { DOCUMENSO_INTERNAL_EMAIL } from '@documenso/lib/constants/email';
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
 import { prisma } from '@documenso/prisma';
@@ -61,7 +62,7 @@ const sendSignupInviteEmail = async ({
   await mailer.sendMail({
     to: email,
     from: DOCUMENSO_INTERNAL_EMAIL,
-    subject: i18n._(msg`You've been invited to create a Documenso account`),
+    subject: i18n._(msg`You've been invited to create a ${APP_NAME()} account`),
     html,
     text,
   });

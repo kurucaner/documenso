@@ -1,3 +1,4 @@
+import { APP_NAME } from '@documenso/lib/constants/branding';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
@@ -21,11 +22,12 @@ export const OrganisationAccountLinkConfirmationTemplate = ({
   assetBaseUrl = 'http://localhost:3002',
 }: OrganisationAccountLinkConfirmationTemplateProps) => {
   const { _ } = useLingui();
+  const appName = APP_NAME();
 
   const previewText =
     type === 'create'
       ? msg`A request has been made to create an account for you`
-      : msg`A request has been made to link your Documenso account`;
+      : msg`A request has been made to link your ${appName} account`;
 
   return (
     <Html>
@@ -46,7 +48,7 @@ export const OrganisationAccountLinkConfirmationTemplate = ({
                 {type === 'create' ? (
                   <Trans>Account creation request</Trans>
                 ) : (
-                  <Trans>Link your Documenso account</Trans>
+                  <Trans>Link your {appName} account</Trans>
                 )}
               </Text>
 
@@ -58,7 +60,7 @@ export const OrganisationAccountLinkConfirmationTemplate = ({
                   </Trans>
                 ) : (
                   <Trans>
-                    <span className="font-bold">{organisationName}</span> has requested to link your current Documenso
+                    <span className="font-bold">{organisationName}</span> has requested to link your current {appName}
                     account to their organisation.
                   </Trans>
                 )}
@@ -87,7 +89,7 @@ export const OrganisationAccountLinkConfirmationTemplate = ({
 
                 <Text className="mt-2 text-sm">
                   <Trans>
-                    You can unlink your account at any time in your security settings on Documenso{' '}
+                    You can unlink your account at any time in your security settings on {appName}{' '}
                     <Link href={`${assetBaseUrl}/settings/security/linked-accounts`}>here.</Link>
                   </Trans>
                 </Text>
