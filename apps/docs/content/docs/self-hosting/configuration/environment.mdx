@@ -40,6 +40,8 @@ Customize the application name, logos, and other branding shown in the UI, brows
 | `NEXT_PUBLIC_APP_LOGO_URL` | Custom logo URL or path (e.g. `/static/logo.png`) | Built-in logo at `/static/logo.png` |
 | `NEXT_PUBLIC_APP_FAVICON_URL` | Custom favicon URL or path | Built-in favicons in `apps/remix/public/` |
 | `NEXT_PUBLIC_APP_HIDE_POWERED_BY` | Hide "sent using {APP_NAME}" in email footers when set to `true` | `false` |
+| `NEXT_PUBLIC_APP_HIDE_EMAIL_LOGO` | Hide the default app logo in emails when set to `true` (org/team custom branding logos still show) | `false` |
+| `NEXT_PUBLIC_APP_COMPANY_ADDRESS` | Company address shown in email footers when custom branding is not enabled | `2261 Market Street, #5211, San Francisco, CA 94114, USA` |
 | `NEXT_PUBLIC_APP_ATTRIBUTION_URL` | URL used for marketing links in signing flows and email attribution | `https://documen.so/mail-footer` |
 
 If `NEXT_PRIVATE_SMTP_FROM_NAME` is not set, outgoing emails use `NEXT_PUBLIC_APP_NAME` as the sender display name.
@@ -502,8 +504,11 @@ NEXT_PRIVATE_DIRECT_DATABASE_URL="postgres://user:password@localhost:5432/docume
 # Branding (optional)
 # NEXT_PUBLIC_APP_NAME="My Company Sign"
 # NEXT_PUBLIC_APP_COMPANY_NAME="My Company, Inc."
+# NEXT_PUBLIC_APP_COMPANY_ADDRESS="123 Example St, City, ST 00000"
 # NEXT_PUBLIC_APP_LOGO_URL="/static/logo.png"
 # NEXT_PUBLIC_APP_FAVICON_URL="/favicon-32x32.png"
+# NEXT_PUBLIC_APP_HIDE_EMAIL_LOGO="true"
+# NEXT_PUBLIC_APP_HIDE_POWERED_BY="true"
 
 # Email
 NEXT_PRIVATE_SMTP_TRANSPORT="smtp-auth"

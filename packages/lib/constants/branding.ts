@@ -78,6 +78,22 @@ export const APP_HIDE_POWERED_BY = (): boolean => {
   return env('NEXT_PUBLIC_APP_HIDE_POWERED_BY') === 'true';
 };
 
+export const APP_HIDE_EMAIL_LOGO = (): boolean => {
+  return env('NEXT_PUBLIC_APP_HIDE_EMAIL_LOGO') === 'true';
+};
+
+export const DEFAULT_APP_COMPANY_ADDRESS = '2261 Market Street, #5211, San Francisco, CA 94114, USA';
+
+export const APP_COMPANY_ADDRESS = (): string => {
+  const value = env('NEXT_PUBLIC_APP_COMPANY_ADDRESS')?.trim();
+
+  if (value) {
+    return value;
+  }
+
+  return DEFAULT_APP_COMPANY_ADDRESS;
+};
+
 export const APP_ATTRIBUTION_URL = (): string => {
   const value = env('NEXT_PUBLIC_APP_ATTRIBUTION_URL')?.trim();
 

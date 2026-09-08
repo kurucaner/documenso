@@ -1,4 +1,4 @@
-import { APP_NAME, getAppLogoUrl } from '@documenso/lib/constants/branding';
+import { APP_HIDE_EMAIL_LOGO, APP_NAME, getAppLogoUrl } from '@documenso/lib/constants/branding';
 
 import { Img, Link } from '../components';
 import { useBranding } from '../providers/branding';
@@ -14,7 +14,7 @@ export type TemplateBrandingLogoProps = {
  *
  * - When custom branding is enabled with a logo, the branding logo is shown.
  *   If a safe (http/https) Brand Website is configured, the logo links to it.
- * - Otherwise the application logo is shown.
+ * - Otherwise the application logo is shown, unless `NEXT_PUBLIC_APP_HIDE_EMAIL_LOGO` is `true`.
  */
 export const TemplateBrandingLogo = ({ assetBaseUrl, className = 'mb-4 h-6' }: TemplateBrandingLogoProps) => {
   const branding = useBranding();
@@ -23,6 +23,10 @@ export const TemplateBrandingLogo = ({ assetBaseUrl, className = 'mb-4 h-6' }: T
   const hasCustomBrandingLogo = branding.brandingEnabled && Boolean(branding.brandingLogo);
 
   if (!hasCustomBrandingLogo) {
+    if (APP_HIDE_EMAIL_LOGO()) {
+      return null;
+    }
+
     const appLogoUrl = getAppLogoUrl(assetBaseUrl);
 
     return <Img src={appLogoUrl} alt={`${appName} Logo`} className={className} />;

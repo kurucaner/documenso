@@ -1,5 +1,6 @@
 import {
   APP_ATTRIBUTION_URL,
+  APP_COMPANY_ADDRESS,
   APP_COMPANY_NAME,
   APP_HIDE_POWERED_BY,
   APP_NAME,
@@ -73,7 +74,7 @@ export const TemplateFooter = ({ isDocument = true, reportUrl }: TemplateFooterP
         <Text className="my-8 text-muted-foreground text-sm">
           {APP_COMPANY_NAME()}
           <br />
-          2261 Market Street, #5211, San Francisco, CA 94114, USA
+          {APP_COMPANY_ADDRESS()}
         </Text>
       )}
     </Section>
