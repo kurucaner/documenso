@@ -31,6 +31,7 @@ type DatabaseIdPrefix =
   | 'member'
   | 'member_invite'
   | 'signup_invite'
+  | 'bootstrap_session'
   | 'group_member'
   | 'team_group'
   | 'team_setting';

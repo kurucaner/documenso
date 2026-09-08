@@ -30,6 +30,7 @@ import { filesRoute } from './api/files/files';
 import { internalApiTokensRoute } from './api/internal-api-tokens/route';
 import { internalOrganisationTeamsRoute } from './api/internal-organisation-teams/route';
 import { internalTeamRoute } from './api/internal-team/route';
+import { internalUserBootstrapSessionRoute } from './api/internal-user-bootstrap-session/route';
 import { internalUserByEmailRoute } from './api/internal-user-by-email/route';
 import { internalUserOrganisationsRoute } from './api/internal-user-organisations/route';
 import { internalUsersRoute } from './api/internal-users/route';
@@ -115,6 +116,7 @@ app.route('/api/auth', auth);
 // Signup invite provisioning (secret-authenticated internal API).
 app.route('/api/internal/signup-invites', signupInvitesRoute);
 app.route('/api/internal/users/by-email', internalUserByEmailRoute);
+app.route('/api/internal/users/:userId/bootstrap-session', internalUserBootstrapSessionRoute);
 app.route('/api/internal/users/:userId/organisations', internalUserOrganisationsRoute);
 app.route('/api/internal/users', internalUsersRoute);
 app.route('/api/internal/organisations/:orgUrl/teams', internalOrganisationTeamsRoute);

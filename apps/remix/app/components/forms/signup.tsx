@@ -52,6 +52,7 @@ export const SIGNUP_ERROR_MESSAGES: Record<string, MessageDescriptor> = {
   SIGNUP_DISPOSABLE_EMAIL: msg`Disposable email addresses are not allowed. Please sign up with a permanent email address.`,
   SIGNUP_INVITE_INVALID: msg`This invitation is invalid or no longer available. Please request a new invite.`,
   SIGNUP_INVITE_EXPIRED: msg`This invitation has expired. Please request a new invite.`,
+  bootstrap_expired: msg`This sign-in link is invalid or has expired. Sign in with your email and password.`,
   [AppErrorCode.ALREADY_EXISTS]: msg`We were unable to create your account. If you already have an account, try signing in instead.`,
   [AppErrorCode.INVALID_REQUEST]: msg`We were unable to create your account. Please review the information you provided and try again.`,
 };
