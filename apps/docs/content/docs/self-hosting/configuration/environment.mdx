@@ -28,6 +28,26 @@ These variables must be set for Documenso to function:
 
 ---
 
+## App Branding
+
+Customize the application name, logos, and other branding shown in the UI, browser tab titles, emails, and PWA manifest.
+
+| Variable | Description | Default |
+| -------- | ----------- | ------- |
+| `NEXT_PUBLIC_APP_NAME` | Application name shown in page titles, emails, and UI copy | `Documenso` |
+| `NEXT_PUBLIC_APP_COMPANY_NAME` | Legal company name used in meta tags and email footers | App name followed by `, Inc.` |
+| `NEXT_PUBLIC_APP_DESCRIPTION` | Default meta description | `Sign and manage documents with {your app name}.` |
+| `NEXT_PUBLIC_APP_LOGO_URL` | Custom logo URL or path (e.g. `/static/logo.png`) | Built-in logo at `/static/logo.png` |
+| `NEXT_PUBLIC_APP_FAVICON_URL` | Custom favicon URL or path | Built-in favicons in `apps/remix/public/` |
+| `NEXT_PUBLIC_APP_HIDE_POWERED_BY` | Hide "sent using {APP_NAME}" in email footers when set to `true` | `false` |
+| `NEXT_PUBLIC_APP_ATTRIBUTION_URL` | URL used for marketing links in signing flows and email attribution | `https://documen.so/mail-footer` |
+
+If `NEXT_PRIVATE_SMTP_FROM_NAME` is not set, outgoing emails use `NEXT_PUBLIC_APP_NAME` as the sender display name.
+
+Replace favicon PNG files in `apps/remix/public/` or point `NEXT_PUBLIC_APP_FAVICON_URL` at your own assets. The web app manifest is generated dynamically from these settings.
+
+---
+
 ## Database Configuration
 
 Documenso requires PostgreSQL 14 or higher.
@@ -478,6 +498,12 @@ NEXT_PUBLIC_WEBAPP_URL="https://sign.example.com"
 # Database
 NEXT_PRIVATE_DATABASE_URL="postgres://user:password@localhost:5432/documenso"
 NEXT_PRIVATE_DIRECT_DATABASE_URL="postgres://user:password@localhost:5432/documenso"
+
+# Branding (optional)
+# NEXT_PUBLIC_APP_NAME="My Company Sign"
+# NEXT_PUBLIC_APP_COMPANY_NAME="My Company, Inc."
+# NEXT_PUBLIC_APP_LOGO_URL="/static/logo.png"
+# NEXT_PUBLIC_APP_FAVICON_URL="/favicon-32x32.png"
 
 # Email
 NEXT_PRIVATE_SMTP_TRANSPORT="smtp-auth"
