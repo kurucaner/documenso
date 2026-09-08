@@ -6,12 +6,14 @@ export const loader = async () => {
 
     return Response.json({
       isAvailable: certStatus.isAvailable,
+      validTo: certStatus.validTo,
       timestamp: new Date().toISOString(),
     });
   } catch {
     return Response.json(
       {
         isAvailable: false,
+        validTo: null,
         timestamp: new Date().toISOString(),
       },
       { status: 500 },

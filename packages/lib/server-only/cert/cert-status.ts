@@ -4,34 +4,39 @@ import { createLocalSigner } from '@documenso/signing/transports/local';
 
 import { NEXT_PRIVATE_SIGNING_TRANSPORT } from '../../constants/app';
 
+export type TCertificateStatus = {
+  isAvailable: boolean;
+  validTo: string | null;
+};
+
 /**
  * Whether the local P12 opens with the configured passphrase and is in date.
  * Skips AIA so this stays offline. gcloud-hsm and csc always report available.
  */
-export const getCertificateStatus = async () => {
+export const getCertificateStatus = async (): Promise<TCertificateStatus> => {
   const transport = NEXT_PRIVATE_SIGNING_TRANSPORT();
 
   // Cannot inspect a remote HSM or CSC provider from this process.
   if (transport === 'gcloud-hsm' || transport === 'csc') {
-    return { isAvailable: true };
+    return { isAvailable: true, validTo: null };
   }
 
   // Anything else (typo, leftover `http`) would throw at seal time.
   if (transport !== 'local') {
-    return { isAvailable: false };
+    return { isAvailable: false, validTo: null };
   }
 
   try {
     const signer = await createLocalSigner({ buildChain: false });
 
     const certificate = new X509Certificate(Buffer.from(signer.certificate));
-
+    const validTo = new Date(certificate.validTo).toISOString();
     const now = new Date();
 
     const isWithinValidityPeriod = new Date(certificate.validFrom) <= now && now <= new Date(certificate.validTo);
 
-    return { isAvailable: isWithinValidityPeriod };
+    return { isAvailable: isWithinValidityPeriod, validTo };
   } catch {
-    return { isAvailable: false };
+    return { isAvailable: false, validTo: null };
   }
 };
