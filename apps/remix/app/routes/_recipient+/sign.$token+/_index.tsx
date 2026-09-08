@@ -8,7 +8,8 @@ import { readCscSadSessionFromRequest } from '@documenso/ee/server-only/signing/
 import { readCscServiceSessionFromRequest } from '@documenso/ee/server-only/signing/csc/cookies/service-session-cookie';
 import { EnvelopeRenderProvider } from '@documenso/lib/client-only/providers/envelope-render-provider';
 import { useOptionalSession } from '@documenso/lib/client-only/providers/session';
-import { IS_INSTANCE_CSC_MODE } from '@documenso/lib/constants/app';
+import { IS_INSTANCE_CSC_MODE, NEXT_PUBLIC_WEBAPP_URL } from '@documenso/lib/constants/app';
+import { APP_NAME } from '@documenso/lib/constants/branding';
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
 import { loadRecipientBrandingByTeamId } from '@documenso/lib/server-only/branding/load-recipient-branding';
 import { getDocumentAndSenderByToken } from '@documenso/lib/server-only/document/get-document-by-token';
@@ -399,6 +400,8 @@ export default function SigningPage() {
 
 const SigningPageV1 = ({ data }: { data: Awaited<ReturnType<typeof handleV1Loader>> }) => {
   const { sessionData } = useOptionalSession();
+  const appName = APP_NAME();
+  const webAppUrl = NEXT_PUBLIC_WEBAPP_URL();
 
   const user = sessionData?.user;
 
@@ -454,8 +457,8 @@ const SigningPageV1 = ({ data }: { data: Awaited<ReturnType<typeof handleV1Loade
             <p className="mt-36 text-muted-foreground/60 text-sm">
               <Trans>
                 Want to send slick signing links like this one?{' '}
-                <Link to="https://documenso.com" className="text-documenso-700 hover:text-documenso-600">
-                  Check out Documenso
+                <Link to={webAppUrl} className="text-documenso-700 hover:text-documenso-600">
+                  Check out {appName}
                 </Link>
                 .
               </Trans>
@@ -497,6 +500,8 @@ const SigningPageV1 = ({ data }: { data: Awaited<ReturnType<typeof handleV1Loade
 
 const SigningPageV2 = ({ data }: { data: Awaited<ReturnType<typeof handleV2Loader>> }) => {
   const { sessionData } = useOptionalSession();
+  const appName = APP_NAME();
+  const webAppUrl = NEXT_PUBLIC_WEBAPP_URL();
   const user = sessionData?.user;
 
   if (!data.isDocumentAccessValid) {
@@ -553,8 +558,8 @@ const SigningPageV2 = ({ data }: { data: Awaited<ReturnType<typeof handleV2Loade
             <p className="mt-36 text-muted-foreground/60 text-sm">
               <Trans>
                 Want to send slick signing links like this one?{' '}
-                <Link to="https://documenso.com" className="text-documenso-700 hover:text-documenso-600">
-                  Check out Documenso
+                <Link to={webAppUrl} className="text-documenso-700 hover:text-documenso-600">
+                  Check out {appName}
                 </Link>
                 .
               </Trans>

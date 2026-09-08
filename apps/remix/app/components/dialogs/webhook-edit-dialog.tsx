@@ -1,3 +1,4 @@
+import { APP_NAME } from '@documenso/lib/constants/branding';
 import { trpc } from '@documenso/trpc/react';
 import { ZEditWebhookRequestSchema } from '@documenso/trpc/server/webhook-router/schema';
 import { Button } from '@documenso/ui/primitives/button';
@@ -44,6 +45,7 @@ export type WebhookEditDialogProps = {
 } & Omit<DialogPrimitive.DialogProps, 'children'>;
 
 export const WebhookEditDialog = ({ trigger, webhook, ...props }: WebhookEditDialogProps) => {
+  const appName = APP_NAME();
   const { t } = useLingui();
   const { toast } = useToast();
 
@@ -111,7 +113,7 @@ export const WebhookEditDialog = ({ trigger, webhook, ...props }: WebhookEditDia
                       </FormControl>
 
                       <FormDescription>
-                        <Trans>The URL for Documenso to send webhook events to.</Trans>
+                        <Trans>The URL for {appName} to send webhook events to.</Trans>
                       </FormDescription>
 
                       <FormMessage />
@@ -179,7 +181,7 @@ export const WebhookEditDialog = ({ trigger, webhook, ...props }: WebhookEditDia
                     <FormDescription>
                       <Trans>
                         A secret that will be sent to your URL so you can verify that the request has been sent by
-                        Documenso.
+                        {appName}.
                       </Trans>
                     </FormDescription>
                     <FormMessage />

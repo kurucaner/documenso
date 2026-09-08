@@ -1,5 +1,6 @@
 import { useAnalytics } from '@documenso/lib/client-only/hooks/use-analytics';
 import { useOptionalSession } from '@documenso/lib/client-only/providers/session';
+import { formatPageTitle } from '@documenso/lib/constants/branding';
 import { cn } from '@documenso/ui/lib/utils';
 import { Button } from '@documenso/ui/primitives/button';
 import { i18n } from '@lingui/core';
@@ -14,7 +15,7 @@ import type { Route } from './+types/_layout';
 
 export function meta() {
   return [
-    { title: i18n._(msg`Sign Document - Documenso`) },
+    { title: formatPageTitle(i18n._(msg`Sign Document`)) },
     { name: 'robots', content: 'noindex, nofollow, noarchive, nosnippet, noimageindex' },
   ];
 }

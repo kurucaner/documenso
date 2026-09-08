@@ -1,4 +1,5 @@
 import { useCopyToClipboard } from '@documenso/lib/client-only/hooks/use-copy-to-clipboard';
+import { APP_NAME } from '@documenso/lib/constants/branding';
 import type { TCachedLicense } from '@documenso/lib/types/license';
 import { SUBSCRIPTION_CLAIM_FEATURE_FLAGS } from '@documenso/lib/types/subscription';
 import { trpc } from '@documenso/trpc/react';
@@ -30,6 +31,7 @@ type AdminLicenseCardProps = {
 };
 
 export const AdminLicenseCard = ({ licenseData }: AdminLicenseCardProps) => {
+  const appName = APP_NAME();
   const { t, i18n } = useLingui();
   const { toast } = useToast();
   const [, copy] = useCopyToClipboard();
@@ -92,7 +94,7 @@ export const AdminLicenseCard = ({ licenseData }: AdminLicenseCardProps) => {
         </div>
 
         <h3 className="mb-2 flex items-end font-medium text-foreground text-sm leading-tight">
-          <Trans>Documenso License</Trans>
+          <Trans>{appName} License</Trans>
         </h3>
 
         {match(license.status)

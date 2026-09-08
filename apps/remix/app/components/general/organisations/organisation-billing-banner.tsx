@@ -1,5 +1,6 @@
 import { useOptionalCurrentOrganisation } from '@documenso/lib/client-only/providers/organisation';
 import { SUPPORT_EMAIL } from '@documenso/lib/constants/app';
+import { APP_NAME } from '@documenso/lib/constants/branding';
 import { isOrganisationPendingPayment } from '@documenso/lib/utils/billing';
 import { canExecuteOrganisationAction } from '@documenso/lib/utils/organisations';
 import { trpc } from '@documenso/trpc/react';
@@ -26,6 +27,7 @@ import { Link } from 'react-router';
 import { match } from 'ts-pattern';
 
 export const OrganisationBillingBanner = () => {
+  const appName = APP_NAME();
   const { _ } = useLingui();
   const { toast } = useToast();
 
@@ -128,7 +130,7 @@ export const OrganisationBillingBanner = () => {
 
                 <DialogDescription>
                   <Trans>
-                    Your plan is no longer valid. Please subscribe to a new plan to continue using Documenso.
+                    Your plan is no longer valid. Please subscribe to a new plan to continue using {appName}.
                   </Trans>
                 </DialogDescription>
               </DialogHeader>

@@ -1,4 +1,5 @@
 import { useCurrentOrganisation } from '@documenso/lib/client-only/providers/organisation';
+import { APP_NAME } from '@documenso/lib/constants/branding';
 import { Trans } from '@lingui/react/macro';
 import { motion, useReducedMotion } from 'framer-motion';
 
@@ -6,35 +7,40 @@ import { EASE, POP, SPRING } from './motion';
 import { SettingsUpsellCard } from './settings-upsell-card';
 import { useTimedCycle } from './use-timed-cycle';
 
-const DEMO_BRANDS = [
-  {
-    name: 'Documenso',
-    letter: 'D',
-    domain: 'noreply@app.documenso.com',
-    accent: '#A2E771',
-    ink: '#162C07',
-    tint: '#F2FBEA',
-    sheen: 'rgba(162, 231, 113, 0.32)',
-  },
-  {
-    name: 'Documenso',
-    letter: 'D',
-    domain: 'noreply@app.documenso.com',
-    accent: '#387BC7',
-    ink: '#ffffff',
-    tint: '#EDF3FA',
-    sheen: 'rgba(56, 123, 199, 0.28)',
-  },
-  {
-    name: 'Documenso',
-    letter: 'D',
-    domain: 'noreply@app.documenso.com',
-    accent: '#9747F5',
-    ink: '#ffffff',
-    tint: '#F4EDFE',
-    sheen: 'rgba(151, 71, 245, 0.26)',
-  },
-];
+const createDemoBrands = () => {
+  const name = APP_NAME();
+  const letter = name.charAt(0).toUpperCase() || 'A';
+
+  return [
+    {
+      name,
+      letter,
+      domain: 'noreply@app.example.com',
+      accent: '#A2E771',
+      ink: '#162C07',
+      tint: '#F2FBEA',
+      sheen: 'rgba(162, 231, 113, 0.32)',
+    },
+    {
+      name,
+      letter,
+      domain: 'noreply@app.example.com',
+      accent: '#387BC7',
+      ink: '#ffffff',
+      tint: '#EDF3FA',
+      sheen: 'rgba(56, 123, 199, 0.28)',
+    },
+    {
+      name,
+      letter,
+      domain: 'noreply@app.example.com',
+      accent: '#9747F5',
+      ink: '#ffffff',
+      tint: '#F4EDFE',
+      sheen: 'rgba(151, 71, 245, 0.26)',
+    },
+  ];
+};
 
 /**
  * Milliseconds each brand is shown before cycling to the next.
@@ -43,13 +49,14 @@ const BRAND_CYCLE_INTERVAL_MS = 2400;
 
 export const BrandingUpsell = () => {
   const organisation = useCurrentOrganisation();
+  const demoBrands = createDemoBrands();
 
   const isReducedMotion = useReducedMotion();
-  const brandIndex = useTimedCycle(DEMO_BRANDS.map(() => BRAND_CYCLE_INTERVAL_MS));
+  const brandIndex = useTimedCycle(demoBrands.map(() => BRAND_CYCLE_INTERVAL_MS));
 
   const isStatic = isReducedMotion ?? false;
 
-  const brand = DEMO_BRANDS[brandIndex];
+  const brand = demoBrands[brandIndex];
 
   return (
     <SettingsUpsellCard
@@ -71,7 +78,7 @@ export const BrandingUpsell = () => {
             </span>
 
             <div className="flex shrink-0 items-center gap-2">
-              {DEMO_BRANDS.map((dotBrand, index) => (
+              {demoBrands.map((dotBrand, index) => (
                 <motion.div
                   key={index}
                   initial={isStatic ? false : undefined}

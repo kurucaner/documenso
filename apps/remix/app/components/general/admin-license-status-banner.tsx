@@ -1,3 +1,4 @@
+import { APP_NAME } from '@documenso/lib/constants/branding';
 import type { TCachedLicense } from '@documenso/lib/types/license';
 import { cn } from '@documenso/ui/lib/utils';
 import { Button } from '@documenso/ui/primitives/button';
@@ -11,6 +12,7 @@ export type AdminLicenseStatusBannerProps = {
 };
 
 export const AdminLicenseStatusBanner = ({ license }: AdminLicenseStatusBannerProps) => {
+  const appName = APP_NAME();
   const licenseStatus = license?.derivedStatus;
 
   if (!license || licenseStatus === 'ACTIVE' || licenseStatus === 'NOT_FOUND') {
@@ -37,10 +39,10 @@ export const AdminLicenseStatusBanner = ({ license }: AdminLicenseStatusBannerPr
             .with('UNAUTHORIZED', () =>
               license ? (
                 <Trans>
-                  Invalid License Type - Your Documenso instance is using features that are not part of your license.
+                  Invalid License Type - Your {appName} instance is using features that are not part of your license.
                 </Trans>
               ) : (
-                <Trans>Missing License - Your Documenso instance is using features that require a license.</Trans>
+                <Trans>Missing License - Your {appName} instance is using features that require a license.</Trans>
               ),
             )
             .otherwise(() => null)}

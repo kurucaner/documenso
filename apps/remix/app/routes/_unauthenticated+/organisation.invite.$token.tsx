@@ -1,5 +1,6 @@
 import { getOptionalSession } from '@documenso/auth/server/lib/utils/get-session';
 import { useOptionalSession } from '@documenso/lib/client-only/providers/session';
+import { APP_NAME } from '@documenso/lib/constants/branding';
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
 import { prisma } from '@documenso/prisma';
 import { trpc } from '@documenso/trpc/react';
@@ -164,6 +165,7 @@ const PendingInvitation = ({
   userExists,
   isSessionUserTheInvitedUser,
 }: PendingInvitationProps) => {
+  const appName = APP_NAME();
   const { t } = useLingui();
   const { toast } = useToast();
   const { refreshSession } = useOptionalSession();
@@ -285,7 +287,7 @@ const PendingInvitation = ({
 
         <p className="mt-2 mb-4 text-muted-foreground text-sm">
           <Trans>
-            You have been invited to join <strong>{organisationName}</strong> on Documenso.
+            You have been invited to join <strong>{organisationName}</strong> on {appName}.
           </Trans>
         </p>
 

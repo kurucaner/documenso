@@ -2,6 +2,7 @@ import {
   EnvelopeRenderProvider,
   useCurrentEnvelopeRender,
 } from '@documenso/lib/client-only/providers/envelope-render-provider';
+import { APP_NAME } from '@documenso/lib/constants/branding';
 import { PDF_VIEWER_ERROR_MESSAGES } from '@documenso/lib/constants/pdf-viewer-i18n';
 import { getDocumentDataUrlForPdfViewer } from '@documenso/lib/utils/envelope-download';
 import { formatDocumentsPath } from '@documenso/lib/utils/teams';
@@ -49,6 +50,7 @@ export const DocumentCertificateQRView = ({
   completedDate,
   token,
 }: DocumentCertificateQRViewProps) => {
+  const appName = APP_NAME();
   const { data: documentViaUser } = trpc.document.get.useQuery({
     documentId,
   });
@@ -76,7 +78,7 @@ export const DocumentCertificateQRView = ({
 
               <DialogDescription>
                 <Trans>
-                  This document is available in your Documenso account. You can view more details, recipients, and audit
+                  This document is available in your {appName} account. You can view more details, recipients, and audit
                   logs there.
                 </Trans>
               </DialogDescription>

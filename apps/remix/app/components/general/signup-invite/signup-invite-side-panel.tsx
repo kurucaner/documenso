@@ -1,3 +1,4 @@
+import { APP_NAME } from '@documenso/lib/constants/branding';
 import { Trans } from '@lingui/react/macro';
 
 import { SignupInviteStatusCard } from '~/components/general/signup-invite/signup-invite-status-card';
@@ -8,6 +9,8 @@ type SignupInviteSidePanelProps = {
 };
 
 export const SignupInviteSidePanel = ({ email, expiresAt }: SignupInviteSidePanelProps) => {
+  const appName = APP_NAME();
+
   return (
     <div className="mx-auto flex h-full w-full max-w-md flex-col justify-center gap-8">
       <div className="rounded-2xl border bg-background px-4 py-1 font-medium text-sm">
@@ -16,7 +19,7 @@ export const SignupInviteSidePanel = ({ email, expiresAt }: SignupInviteSidePane
 
       <div className="space-y-3">
         <h1 className="font-semibold text-2xl md:text-3xl">
-          <Trans>You&apos;ve been invited to create a Documenso account</Trans>
+          <Trans>You&apos;ve been invited to create a {appName} account</Trans>
         </h1>
 
         <p className="text-muted-foreground text-sm md:text-base">

@@ -1,4 +1,5 @@
 import { NEXT_PUBLIC_WEBAPP_URL } from '@documenso/lib/constants/app';
+import { APP_NAME, formatPageTitle } from '@documenso/lib/constants/branding';
 import { getDocumentByAccessToken } from '@documenso/lib/server-only/document/get-document-by-access-token';
 import { redirect, useLoaderData } from 'react-router';
 
@@ -11,16 +12,18 @@ export function meta({ params: { slug } }: Route.MetaArgs) {
     return undefined;
   }
 
+  const appName = APP_NAME();
+
   return [
-    { title: 'Documenso - Share' },
-    { description: 'I just signed a document in style with Documenso!' },
+    { title: formatPageTitle('Share') },
+    { description: `I just signed a document in style with ${appName}!` },
     {
       property: 'og:title',
-      content: 'Documenso - Join the open source signing revolution',
+      content: formatPageTitle('Share'),
     },
     {
       property: 'og:description',
-      content: 'I just signed with Documenso!',
+      content: `I just signed with ${appName}!`,
     },
     {
       property: 'og:type',
@@ -44,7 +47,7 @@ export function meta({ params: { slug } }: Route.MetaArgs) {
     },
     {
       name: 'twitter:description',
-      content: 'I just signed with Documenso!',
+      content: `I just signed with ${appName}!`,
     },
   ];
 }
@@ -69,8 +72,7 @@ export const loader = async ({ request, params: { slug } }: Route.LoaderArgs) =>
     return {};
   }
 
-  // Is hardcoded because this whole meta is hardcoded anyway for Documenso.
-  throw redirect('https://documenso.com');
+  throw redirect(NEXT_PUBLIC_WEBAPP_URL());
 };
 
 export default function SharePage() {

@@ -1,5 +1,6 @@
 import { authClient } from '@documenso/auth/client';
 import { useOptionalSession } from '@documenso/lib/client-only/providers/session';
+import { APP_NAME } from '@documenso/lib/constants/branding';
 import { EMAIL_VERIFICATION_STATE } from '@documenso/lib/constants/email';
 import { Button } from '@documenso/ui/primitives/button';
 import { useToast } from '@documenso/ui/primitives/use-toast';
@@ -27,6 +28,7 @@ export const loader = ({ params }: Route.LoaderArgs) => {
 
 export default function VerifyEmailPage({ loaderData }: Route.ComponentProps) {
   const { token } = loaderData;
+  const appName = APP_NAME();
 
   const { refreshSession } = useOptionalSession();
   const { _ } = useLingui();
@@ -142,7 +144,7 @@ export default function VerifyEmailPage({ loaderData }: Route.ComponentProps) {
             </h2>
 
             <p className="mt-4 text-muted-foreground">
-              <Trans>Your email has been successfully confirmed! You can now use all features of Documenso.</Trans>
+              <Trans>Your email has been successfully confirmed! You can now use all features of {appName}.</Trans>
             </p>
 
             <Button className="mt-4" asChild>
@@ -167,7 +169,7 @@ export default function VerifyEmailPage({ loaderData }: Route.ComponentProps) {
             </h2>
 
             <p className="mt-4 text-muted-foreground">
-              <Trans>Your email has already been confirmed. You can now use all features of Documenso.</Trans>
+              <Trans>Your email has already been confirmed. You can now use all features of {appName}.</Trans>
             </p>
 
             <Button className="mt-4" asChild>

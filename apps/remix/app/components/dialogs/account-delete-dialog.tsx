@@ -1,5 +1,6 @@
 import { authClient } from '@documenso/auth/client';
 import { useSession } from '@documenso/lib/client-only/providers/session';
+import { APP_NAME } from '@documenso/lib/constants/branding';
 import { trpc } from '@documenso/trpc/react';
 import { Alert, AlertDescription, AlertTitle } from '@documenso/ui/primitives/alert';
 import { Button } from '@documenso/ui/primitives/button';
@@ -26,6 +27,7 @@ export type AccountDeleteDialogProps = {
 
 export const AccountDeleteDialog = ({ className }: AccountDeleteDialogProps) => {
   const { user } = useSession();
+  const appName = APP_NAME();
 
   const { _ } = useLingui();
   const { toast } = useToast();
@@ -116,7 +118,7 @@ export const AccountDeleteDialog = ({ className }: AccountDeleteDialogProps) => 
 
                 <DialogDescription>
                   <Trans>
-                    Documenso will delete <span className="font-semibold">all of your documents</span>, along with all
+                    {appName} will delete <span className="font-semibold">all of your documents</span>, along with all
                     of your completed documents, signatures, and all other resources belonging to your Account.
                   </Trans>
                 </DialogDescription>

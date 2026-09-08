@@ -1,3 +1,4 @@
+import { APP_NAME } from '@documenso/lib/constants/branding';
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
 import { trpc } from '@documenso/trpc/react';
 import { ZCreateApiTokenRequestSchema } from '@documenso/trpc/server/api-token-router/create-api-token.types';
@@ -59,6 +60,7 @@ export type TokenCreateDialogProps = {
 } & Omit<DialogPrimitive.DialogProps, 'children'>;
 
 export const TokenCreateDialog = ({ trigger, ...props }: TokenCreateDialogProps) => {
+  const appName = APP_NAME();
   const { _ } = useLingui();
   const { toast } = useToast();
 
@@ -171,7 +173,7 @@ export const TokenCreateDialog = ({ trigger, ...props }: TokenCreateDialogProps)
               </DialogTitle>
 
               <DialogDescription>
-                <Trans>Use API tokens to authenticate with the Documenso API.</Trans>
+                <Trans>Use API tokens to authenticate with the {appName} API.</Trans>
               </DialogDescription>
             </DialogHeader>
 
