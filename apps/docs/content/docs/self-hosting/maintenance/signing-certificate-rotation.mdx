@@ -1,0 +1,290 @@
+---
+title: Signing Certificate Rotation
+description: Recreate, deploy, and verify the Documenso signing certificate on Railway and other hosts.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+Use this runbook when a signing certificate is **expired**, **missing**, or you are **rotating before expiry**. Documenso does not auto-renew PKCS#12 files — you generate a new certificate and update deployment configuration.
+
+<Callout type="warn">
+  Store the private key (`.key` or PEM) and passphrase in a password manager or secrets vault. You need
+  them for every rotation. If you lose the key, previously signed PDFs remain valid, but you must issue a
+  **new** identity for future signatures.
+</Callout>
+
+## Before you start
+
+| Item | Notes |
+| ---- | ----- |
+| **Transport** | This runbook covers `NEXT_PRIVATE_SIGNING_TRANSPORT=local` (`.p12` file or base64 contents). HSM/CSC setups follow vendor renewal instead. |
+| **Railway** | Use `NEXT_PRIVATE_SIGNING_LOCAL_FILE_CONTENTS` + `NEXT_PRIVATE_SIGNING_PASSPHRASE` (file mounts are uncommon on Railway). |
+| **Downtime** | Brief — redeploy after updating env vars. In-flight seal jobs may fail until the new cert is live. |
+| **PropertyOS** | Lease e-sign requires a healthy Documenso signing cert to **seal** completed envelopes. A bad cert leaves packets stuck at `sent` even when all signers finished in Documenso. |
+
+### Check current status
+
+```bash
+curl -s "https://YOUR-DOCUMENSO-HOST/api/certificate-status" | jq
+```
+
+Expected when healthy:
+
+```json
+{
+  "isAvailable": true,
+  "validTo": "2027-09-07T15:00:00.000Z",
+  "timestamp": "2026-09-08T00:00:00.000Z"
+}
+```
+
+- `isAvailable: false` with `validTo: null` — cert missing, wrong passphrase, or unreadable config.
+- `isAvailable: false` with a past `validTo` — cert expired.
+- `isAvailable: true` with a near `validTo` — rotate proactively (recommended **7+ days** before expiry).
+
+Also check overall health:
+
+```bash
+curl -s "https://YOUR-DOCUMENSO-HOST/api/health" | jq '.checks.certificate'
+```
+
+---
+
+## Rotation paths
+
+<Tabs items={['Renew (same key)', 'Create new (first time)']}>
+<Tab value="Renew (same key)">
+
+**Recommended for scheduled rotation.** Re-sign the existing private key with a new validity window. Signer identity stays consistent.
+
+{/* prettier-ignore */}
+<Steps>
+<Step>
+
+### Confirm you still have the private key
+
+You need `private.key` (or PEM) from the original setup. If it is lost, use **Create new** instead.
+
+</Step>
+<Step>
+
+### Issue a new self-signed certificate
+
+```bash
+# Adjust -days (365 = 1 year; 3650 ≈ 10 years for low-churn QA)
+openssl req -new -x509 -key private.key -out certificate.crt -days 365 \
+  -subj "/CN=Your Company Signing/O=Your Company/C=US"
+```
+
+</Step>
+<Step>
+
+### Export a new `.p12`
+
+You **must** set a non-empty passphrase.
+
+```bash
+read -s -p "Certificate passphrase: " CERT_PASS
+echo
+
+openssl pkcs12 -export -out certificate.p12 -inkey private.key -in certificate.crt \
+  -password env:CERT_PASS
+```
+
+If OpenSSL errors on modern defaults, retry with legacy-compatible export:
+
+```bash
+openssl pkcs12 -export -out certificate.p12 -inkey private.key -in certificate.crt \
+  -legacy -certpbe AES-256-CBC -keypbe AES-256-CBC \
+  -password env:CERT_PASS
+```
+
+Or the SHA1 PBE variant from [Troubleshooting](/docs/self-hosting/maintenance/troubleshooting#failed-to-get-private-key):
+
+```bash
+openssl pkcs12 -export -out certificate.p12 -inkey private.key -in certificate.crt \
+  -keypbe PBE-SHA1-3DES -certpbe PBE-SHA1-3DES -macalg sha1 \
+  -password env:CERT_PASS
+```
+
+</Step>
+<Step>
+
+### Verify locally before deploy
+
+```bash
+openssl pkcs12 -in certificate.p12 -noout -passin env:CERT_PASS
+openssl pkcs12 -in certificate.p12 -nokeys -passin env:CERT_PASS \
+  | openssl x509 -noout -dates -subject
+```
+
+</Step>
+</Steps>
+
+</Tab>
+<Tab value="Create new (first time)">
+
+For a brand-new instance or when the old private key is lost. Full walkthrough: [Local Certificate](/docs/self-hosting/configuration/signing-certificate/local).
+
+{/* prettier-ignore */}
+<Steps>
+<Step>
+
+### Generate key and certificate
+
+```bash
+openssl genrsa -out private.key 2048
+openssl req -new -x509 -key private.key -out certificate.crt -days 365 \
+  -subj "/CN=Your Company Signing/O=Your Company/C=US"
+```
+
+</Step>
+<Step>
+
+### Create `.p12` and verify
+
+Follow the export and verify commands in the **Renew** tab above.
+
+</Step>
+</Steps>
+
+<Callout type="info">
+  Back up `private.key`, `certificate.p12`, and the passphrase using [Backups](/docs/self-hosting/maintenance/backups)
+  guidance. Never commit them to git.
+</Callout>
+
+</Tab>
+</Tabs>
+
+---
+
+## Deploy on Railway
+
+{/* prettier-ignore */}
+<Steps>
+<Step>
+
+### Base64-encode the `.p12` (single line, no newlines)
+
+```bash
+# macOS
+base64 -i certificate.p12 | tr -d '\n'
+
+# Linux
+base64 -w 0 certificate.p12
+```
+
+Copy the entire output string.
+
+</Step>
+<Step>
+
+### Update service variables
+
+In the Railway **Documenso web** service (the app container, not Postgres):
+
+| Variable | Value |
+| -------- | ----- |
+| `NEXT_PRIVATE_SIGNING_TRANSPORT` | `local` |
+| `NEXT_PRIVATE_SIGNING_LOCAL_FILE_CONTENTS` | Paste the base64 string |
+| `NEXT_PRIVATE_SIGNING_PASSPHRASE` | Certificate passphrase |
+
+<Callout type="info">
+  `NEXT_PRIVATE_SIGNING_LOCAL_FILE_CONTENTS` takes precedence over `NEXT_PRIVATE_SIGNING_LOCAL_FILE_PATH`
+  when both are set. Clear or remove the path variable on Railway if you rely on base64 only.
+</Callout>
+
+</Step>
+<Step>
+
+### Redeploy
+
+Trigger a redeploy so the process reloads env vars. Wait until the deployment is **Active** and health checks pass.
+
+CLI alternative (when `RAILWAY_TOKEN` is configured):
+
+```bash
+railway variables set NEXT_PRIVATE_SIGNING_LOCAL_FILE_CONTENTS="<base64>" \
+  --service documenso-web --environment qa
+railway redeploy --service documenso-web --environment qa
+```
+
+Adjust service and environment names to match your project.
+
+</Step>
+<Step>
+
+### Verify after deploy
+
+```bash
+curl -s "https://YOUR-DOCUMENSO-HOST/api/certificate-status" | jq
+```
+
+Confirm `isAvailable: true` and that `validTo` moved forward.
+
+</Step>
+</Steps>
+
+See also [Railway deployment — Signing Certificate](/docs/self-hosting/deployment/railway#signing-certificate).
+
+---
+
+## Docker / file-mount deployments
+
+When the certificate is mounted as a file instead of base64:
+
+1. Replace the file at `NEXT_PRIVATE_SIGNING_LOCAL_FILE_PATH` (default in Compose: `/opt/documenso/cert.p12`).
+2. Ensure the container user (`1001`) can read it: `chown 1001 certificate.p12 && chmod 400 certificate.p12`.
+3. Restart the Documenso container.
+
+```bash
+docker compose restart documenso
+```
+
+---
+
+## After rotation: unsealed documents
+
+If signing failed while the cert was bad, envelopes may show **Completed** in Documenso but lack a sealed PDF. Platform admins can re-trigger sealing:
+
+1. Sign in to Documenso as a platform admin.
+2. Open **`/admin/unsealed-documents`**.
+3. Reseal affected documents.
+
+For PropertyOS lease packets stuck at `status: "sent"` after cert recovery, you may also need to replay the `DOCUMENT_COMPLETED` webhook once sealing works — see your PropertyOS webhook runbook.
+
+---
+
+## Monitoring (recommended)
+
+| Check | Action |
+| ----- | ------ |
+| **`/api/certificate-status`** every 5–15 min | Alert when `isAvailable` is `false` |
+| **`validTo` within 7 days** | Trigger rotation workflow or page on-call |
+| **`/api/health`** | Broader check (DB + cert) for uptime monitors |
+
+Documenso does not email operators before expiry. Use Datadog synthetics, Better Stack, UptimeRobot, or a scheduled GitHub Action that reads `validTo` and opens an incident.
+
+---
+
+## Automation (future)
+
+Fully hands-off rotation requires an external job that:
+
+1. Reads `validTo` from `/api/certificate-status`.
+2. When within your threshold (e.g. 7 days), re-signs from a stored private key.
+3. Updates Railway env vars and redeploys.
+4. Verifies `isAvailable: true`.
+
+That job is not built into Documenso today. This runbook is the manual procedure until automation is added.
+
+---
+
+## See also
+
+- [Local Certificate](/docs/self-hosting/configuration/signing-certificate/local) — initial `.p12` creation
+- [Signing Certificate Troubleshooting](/docs/self-hosting/configuration/signing-certificate/troubleshooting) — error-specific fixes
+- [Backups](/docs/self-hosting/maintenance/backups) — backing up the certificate and passphrase
+- [Maintenance Troubleshooting — Certificate Expired](/docs/self-hosting/maintenance/troubleshooting#certificate-expired) — quick reference

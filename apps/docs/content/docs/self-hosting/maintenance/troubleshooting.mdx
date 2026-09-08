@@ -690,7 +690,7 @@ openssl pkcs12 -in certificate.p12 -nokeys | openssl x509 -noout -dates
     Generate a new certificate or obtain a renewed one from your CA
   </Step>
   <Step>
-    Update the certificate file and restart Documenso
+    Follow the [Signing Certificate Rotation](/docs/self-hosting/maintenance/signing-certificate-rotation) runbook to deploy on Railway or Docker and verify `/api/certificate-status`
   </Step>
 </Steps>
 
