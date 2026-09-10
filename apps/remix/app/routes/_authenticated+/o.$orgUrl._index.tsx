@@ -122,44 +122,51 @@ export default function OrganisationSettingsTeamsPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {organisation.teams.map((team) => (
-          <Link to={`/t/${team.url}`} key={team.id}>
-            <Card className="h-full border border-border transition-all hover:bg-muted/50">
-              <CardContent className="p-4">
-                <div className="flex items-center gap-3">
-                  <Avatar className="h-10 w-10 border-2 border-solid">
-                    {team.avatarImageId && <AvatarImage src={formatAvatarUrl(team.avatarImageId)} />}
-                    <AvatarFallback className="text-gray-400 text-sm">
-                      {team.name.slice(0, 1).toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
+        {organisation.teams.map((team) => {
+          const teamPath = `/t/${team.url}`;
+          const teamFullUrl = formatTeamUrl(team.url);
 
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="font-medium">{team.name}</h3>
-                        <div className="truncate text-muted-foreground text-xs">{formatTeamUrl(team.url)}</div>
+          return (
+            <Link to={teamPath} key={team.id}>
+              <Card className="h-full border border-border transition-all hover:bg-muted/50">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-3">
+                    <Avatar className="h-10 w-10 shrink-0 border-2 border-solid">
+                      {team.avatarImageId && <AvatarImage src={formatAvatarUrl(team.avatarImageId)} />}
+                      <AvatarFallback className="text-gray-400 text-sm">
+                        {team.name.slice(0, 1).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+
+                    <div className="min-w-0 flex-1">
+                      <div className="flex min-w-0 items-center justify-between gap-2">
+                        <div className="min-w-0 flex-1">
+                          <h3 className="truncate font-medium">{team.name}</h3>
+                          <div className="truncate text-muted-foreground text-xs" title={teamFullUrl}>
+                            {teamPath}
+                          </div>
+                        </div>
+
+                        <TeamDropdownMenu team={team} />
                       </div>
 
-                      <TeamDropdownMenu team={team} />
-                    </div>
-
-                    <div className="mt-2 flex items-center gap-4">
-                      <div className="flex items-center gap-1 text-muted-foreground text-xs">
-                        <CalendarIcon className="h-3 w-3" />
-                        {i18n.date(team.createdAt, { dateStyle: 'short' })}
-                      </div>
-                      <div className="flex items-center gap-1 text-muted-foreground text-xs">
-                        <UserIcon className="h-3 w-3" />
-                        <span>{t(TEAM_MEMBER_ROLE_MAP[team.currentTeamRole])}</span>
+                      <div className="mt-2 flex items-center gap-4">
+                        <div className="flex items-center gap-1 text-muted-foreground text-xs">
+                          <CalendarIcon className="h-3 w-3" />
+                          {i18n.date(team.createdAt, { dateStyle: 'short' })}
+                        </div>
+                        <div className="flex items-center gap-1 text-muted-foreground text-xs">
+                          <UserIcon className="h-3 w-3" />
+                          <span>{t(TEAM_MEMBER_ROLE_MAP[team.currentTeamRole])}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-        ))}
+                </CardContent>
+              </Card>
+            </Link>
+          );
+        })}
       </div>
     </div>
   );
