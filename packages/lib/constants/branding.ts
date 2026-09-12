@@ -104,18 +104,25 @@ export const APP_ATTRIBUTION_URL = (): string => {
   return 'https://documen.so/mail-footer';
 };
 
+const resolveAssetUrl = (base: string, path: string): string => {
+  const normalizedBase = base.endsWith('/') ? base : `${base}/`;
+  const relativePath = path.startsWith('/') ? path.slice(1) : path;
+
+  return new URL(relativePath, normalizedBase).toString();
+};
+
 export const getAppLogoUrl = (assetBaseUrl: string): string => {
   const customLogoUrl = APP_LOGO_URL();
 
   if (!customLogoUrl) {
-    return new URL('/static/logo.png', assetBaseUrl).toString();
+    return resolveAssetUrl(assetBaseUrl, 'static/logo.png');
   }
 
   if (customLogoUrl.startsWith('http://') || customLogoUrl.startsWith('https://')) {
     return customLogoUrl;
   }
 
-  return new URL(customLogoUrl, assetBaseUrl).toString();
+  return resolveAssetUrl(assetBaseUrl, customLogoUrl);
 };
 
 export const formatPageTitle = (pageTitle?: string): string => {

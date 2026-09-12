@@ -1,6 +1,7 @@
 import { APP_NAME } from '@documenso/lib/constants/branding';
 
 import { Column, Img, Row, Section } from '../components';
+import { getEmailAssetUrl } from '../utils/asset-url';
 
 export interface TemplateDocumentImageProps {
   assetBaseUrl: string;
@@ -8,17 +9,13 @@ export interface TemplateDocumentImageProps {
 }
 
 export const TemplateDocumentImage = ({ assetBaseUrl, className }: TemplateDocumentImageProps) => {
-  const getAssetUrl = (path: string) => {
-    return new URL(path, assetBaseUrl).toString();
-  };
-
   return (
     <Section className={className}>
       <Row className="table-fixed">
         <Column />
 
         <Column>
-          <Img className="mx-auto h-42" src={getAssetUrl('/static/document.png')} alt={APP_NAME()} />
+          <Img className="mx-auto h-42" src={getEmailAssetUrl(assetBaseUrl, 'static/document.png')} alt={APP_NAME()} />
         </Column>
 
         <Column />
