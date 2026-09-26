@@ -1,4 +1,4 @@
 [build]
 
 builder = "DOCKERFILE"
-dockerfilePath = "/docker/Dockerfile"
+dockerfilePath = "/docker/Dockerfile.bun"
