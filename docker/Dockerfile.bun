@@ -32,7 +32,8 @@ RUN cp bun.lock /tmp/bun.lock \
     && sed -i 's|"packageManager": "bun@1.4.2"|"packageManager": "npm@11.19.1"|' package.json \
     && rm -f bun.lock \
     && turbo prune @documenso/remix --docker \
-    && cp /tmp/bun.lock bun.lock
+    && cp /tmp/bun.lock bun.lock \
+    && sed -i 's|"packageManager": "npm@11.19.1"|"packageManager": "bun@1.4.2"|' out/json/package.json
 
 ###########################
 #   INSTALLER CONTAINER   #
@@ -110,6 +111,9 @@ COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
 
 ENV NODE_OPTIONS="--max-old-space-size=8192"
+
+# Pruned package.json still has npm from the prune workaround; turbo needs bun in this image.
+RUN sed -i 's|"packageManager": "npm@11.19.1"|"packageManager": "bun@1.4.2"|' package.json
 
 RUN bunx turbo run build --filter=@documenso/remix...
 
