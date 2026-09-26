@@ -20,6 +20,7 @@ import { getCertificatePdf } from '../../../server-only/htmltopdf/get-certificat
 import { insertFieldInPDFV1 } from '../../../server-only/pdf/insert-field-in-pdf-v1';
 import { insertFieldInPDFV2 } from '../../../server-only/pdf/insert-field-in-pdf-v2';
 import { legacy_insertFieldInPDF } from '../../../server-only/pdf/legacy-insert-field-in-pdf';
+import { recordEnvelopeSeal } from '../../../server-only/pdf/record-envelope-seal';
 import { getTeamSettings } from '../../../server-only/team/get-team-settings';
 import { triggerWebhook } from '../../../server-only/webhooks/trigger/trigger-webhook';
 import { DOCUMENT_AUDIT_LOG_TYPE, type TDocumentAuditLog } from '../../../types/document-audit-logs';
@@ -489,6 +490,21 @@ const decorateAndSignPdf = async ({
   pdfDoc = await PDF.load(await pdfDoc.save({ useXRefStream: true }));
 
   const pdfBytes = await signPdf({ pdf: pdfDoc });
+
+  const envelopeQrToken = (
+    await prisma.envelope.findUnique({
+      where: { id: envelope.id },
+      select: { qrToken: true },
+    })
+  )?.qrToken;
+
+  await recordEnvelopeSeal({
+    envelopeId: envelope.id,
+    envelopeItemId: envelopeItem.id,
+    pdfBytes,
+    qrToken: envelopeQrToken,
+    signingMode: 'platform',
+  });
 
   const { name } = path.parse(envelopeItem.title);
 

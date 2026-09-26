@@ -1,0 +1,55 @@
+---
+title: Verify Document Authenticity
+description: Upload a signed PDF to confirm it was sealed by your Documenso instance and has not been modified.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+## Public verify page
+
+Anyone can verify a completed PDF without logging in:
+
+1. Open `/verify` on your Documenso instance
+2. Upload the signed PDF (or open `/verify?t=qr_<token>` from the certificate page)
+3. Read the result: **authentic**, **modified**, or **unsigned**
+
+<Callout type="info">
+  Uploaded files are processed in memory and are not stored. Only completed, sealed downloads can be verified.
+</Callout>
+
+## API
+
+```bash
+curl -X POST https://your-instance.example.com/api/verify \
+  -F "file=@signed-document.pdf" \
+  -F "token=qr_optional_token"
+```
+
+Public API v1 (same handler):
+
+```bash
+curl -X POST https://your-instance.example.com/api/v1/verify \
+  -F "file=@signed-document.pdf"
+```
+
+## CLI (self-hosting)
+
+```bash
+bun run scripts/verify-pdf.ts ./signed-document.pdf
+```
+
+Exit code `0` means `trusted`; otherwise verification failed or the document was modified.
+
+## What verification checks
+
+| Check | Description |
+| ----- | ----------- |
+| Digital signature | PKCS#7 / PAdES integrity over the PDF byte ranges |
+| Instance match | Platform certificate matches this deployment (local / HSM) |
+| Registry match | SHA-256 of the uploaded file matches a sealed document on this instance (required for CSC/QES) |
+
+If someone edits the PDF in an external tool and re-exports it, the digital signature breaks and verification reports **modified**.
+
+## Advanced (planned)
+
+Long-term validation (OCSP/CRL) for compliance deployments will be available as an optional toggle. The default verify flow checks signature integrity and registry match without requiring Adobe or OS trust stores.

@@ -621,6 +621,20 @@ const renderBranding = async ({ qrToken, i18n }: { qrToken: string | null; i18n:
     });
 
     branding.add(qrImage);
+
+    const verifyUrl = `${NEXT_PUBLIC_WEBAPP_URL()}/verify?t=${encodeURIComponent(qrToken)}`;
+    const verifyText = new Konva.Text({
+      x: 0,
+      y: qrSize + 4,
+      width: branding.getClientRect().width,
+      text: verifyUrl,
+      fontFamily: 'Inter',
+      fontSize: 8,
+      fill: textMutedForeground,
+      wrap: 'char',
+    });
+
+    branding.add(verifyText);
   }
 
   return branding;

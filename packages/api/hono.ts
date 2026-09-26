@@ -2,6 +2,7 @@ import { ApiContractV1 } from '@documenso/api/v1/contract';
 import { ApiContractV1Implementation } from '@documenso/api/v1/implementation';
 import { OpenAPIV1 } from '@documenso/api/v1/openapi';
 import { testCredentialsHandler } from '@documenso/lib/server-only/public-api/test-credentials';
+import { verifyPdfHandler } from '@documenso/lib/server-only/public-api/verify-pdf-handler';
 import { listDocumentsHandler } from '@documenso/lib/server-only/webhooks/zapier/list-documents';
 import { subscribeHandler } from '@documenso/lib/server-only/webhooks/zapier/subscribe';
 import { unsubscribeHandler } from '@documenso/lib/server-only/webhooks/zapier/unsubscribe';
@@ -17,7 +18,8 @@ export const tsRestHonoApp = new Hono<HonoEnv>();
 tsRestHonoApp
   .get('/openapi', (c) => c.redirect('https://openapi-v1.documenso.com'))
   .get('/openapi.json', (c) => c.json(OpenAPIV1))
-  .get('/me', async (c) => testCredentialsHandler(c.req.raw));
+  .get('/me', async (c) => testCredentialsHandler(c.req.raw))
+  .post('/verify', async (c) => verifyPdfHandler(c.req.raw));
 
 // Zapier. Todo: (RR7) Check methods. Are these get/post/update requests?
 tsRestHonoApp

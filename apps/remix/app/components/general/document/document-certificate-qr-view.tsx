@@ -25,6 +25,7 @@ import { useEffect, useState } from 'react';
 import { EnvelopeDownloadDialog } from '~/components/dialogs/envelope-download-dialog';
 import { EnvelopePdfViewer } from '~/components/general/pdf-viewer/envelope-pdf-viewer';
 import PDFViewerLazy from '~/components/general/pdf-viewer/pdf-viewer-lazy';
+import { VerifyPdfUpload } from '~/components/general/verify/verify-pdf-upload';
 
 import { EnvelopeRendererFileSelector } from '../envelope-editor/envelope-file-selector';
 import { EnvelopeGenericPageRenderer } from '../envelope-editor/envelope-generic-page-renderer';
@@ -67,6 +68,13 @@ export const DocumentCertificateQRView = ({
 
   return (
     <div className="mx-auto w-full max-w-screen-md">
+      <div className="mb-8 rounded-xl border border-border p-4">
+        <h2 className="mb-4 font-medium text-lg">
+          <Trans>Verify a copy you downloaded</Trans>
+        </h2>
+        <VerifyPdfUpload qrToken={token} compact />
+      </div>
+
       {/* Dialog for internal document link */}
       {documentViaUser && (
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>

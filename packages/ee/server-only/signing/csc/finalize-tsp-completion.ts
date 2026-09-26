@@ -1,3 +1,4 @@
+import { recordEnvelopeSeal } from '@documenso/lib/server-only/pdf/record-envelope-seal';
 import type { RequestMetadata } from '@documenso/lib/universal/extract-request-metadata';
 import { getFileServerSide } from '@documenso/lib/universal/upload/get-file.server';
 import { putPdfFileServerSide } from '@documenso/lib/universal/upload/put-file.server';
@@ -78,6 +79,14 @@ export const finalizeTspEnvelopeCompletion = async (opts: FinalizeTspEnvelopeCom
       },
       envelopeItem.documentData.initialData,
     );
+
+    await recordEnvelopeSeal({
+      envelopeId: envelope.id,
+      envelopeItemId: envelopeItem.id,
+      pdfBytes: archived.bytes,
+      qrToken: envelope.qrToken,
+      signingMode: 'csc',
+    });
 
     archivedItems.push({
       envelopeItemDataId: envelopeItem.documentData.id,

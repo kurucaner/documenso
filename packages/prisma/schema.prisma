@@ -488,6 +488,7 @@ model Envelope {
   documentMeta   DocumentMeta @relation(fields: [documentMetaId], references: [id])
 
   envelopeAttachments EnvelopeAttachment[]
+  envelopeSeals       EnvelopeSeal[]
 
   @@index([type])
   @@index([status])
@@ -512,7 +513,26 @@ model EnvelopeItem {
 
   field Field[]
 
+  envelopeSeal EnvelopeSeal?
+
   @@unique([documentDataId])
+  @@index([envelopeId])
+}
+
+model EnvelopeSeal {
+  id              String   @id @default(cuid())
+  envelopeId      String
+  envelopeItemId  String   @unique
+  sealedPdfSha256 String
+  sealedAt        DateTime @default(now())
+  qrToken         String?
+  signingMode     String
+
+  envelope     Envelope     @relation(fields: [envelopeId], references: [id], onDelete: Cascade)
+  envelopeItem EnvelopeItem @relation(fields: [envelopeItemId], references: [id], onDelete: Cascade)
+
+  @@index([sealedPdfSha256])
+  @@index([qrToken])
   @@index([envelopeId])
 }
 

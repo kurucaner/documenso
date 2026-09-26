@@ -14,6 +14,7 @@ export type DocumentCompletedEmailTemplateProps = Partial<TemplateDocumentComple
 
 export const DocumentCompletedEmailTemplate = ({
   downloadLink = 'https://documenso.com',
+  verifyLink,
   documentName = 'Open Source Pledge.pdf',
   assetBaseUrl = 'http://localhost:3002',
   customBody,
@@ -36,6 +37,7 @@ export const DocumentCompletedEmailTemplate = ({
 
               <TemplateDocumentCompleted
                 downloadLink={downloadLink}
+                verifyLink={verifyLink}
                 documentName={documentName}
                 assetBaseUrl={assetBaseUrl}
                 customBody={customBody}

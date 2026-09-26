@@ -40,7 +40,8 @@
     "translate": "bun run translate:extract && bun run translate:compile",
     "translate:extract": "lingui extract --clean",
     "translate:compile": "lingui compile",
-    "sync:upstream": "bash scripts/sync-upstream.sh"
+    "sync:upstream": "bash scripts/sync-upstream.sh",
+    "verify:pdf": "bun run scripts/verify-pdf.ts"
   },
   "packageManager": "bun@1.4.2",
   "engines": {

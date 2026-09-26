@@ -6,6 +6,7 @@ import { TemplateDocumentImage } from './template-document-image';
 
 export interface TemplateDocumentCompletedProps {
   downloadLink: string;
+  verifyLink?: string;
   documentName: string;
   assetBaseUrl: string;
   customBody?: string;
@@ -13,6 +14,7 @@ export interface TemplateDocumentCompletedProps {
 
 export const TemplateDocumentCompleted = ({
   downloadLink,
+  verifyLink,
   documentName,
   assetBaseUrl,
   customBody,
@@ -55,6 +57,17 @@ export const TemplateDocumentCompleted = ({
             />
             <Trans>Download</Trans>
           </Button>
+
+          {verifyLink && (
+            <Text className="mt-4 text-center text-muted-foreground text-sm">
+              <Trans>
+                Verify authenticity:{' '}
+                <a href={verifyLink} className="text-foreground underline">
+                  {verifyLink}
+                </a>
+              </Trans>
+            </Text>
+          )}
         </Section>
       </Section>
     </>

@@ -99,6 +99,9 @@ export const run = async ({ payload, io }: { payload: TSendDocumentCompletedEmai
   );
 
   const assetBaseUrl = NEXT_PUBLIC_WEBAPP_URL() || 'http://localhost:3000';
+  const verifyLink = envelope.qrToken
+    ? `${assetBaseUrl}/verify?t=${encodeURIComponent(envelope.qrToken)}`
+    : `${assetBaseUrl}/verify`;
 
   let documentOwnerDownloadLink = `${NEXT_PUBLIC_WEBAPP_URL()}${formatDocumentsPath(
     envelope.team?.url,
@@ -125,6 +128,7 @@ export const run = async ({ payload, io }: { payload: TSendDocumentCompletedEmai
       documentName: envelope.title,
       assetBaseUrl,
       downloadLink: documentOwnerDownloadLink,
+      verifyLink,
     });
 
     const [html, text] = await Promise.all([
@@ -217,6 +221,7 @@ export const run = async ({ payload, io }: { payload: TSendDocumentCompletedEmai
         documentName: envelope.title,
         assetBaseUrl,
         downloadLink: recipient.email === owner.email ? documentOwnerDownloadLink : downloadLink,
+        verifyLink,
         customBody:
           isDirectTemplate && envelope.documentMeta?.message
             ? renderCustomEmailTemplate(envelope.documentMeta.message, customEmailTemplate)
