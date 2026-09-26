@@ -51,17 +51,7 @@ RUN bun install --frozen-lockfile
 
 RUN bunx turbo run build --filter=@documenso/remix...
 
-RUN rm -rf node_modules \
-    && bun install --frozen-lockfile --production
-
 RUN test -f node_modules/@documenso/skia-canvas/lib/skia.node
-
-RUN rm -rf \
-    node_modules/react-email/dist/cli \
-    node_modules/esbuild \
-    node_modules/@esbuild \
-    node_modules/.bin/esbuild \
-    node_modules/.bin/email
 
 RUN bunx prisma generate --schema ./packages/prisma/schema.prisma --generator client
 
