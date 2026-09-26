@@ -54,6 +54,8 @@ RUN bunx turbo run build --filter=@documenso/remix...
 RUN rm -rf node_modules \
     && bun install --frozen-lockfile --production
 
+RUN test -f node_modules/@documenso/skia-canvas/lib/skia.node
+
 RUN rm -rf \
     node_modules/react-email/dist/cli \
     node_modules/esbuild \
