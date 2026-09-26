@@ -1,8 +1,7 @@
-name: Install playwright binaries
-description: 'Install playwright'
+name: 'Setup playwright'
 runs:
   using: 'composite'
   steps:
     - name: Install playwright
-      run: npx playwright install --with-deps
       shell: bash
+      run: bunx playwright install --with-deps

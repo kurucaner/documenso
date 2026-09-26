@@ -7,7 +7,7 @@ set -euo pipefail
 #   git remote add upstream https://github.com/documenso/documenso.git
 #
 # Usage:
-#   npm run sync:upstream
+#   bun run sync:upstream
 #   ./scripts/sync-upstream.sh
 #
 # Optional env overrides:

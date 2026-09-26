@@ -2,16 +2,18 @@
 
 ## Build/Test/Lint Commands
 
-- `npm run build` - Build all packages
-- `npm run lint` - Lint all packages
-- `npm run lint:fix` - Auto-fix linting issues
-- `npm run test:e2e` - Run E2E tests with Playwright
-- `npm run test:dev -w @documenso/app-tests` - Run single E2E test in dev mode
-- `npm run test-ui:dev -w @documenso/app-tests` - Run E2E tests with UI
-- `npm run format` - Format code with Biome
-- `npm run dev` - Start development server for Remix app
+- `bun run build` - Build all packages
+- `bun run lint` - Lint all packages
+- `bun run lint:fix` - Auto-fix linting issues
+- `bun run test:e2e` - Run E2E tests with Playwright
+- `bun run test:dev --filter '@documenso/app-tests'` - Run single E2E test in dev mode
+- `bun run test-ui:dev --filter '@documenso/app-tests'` - Run E2E tests with UI
+- `bun run format` - Format code with Biome
+- `bun run dev` - Start development server for Remix app
 
-**Important:** Do not run `npm run build` to verify changes unless explicitly asked. Builds take a long time (~2 minutes). Use `npx tsc --noEmit` for type checking specific packages if needed.
+**Important:** Do not run `bun run build` to verify changes unless explicitly asked. Builds take a long time (~2 minutes). Use `bunx tsc --noEmit` for type checking specific packages if needed.
+
+**Fork maintenance:** After `sync:upstream`, run `bun install` to refresh `bun.lock` from upstream dependency changes. Do not commit upstream `package-lock.json`.
 
 ## Code Style Guidelines
 

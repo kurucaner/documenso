@@ -28,7 +28,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - uses: ./.github/actions/node-install
+      - uses: ./.github/actions/bun-install
 
       - name: Pull translations from Crowdin
         uses: crowdin/github-action@v2

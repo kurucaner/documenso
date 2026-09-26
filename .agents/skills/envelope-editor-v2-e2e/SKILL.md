@@ -333,16 +333,16 @@ Every test uses an `externalId` (e.g., `e2e-feature-${nanoid()}`) set via the se
 
 ```bash
 # Run all envelope editor tests
-npm run test:dev -w @documenso/app-tests -- --grep "Envelope Editor V2"
+bun run test:dev --filter '@documenso/app-tests' -- --grep "Envelope Editor V2"
 
 # Run a specific test file
-npm run test:dev -w @documenso/app-tests -- e2e/envelope-editor-v2/envelope-recipients.spec.ts
+bun run test:dev --filter '@documenso/app-tests' -- e2e/envelope-editor-v2/envelope-recipients.spec.ts
 
 # Run with UI
-npm run test-ui:dev -w @documenso/app-tests -- e2e/envelope-editor-v2/
+bun run test-ui:dev --filter '@documenso/app-tests' -- e2e/envelope-editor-v2/
 
 # Run specific test by name
-npm run test:dev -w @documenso/app-tests -- --grep "documents/<id>: add myself"
+bun run test:dev --filter '@documenso/app-tests' -- --grep "documents/<id>: add myself"
 ```
 
 ## Checklist When Writing a New Test

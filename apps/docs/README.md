@@ -6,7 +6,7 @@ Content lives under `content/docs/` as MDX. See [WRITING_STYLE.md](../../WRITING
 
 ```bash
 # From the monorepo root
-npm run dev --filter=@documenso/docs
+bun run dev --filter=@documenso/docs
 ```
 
 ## Structure

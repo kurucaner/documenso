@@ -34,7 +34,7 @@ git clone https://github.com/<your-username>/documenso
 <Step>
 ### Install dependencies
 
-Run `npm i` in the root directory to install the dependencies required for the project.
+Run `bun install` in the root directory to install the dependencies required for the project.
 
 </Step>
 
@@ -67,7 +67,7 @@ Alternatively, you can run `cp .env.example .env` to get started with our handpi
 Create the database schema by running the following command:
 
 ```bash
-npm run prisma:migrate-dev
+bun run prisma:migrate-dev
 ```
 
 </Step>
@@ -78,7 +78,7 @@ npm run prisma:migrate-dev
 Seed the database with test data by running the following command:
 
 ```bash
-npm run prisma:seed -w @documenso/prisma
+bun run --filter '@documenso/prisma' prisma:seed
 ```
 
 </Step>
@@ -95,7 +95,7 @@ See the [Background Jobs](/docs/self-hosting/configuration/background-jobs) page
 <Step>
 ### Start the application
 
-Run `npm run dev` in the root directory to start the application.
+Run `bun run dev` in the root directory to start the application.
 
 </Step>
 
@@ -119,13 +119,13 @@ Access the Documenso application by visiting `http://localhost:3000` in your web
 If a package script does not automatically load your `.env` and `.env.local` files, wrap it with the `with:env` script:
 
 ```bash
-npm run with:env -- npm run myscript
+bun run with:env -- bun run myscript
 ```
 
-The same works for `npx` when running bin scripts:
+The same works for `bunx` when running bin scripts:
 
 ```bash
-npm run with:env -- npx myscript
+bun run with:env -- bunx myscript
 ```
 
 ## See Also

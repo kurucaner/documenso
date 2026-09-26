@@ -26,11 +26,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - uses: ./.github/actions/node-install
+      - uses: ./.github/actions/bun-install
 
       - name: Compile translations
         id: compile_translations
-        run: npm run translate:compile -- -- --strict
+        run: bun run translate:compile -- -- --strict
         continue-on-error: true
 
       - name: Pull translations from Crowdin

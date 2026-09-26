@@ -8,7 +8,7 @@ import { seedTeam } from './teams';
  * One-off seed script: creates a team with a large number of members.
  *
  * Run via:
- *   npm run with:env -- tsx packages/prisma/seed/large-team-seed.ts
+ *   bun run with:env -- bunx tsx packages/prisma/seed/large-team-seed.ts
  *
  * Produces:
  *   - 1 owner

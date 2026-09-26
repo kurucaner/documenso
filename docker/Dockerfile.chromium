@@ -2,4 +2,4 @@ ARG TAG=latest
 FROM documenso/documenso:${TAG}
 
 # Install @playwright/browser-chromium which bundles Playwright + Chromium
-RUN npm install @playwright/browser-chromium
+RUN bun add @playwright/browser-chromium

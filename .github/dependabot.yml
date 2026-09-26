@@ -11,12 +11,12 @@ updates:
       - 'ci'
     open-pull-requests-limit: 0
 
-  - package-ecosystem: 'npm'
-    directory: '/apps/web'
+  - package-ecosystem: 'bun'
+    directory: '/'
     schedule:
       interval: 'weekly'
     target-branch: 'main'
     labels:
-      - 'npm dependencies'
-      - 'frontend'
+      - 'bun dependencies'
+      - 'dependencies'
     open-pull-requests-limit: 0

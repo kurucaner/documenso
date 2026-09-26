@@ -68,7 +68,7 @@ The development branch is <code>main</code>. All pull requests should be made ag
 You can build the project with:
 
 ```bash
-npm run build
+bun run build
 ```
 
 ## AI-Assisted Development with OpenCode

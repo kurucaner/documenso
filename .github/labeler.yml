@@ -6,7 +6,7 @@
 
 'version bump 👀':
   - '**/package.json'
-  - '**/package-lock.json'
+  - '**/bun.lock'
 
 '🚨 migrations 🚨':
   - packages/prisma/migrations/**/migration.sql

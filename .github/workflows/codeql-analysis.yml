@@ -29,10 +29,10 @@ jobs:
       - name: Copy env
         run: cp .env.example .env
 
-      - uses: ./.github/actions/node-install
+      - uses: ./.github/actions/bun-install
 
       - name: Build app
-        run: npm run build
+        run: bun run build
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3

@@ -10,5 +10,5 @@ This package is part of the Documenso monorepo and is not meant to be run standa
 
 ```bash
 # From the monorepo root
-npm run dev
+bun run dev
 ```

@@ -132,7 +132,7 @@ msgstr ""
 msgid "{0, plural, one {# document} other {# documents}}"
 msgstr "{0, plural, other {# 个文档}}"
 
-#. placeholder {0}: row.original.eventTriggers.length
+#. placeholder {0}: eventTriggers.length
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.webhooks._index.tsx
 msgid "{0, plural, one {# Event} other {# Events}}"
 msgstr "{0, plural, other {# 个事件}}"
@@ -182,6 +182,11 @@ msgstr "{0, plural, other {# 个团队}}"
 #: apps/remix/app/components/general/folder/folder-card.tsx
 msgid "{0, plural, one {# template} other {# templates}}"
 msgstr "{0, plural, other {# 个模板}}"
+
+#. placeholder {0}: template.count
+#: apps/remix/app/components/general/analytics/analytics-template-usage-card.tsx
+msgid "{0, plural, one {# use} other {# uses}}"
+msgstr ""
 
 #. placeholder {0}: data.length
 #: apps/remix/app/components/general/organisations/organisation-invitations.tsx
@@ -296,6 +301,12 @@ msgstr "{0, plural, other {你即将删除 # 个模板。}}"
 msgid "{0}"
 msgstr "{0}"
 
+#. placeholder {0}: formatNumber(entityCounts.active)
+#. placeholder {1}: formatNumber(entityCounts.total - entityCounts.active)
+#: apps/remix/app/components/general/analytics/analytics-overview-cards.tsx
+msgid "{0} active · {1} inactive"
+msgstr ""
+
 #. placeholder {0}: team.name
 #: apps/remix/app/components/dialogs/public-profile-template-manage-dialog.tsx
 msgid "{0} direct signing templates"
@@ -306,9 +317,11 @@ msgstr "{0} 个直接签署模板"
 msgid "{0} field"
 msgstr "{0} 字段"
 
+#. placeholder {0}: envelope.team.name
 #. placeholder {0}: team.name
 #. placeholder {1}: envelope.title
 #: packages/lib/jobs/definitions/emails/send-signing-email.handler.ts
+#: packages/lib/server-only/document/resend-document.ts
 msgid "{0} has invited you to {recipientActionVerb} the document \"{1}\"."
 msgstr "{0} 已邀请您 {recipientActionVerb} 文档“{1}”。"
 
@@ -330,13 +343,6 @@ msgstr "{0} 邀请您 {recipientActionVerb} 一个文档"
 #: apps/remix/app/components/general/envelope/envelope-upload-button.tsx
 msgid "{0} of {1} documents remaining this month."
 msgstr "本月还剩 {0}/{1} 份文档可用。"
-
-#. placeholder {0}: user.name || user.email
-#. placeholder {1}: envelope.team.name
-#. placeholder {2}: envelope.title
-#: packages/lib/server-only/document/resend-document.ts
-msgid "{0} on behalf of \"{1}\" has invited you to {recipientActionVerb} the document \"{2}\"."
-msgstr "{0} 代表“{1}”邀请您 {recipientActionVerb} 文档“{2}”。"
 
 #. placeholder {0}: planClaim.name
 #: apps/remix/app/components/general/settings-org-switcher.tsx
@@ -360,6 +366,11 @@ msgctxt "The step counter"
 msgid "{0}/{1}"
 msgstr "{0}/{1}"
 
+#: apps/remix/app/routes/_authenticated+/o.$orgUrl.analytics._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/analytics._index.tsx
+msgid "{activeCount} active this period"
+msgstr ""
+
 #: packages/ui/components/document/expiration-period-picker.tsx
 #: packages/ui/components/document/reminder-settings-picker.tsx
 msgid "{amount, plural, one {Day} other {Days}}"
@@ -379,6 +390,14 @@ msgstr "{amount, plural, other {周}}"
 msgid "{amount, plural, one {Year} other {Years}}"
 msgstr "{amount, plural, other {年}}"
 
+#: apps/remix/app/components/general/admin-license-card.tsx
+msgid "{appName} License"
+msgstr ""
+
+#: apps/remix/app/components/dialogs/account-delete-dialog.tsx
+msgid "{appName} will delete <0>all of your documents</0>, along with all of your completed documents, signatures, and all other resources belonging to your Account."
+msgstr ""
+
 #: apps/remix/app/components/tables/internal-audit-log-table.tsx
 #: packages/lib/server-only/pdf/render-audit-logs.ts
 msgid "{browserInfo} on {os}"
@@ -387,6 +406,22 @@ msgstr "{browserInfo} 于 {os}"
 #: apps/remix/app/components/general/document-signing/document-signing-text-field.tsx
 msgid "{charactersRemaining, plural, one {1 character remaining} other {{charactersRemaining} characters remaining}}"
 msgstr "{charactersRemaining, plural, other {{charactersRemaining} 个字符剩余}}"
+
+#: apps/remix/app/components/general/analytics/analytics-documents-over-time-card.tsx
+msgid "{count, plural, one {# document} other {# documents}}"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/analytics._index.tsx
+msgid "{count, plural, one {# member} other {# members}}"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/o.$orgUrl.analytics._index.tsx
+msgid "{count, plural, one {# team} other {# teams}}"
+msgstr ""
+
+#: apps/remix/app/components/general/analytics/analytics-range-picker.tsx
+msgid "{draftDays, plural, one {# day} other {# days}}"
+msgstr ""
 
 #: packages/email/template-components/template-access-auth-2fa.tsx
 msgid "{expiresInMinutes, plural, one {This code will expire in # minute.} other {This code will expire in # minutes.}}"
@@ -425,9 +460,11 @@ msgstr "{inviterName} 已将您从文档 {documentName} 中移除。"
 msgid "{inviterName} has removed you from the document<0/>\"{documentName}\""
 msgstr "{inviterName} 已将您从文档<0/>“{documentName}”中移除"
 
+#. placeholder {0}: envelope.team.name
 #. placeholder {0}: team.name
 #. placeholder {1}: envelope.title
 #: packages/lib/jobs/definitions/emails/send-signing-email.handler.ts
+#: packages/lib/server-only/document/resend-document.ts
 msgid "{inviterName} on behalf of \"{0}\" has invited you to {recipientActionVerb} the document \"{1}\"."
 msgstr "{inviterName} 代表“{0}”邀请您 {recipientActionVerb} 文档“{1}”。"
 
@@ -501,6 +538,10 @@ msgstr "{recipientReference} 已签署 {documentName}"
 #: apps/remix/app/components/forms/public-profile-form.tsx
 msgid "{remaningLength, plural, one {# character remaining} other {# characters remaining}}"
 msgstr "{remaningLength, plural, other {# 个字符剩余}}"
+
+#: apps/remix/app/components/dialogs/template-bulk-send-dialog.tsx
+msgid "{rowCount, plural, one {The CSV contains # row.} other {The CSV contains # rows.}} {maxRows, plural, one {A maximum of # row is allowed per upload.} other {A maximum of # rows is allowed per upload.}}"
+msgstr ""
 
 #: apps/remix/app/components/tables/envelopes-table-bulk-action-bar.tsx
 msgid "{selectedCount} selected"
@@ -746,8 +787,8 @@ msgid "<0>{organisationName}</0> has requested to create an account on your beha
 msgstr "<0>{organisationName}</0> 请求代表您创建一个账户。"
 
 #: packages/email/templates/organisation-account-link-confirmation.tsx
-msgid "<0>{organisationName}</0> has requested to link your current Documenso account to their organisation."
-msgstr "<0>{organisationName}</0> 请求将您当前的 Documenso 账户关联到其组织。"
+msgid "<0>{organisationName}</0> has requested to link your current {appName}account to their organisation."
+msgstr ""
 
 #: apps/remix/app/components/general/document-signing/document-signing-page-view-v1.tsx
 msgid "<0>{senderName} {senderEmail}</0> has invited you to approve this document"
@@ -786,8 +827,8 @@ msgid "<0>{senderName} {senderEmail}</0> on behalf of \"{0}\" has invited you to
 msgstr "<0>{senderName} {senderEmail}</0> 代表 \"{0}\" 邀请你查看此文档"
 
 #: packages/email/templates/confirm-team-email.tsx
-msgid "<0>{teamName}</0> has requested to use your email address for their team on Documenso."
-msgstr "<0>{teamName}</0> 请求将您的邮箱地址用于其在 Documenso 上的团队。"
+msgid "<0>{teamName}</0> has requested to use your email address for their team on {appName}."
+msgstr ""
 
 #: apps/remix/app/routes/_unauthenticated+/team.verify.email.$token.tsx
 msgid "<0>{teamName}</0> would like to use <1>{email}</1> as their team email."
@@ -1008,6 +1049,10 @@ msgstr "6 个月"
 msgid "7 days"
 msgstr "7 天"
 
+#: apps/remix/app/components/forms/password.tsx
+msgid "A code is required"
+msgstr ""
+
 #: apps/remix/app/components/forms/send-confirmation-email.tsx
 msgid "A confirmation email has been sent, and it should arrive in your inbox shortly."
 msgstr "确认邮件已发送，很快就会到达你的收件箱。"
@@ -1044,8 +1089,8 @@ msgid "A means to print or download documents for your records"
 msgstr "用于打印或下载文档以作记录的方式"
 
 #: packages/email/templates/organisation-join.tsx
-msgid "A member has joined your organisation on Documenso"
-msgstr "有成员已在 Documenso 上加入您的组织"
+msgid "A member has joined your organisation on {appName}"
+msgstr ""
 
 #: packages/lib/jobs/definitions/emails/send-organisation-member-left-email.handler.ts
 msgid "A member has left your organisation"
@@ -1056,8 +1101,8 @@ msgid "A member has left your organisation {organisationName}"
 msgstr "有成员已离开您的组织 {organisationName}"
 
 #: packages/email/templates/organisation-leave.tsx
-msgid "A member has left your organisation on Documenso"
-msgstr "有成员已在 Documenso 上离开您的组织"
+msgid "A member has left your organisation on {appName}"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/token-create-dialog.tsx
 msgid "A name to help you identify this token later."
@@ -1096,18 +1141,19 @@ msgid "A request has been made to create an account for you"
 msgstr "已收到为您创建账户的请求"
 
 #: packages/email/templates/organisation-account-link-confirmation.tsx
-msgid "A request has been made to link your Documenso account"
-msgstr "已收到关联您的 Documenso 账户的请求"
+msgid "A request has been made to link your {appName} account"
+msgstr ""
 
 #. placeholder {0}: team.name
+#. placeholder {1}: APP_NAME()
 #: packages/lib/server-only/team/create-team-email-verification.ts
-msgid "A request to use your email has been initiated by {0} on Documenso"
-msgstr "{0} 在 Documenso 上发起了一个使用您邮箱的请求"
+msgid "A request to use your email has been initiated by {0} on {1}"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/webhook-create-dialog.tsx
 #: apps/remix/app/components/dialogs/webhook-edit-dialog.tsx
-msgid "A secret that will be sent to your URL so you can verify that the request has been sent by Documenso."
-msgstr "一个密钥将被发送到你的 URL，以便你验证该请求确实由 Documenso 发出。"
+msgid "A secret that will be sent to your URL so you can verify that the request has been sent by{appName}."
+msgstr ""
 
 #: apps/remix/app/routes/_unauthenticated+/articles.signature-disclosure.tsx
 msgid "A stable internet connection"
@@ -1143,6 +1189,10 @@ msgstr "需要提供有效的电子邮箱地址"
 msgid "A verification email will be sent to the provided email."
 msgstr "验证邮件将发送到所填写的邮箱。"
 
+#: apps/remix/app/components/dialogs/template-use-dialog.tsx
+msgid "About uploaded file naming"
+msgstr ""
+
 #: apps/remix/app/components/general/organisations/organisation-invitations.tsx
 #: apps/remix/app/routes/_unauthenticated+/organisation.invite.$token.tsx
 #: packages/email/templates/confirm-team-email.tsx
@@ -1155,12 +1205,12 @@ msgid "Accept & Link Account"
 msgstr "接受并关联账户"
 
 #: packages/email/templates/organisation-invite.tsx
-msgid "Accept invitation to join an organisation on Documenso"
-msgstr "接受加入 Documenso 组织的邀请"
+msgid "Accept invitation to join an organisation on {appName}"
+msgstr ""
 
 #: packages/email/templates/confirm-team-email.tsx
-msgid "Accept team email request for {teamName} on Documenso"
-msgstr "在 Documenso 上接受 {teamName} 的团队邮箱请求"
+msgid "Accept team email request for {teamName} on {appName}"
+msgstr ""
 
 #: apps/remix/app/routes/_unauthenticated+/articles.signature-disclosure.tsx
 msgid "Acceptance and Consent"
@@ -1183,6 +1233,10 @@ msgstr "访问已启用"
 msgid "Account"
 msgstr "账户"
 
+#: apps/remix/app/routes/_unauthenticated+/signup-invite.$token.tsx
+msgid "Account already exists"
+msgstr ""
+
 #: apps/remix/app/routes/_internal+/[__htmltopdf]+/certificate.tsx
 #: packages/lib/server-only/pdf/generate-certificate-pdf.ts
 msgid "Account Authentication"
@@ -1200,6 +1254,10 @@ msgstr "账户创建请求"
 #: apps/remix/app/components/dialogs/admin-user-delete-dialog.tsx
 msgid "Account deleted"
 msgstr "账号已删除"
+
+#: apps/remix/app/components/dialogs/account-delete-dialog.tsx
+msgid "Account deletion is managed by your organization."
+msgstr ""
 
 #: apps/remix/app/components/dialogs/admin-user-disable-dialog.tsx
 msgid "Account disabled"
@@ -1284,6 +1342,7 @@ msgstr "操作"
 msgid "Actions"
 msgstr "操作"
 
+#: apps/remix/app/components/general/signup-invite/signup-invite-status-card.tsx
 #: apps/remix/app/components/tables/organisation-email-domains-table.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/email-domains._index.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/email-domains._index.tsx
@@ -1669,10 +1728,6 @@ msgstr "所有收件人都已签署。文档正在处理中，您很快会收到
 msgid "All recipients will be notified"
 msgstr "所有收件人都会收到通知"
 
-#: apps/remix/app/components/general/app-nav-mobile.tsx
-msgid "All rights reserved."
-msgstr "版权所有。"
-
 #: packages/email/template-components/template-document-cancel.tsx
 msgid "All signatures have been voided."
 msgstr "所有签名均已作废。"
@@ -1745,13 +1800,23 @@ msgstr "已经有账号？<0>改为登录</0>"
 msgid "Amount"
 msgstr "金额"
 
+#. placeholder {0}: loaderData.email
+#: apps/remix/app/routes/_unauthenticated+/signup-invite.$token.tsx
+msgid "An account already exists for <0>{0}</0>."
+msgstr ""
+
+#. placeholder {0}: loaderData.email
+#: apps/remix/app/routes/_unauthenticated+/signup-invite.$token.tsx
+msgid "An account has already been created for <0>{0}</0>."
+msgstr ""
+
 #: packages/email/templates/document-super-delete.tsx
 msgid "An admin has deleted your document \"{documentName}\"."
 msgstr "管理员已删除您的文档“{documentName}”。"
 
 #: packages/email/template-components/template-admin-user-created.tsx
-msgid "An administrator has created a Documenso account for you."
-msgstr "管理员已为你创建了一个 Documenso 账户。"
+msgid "An administrator has created a {appName} account for you."
+msgstr ""
 
 #: apps/remix/app/routes/_unauthenticated+/articles.signature-disclosure.tsx
 msgid "An electronic signature provided by you on our platform, achieved through clicking through to a document and entering your name, or any other electronic signing method we provide, is legally binding. It carries the same weight and enforceability as a manual signature written with ink on paper."
@@ -1776,6 +1841,8 @@ msgstr "已存在使用该地址的邮箱。"
 #: apps/remix/app/components/dialogs/organisation-email-create-dialog.tsx
 #: apps/remix/app/components/dialogs/token-create-dialog.tsx
 #: apps/remix/app/components/forms/avatar-image.tsx
+#: apps/remix/app/components/forms/password-setup-request-button.tsx
+#: apps/remix/app/components/forms/password-setup-request.tsx
 #: apps/remix/app/components/forms/password.tsx
 #: apps/remix/app/components/forms/reset-password.tsx
 #: apps/remix/app/components/forms/signup.tsx
@@ -1968,10 +2035,6 @@ msgstr "更新你的资料时发生错误。"
 msgid "An error occurred while uploading your document."
 msgstr "上传文档时发生错误。"
 
-#: apps/remix/app/components/forms/support-ticket-form.tsx
-msgid "An error occurred. Please try again later."
-msgstr "发生错误。请稍后重试。"
-
 #: packages/lib/jobs/definitions/emails/send-organisation-limit-alert-email.handler.ts
 msgid "An organisation has exceeded their fair use limits"
 msgstr "某个组织已超出其公平使用限制"
@@ -2055,6 +2118,16 @@ msgstr "删除文件夹时发生未知错误。"
 msgid "An unknown error occurred while moving the folder."
 msgstr "移动文件夹时发生未知错误。"
 
+#: apps/remix/app/components/general/analytics/analytics-page-header.tsx
+#: apps/remix/app/components/general/app-nav-mobile.tsx
+#: apps/remix/app/components/general/app-nav-mobile.tsx
+#: apps/remix/app/components/general/org-menu-switcher.tsx
+#: apps/remix/app/routes/_authenticated+/o.$orgUrl._index.tsx
+#: apps/remix/app/routes/_authenticated+/o.$orgUrl.analytics._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/analytics._index.tsx
+msgid "Analytics"
+msgstr ""
+
 #: apps/remix/app/components/dialogs/ai-field-detection-dialog.tsx
 msgid "Analyzing page layout"
 msgstr "正在分析页面布局"
@@ -2106,6 +2179,10 @@ msgstr "API 使用量正接近公平使用限制"
 #: apps/remix/app/routes/_authenticated+/admin+/stats.tsx
 msgid "App Version"
 msgstr "应用版本"
+
+#: apps/remix/app/components/general/analytics/analytics-range-picker.tsx
+msgid "Apply"
+msgstr ""
 
 #: apps/remix/app/components/general/document-signing/csc-recipient-signing-in-progress-page.tsx
 msgid "Applying your signature"
@@ -2391,6 +2468,7 @@ msgid "Backport email transport"
 msgstr "回移电子邮件传输方式"
 
 #: apps/remix/app/components/forms/2fa/disable-authenticator-app-dialog.tsx
+#: apps/remix/app/components/forms/2fa/two-factor-code-dialog.tsx
 #: apps/remix/app/components/forms/signin.tsx
 msgid "Backup Code"
 msgstr "备份代码"
@@ -2588,8 +2666,8 @@ msgid "By enabling 2FA, you will be required to enter a code from your authentic
 msgstr "启用 2FA 后，每次使用邮箱和密码登录时，您都需要输入来自验证器应用的验证码。"
 
 #: apps/remix/app/routes/_unauthenticated+/articles.signature-disclosure.tsx
-msgid "By proceeding to use the electronic signature service provided by Documenso, you affirm that you have read and understood this disclosure. You agree to all terms and conditions related to the use of electronic signatures and electronic transactions as outlined herein."
-msgstr "继续使用 Documenso 提供的电子签署服务，即表示你已阅读并理解本披露内容。你同意本文件中关于使用电子签名及电子交易的所有条款和条件。"
+msgid "By proceeding to use the electronic signature service provided by {appName}, you affirm that you have read and understood this disclosure. You agree to all terms and conditions related to the use of electronic signatures and electronic transactions as outlined herein."
+msgstr ""
 
 #: apps/remix/app/components/general/document-signing/document-signing-disclosure.tsx
 msgid "By proceeding with your electronic signature, you acknowledge and consent that it will be used to sign the given document and holds the same legal validity as a handwritten signature. By completing the electronic signing process, you affirm your understanding and acceptance of these conditions."
@@ -2694,6 +2772,7 @@ msgstr "找不到某个人？"
 #: apps/remix/app/components/dialogs/webhook-delete-dialog.tsx
 #: apps/remix/app/components/forms/2fa/enable-authenticator-app-dialog.tsx
 #: apps/remix/app/components/forms/2fa/view-recovery-codes-dialog.tsx
+#: apps/remix/app/components/general/analytics/analytics-range-picker.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-auth-2fa.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-auth-account.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-auth-passkey.tsx
@@ -2738,6 +2817,7 @@ msgid "Cancel Documents"
 msgstr "取消文档"
 
 #: apps/remix/app/components/dialogs/envelopes-bulk-download-dialog.tsx
+#: apps/remix/app/components/general/analytics/analytics-status-breakdown-card.tsx
 #: apps/remix/app/components/general/document/document-status.tsx
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-header.tsx
 #: packages/lib/constants/document.ts
@@ -2834,6 +2914,11 @@ msgstr "字符限制"
 #: apps/remix/app/routes/_authenticated+/admin+/stats.tsx
 msgid "Charts"
 msgstr "图表"
+
+#: apps/remix/app/components/forms/password-setup-request-button.tsx
+#: apps/remix/app/components/forms/password-setup-request.tsx
+msgid "Check your email"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/ai-field-detection-dialog.tsx
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-fields-drag-drop.tsx
@@ -2933,8 +3018,7 @@ msgstr "点击此处重试"
 msgid "Click here to upload"
 msgstr "点击此处上传"
 
-#: apps/remix/app/components/general/avatar-with-recipient.tsx
-#: apps/remix/app/components/general/avatar-with-recipient.tsx
+#: apps/remix/app/components/general/stack-avatars-with-tooltip.tsx
 msgid "Click to copy signing link for sending to recipient"
 msgstr "点击复制签署链接以发送给收件人"
 
@@ -2981,11 +3065,11 @@ msgstr "客户端密钥为必填项"
 #: apps/remix/app/components/dialogs/webhook-test-dialog.tsx
 #: apps/remix/app/components/forms/2fa/enable-authenticator-app-dialog.tsx
 #: apps/remix/app/components/forms/2fa/view-recovery-codes-dialog.tsx
-#: apps/remix/app/components/forms/support-ticket-form.tsx
 #: apps/remix/app/components/general/app-command-menu.tsx
 #: apps/remix/app/components/general/billing-plans.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-auth-2fa.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-auth-passkey.tsx
+#: apps/remix/app/components/general/document-signing/document-signing-auth-set-password.tsx
 #: apps/remix/app/components/general/document/document-recipient-link-copy-dialog.tsx
 #: apps/remix/app/components/general/organisations/organisation-quota-banner.tsx
 #: packages/ui/primitives/dialog.tsx
@@ -3036,8 +3120,14 @@ msgstr "完成文档"
 msgid "Complete the fields for the following signers."
 msgstr "请为以下签署人完成字段。"
 
+#: apps/remix/app/components/general/signup-invite/signup-invite-side-panel.tsx
+msgid "Complete the form to create your account using this invitation."
+msgstr ""
+
 #: apps/remix/app/components/dialogs/envelopes-bulk-download-dialog.tsx
 #: apps/remix/app/components/embed/multisign/multi-sign-document-list.tsx
+#: apps/remix/app/components/general/analytics/analytics-activity-table-card.tsx
+#: apps/remix/app/components/general/analytics/analytics-status-breakdown-card.tsx
 #: apps/remix/app/components/general/document/document-status.tsx
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-header.tsx
 #: apps/remix/app/components/general/stack-avatars-with-tooltip.tsx
@@ -3072,6 +3162,11 @@ msgstr "已完成文档"
 #: apps/remix/app/components/general/document/document-certificate-qr-view.tsx
 msgid "Completed on {formattedDate}"
 msgstr "完成时间 {formattedDate}"
+
+#: apps/remix/app/components/general/analytics/analytics-activity-table-card.tsx
+#: apps/remix/app/components/general/analytics/analytics-overview-cards.tsx
+msgid "Completion rate"
+msgstr ""
 
 #: packages/lib/constants/pdf-viewer-i18n.ts
 #: packages/lib/constants/pdf-viewer-i18n.ts
@@ -3209,10 +3304,6 @@ msgstr ""
 msgid "Contact sales here"
 msgstr "在此联系销售"
 
-#: apps/remix/app/routes/_authenticated+/o.$orgUrl.support.tsx
-msgid "Contact us"
-msgstr "联系我们"
-
 #: apps/remix/app/components/general/settings-upsell/settings-upsell-card.tsx
 msgid "Contact your organisation owner to upgrade plans."
 msgstr ""
@@ -3337,10 +3428,10 @@ msgstr "字段已复制到剪贴板"
 #: apps/remix/app/components/dialogs/template-direct-link-dialog.tsx
 #: apps/remix/app/components/forms/public-profile-form.tsx
 #: apps/remix/app/components/general/admin-license-card.tsx
-#: apps/remix/app/components/general/avatar-with-recipient.tsx
 #: apps/remix/app/components/general/document/document-page-view-recipients.tsx
 #: apps/remix/app/components/general/document/document-recipient-link-copy-dialog.tsx
 #: apps/remix/app/components/general/document/document-recipient-link-copy-dialog.tsx
+#: apps/remix/app/components/general/stack-avatars-with-tooltip.tsx
 #: apps/remix/app/components/general/template/template-direct-link-badge.tsx
 #: apps/remix/app/components/general/webhook-logs-sheet.tsx
 #: apps/remix/app/components/tables/admin-document-logs-table.tsx
@@ -3432,10 +3523,6 @@ msgstr "创建一个新的组织并使用 {planName} 套餐。保留当前组织
 msgid "Create a new user. A welcome email will be sent with a link to set their password."
 msgstr "创建新用户。系统将发送一封欢迎电子邮件，其中包含用于设置其密码的链接。"
 
-#: apps/remix/app/routes/_authenticated+/o.$orgUrl.support.tsx
-msgid "Create a support ticket"
-msgstr "创建支持工单"
-
 #: apps/remix/app/components/dialogs/team-create-dialog.tsx
 msgid "Create a team to collaborate with your team members."
 msgstr "创建一个团队，与团队成员协作。"
@@ -3446,7 +3533,9 @@ msgstr "从此文档创建一个模板。"
 
 #: apps/remix/app/components/forms/signup.tsx
 #: apps/remix/app/routes/_unauthenticated+/organisation.invite.$token.tsx
+#: apps/remix/app/routes/_unauthenticated+/signup-invite.$token.tsx
 #: packages/email/template-components/template-document-self-signed.tsx
+#: packages/email/templates/signup-invite.tsx
 msgid "Create account"
 msgstr "创建账号"
 
@@ -3611,6 +3700,10 @@ msgstr "创建 Webhook"
 msgid "Create Webhook"
 msgstr "创建 Webhook"
 
+#: packages/email/templates/signup-invite.tsx
+msgid "Create your {appName} account"
+msgstr ""
+
 #: apps/remix/app/routes/_recipient+/sign.$token+/complete.tsx
 msgid "Create your account and start using state-of-the-art document signing."
 msgstr "创建你的账号，开始使用最先进的文档签署功能。"
@@ -3728,6 +3821,10 @@ msgstr ""
 msgid "Custom CSS is sanitised on save. Layout-breaking properties, remote URLs, and pseudo-elements are stripped automatically. Any rules dropped during sanitisation will be shown after you save."
 msgstr "自定义 CSS 在保存时会进行清理。破坏布局的属性、远程 URL 和伪元素会被自动移除。任何在清理过程中被删除的规则都会在你保存后显示出来。"
 
+#: apps/remix/app/components/dialogs/template-use-dialog.tsx
+msgid "Custom document name"
+msgstr ""
+
 #: packages/ui/components/document/expiration-period-picker.tsx
 msgid "Custom duration"
 msgstr "自定义时长"
@@ -3744,9 +3841,21 @@ msgstr "自定义组织组"
 msgid "Custom Plan"
 msgstr ""
 
+#: apps/remix/app/utils/analytics.ts
+msgid "Custom range"
+msgstr ""
+
+#: apps/remix/app/components/general/analytics/analytics-range-picker.tsx
+msgid "Custom range…"
+msgstr ""
+
 #: apps/remix/app/components/forms/branding-preferences-form.tsx
 msgid "Customise the colours used on your signing pages."
 msgstr "自定义用于签署页面的颜色。"
+
+#: apps/remix/app/components/general/analytics/analytics-documents-over-time-card.tsx
+msgid "Daily"
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/admin+/organisations.$id.tsx
 msgid "Danger Zone"
@@ -3786,6 +3895,10 @@ msgstr "日期格式"
 #: packages/ui/primitives/template-flow/add-template-settings.tsx
 msgid "Date Format"
 msgstr "日期格式"
+
+#: apps/remix/app/components/general/analytics/analytics-range-picker.tsx
+msgid "Date range"
+msgstr ""
 
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-fields-page.tsx
 msgid "Date Settings"
@@ -3983,6 +4096,7 @@ msgstr "delete {teamName}"
 msgid "Delete account"
 msgstr "删除账号"
 
+#: apps/remix/app/components/dialogs/account-delete-dialog.tsx
 #: apps/remix/app/components/dialogs/account-delete-dialog.tsx
 #: apps/remix/app/components/dialogs/account-delete-dialog.tsx
 #: apps/remix/app/components/dialogs/account-delete-dialog.tsx
@@ -4282,10 +4396,6 @@ msgstr "禁用直接链接签署后，任何人都将无法访问该链接。"
 msgid "Disabling the user results in the user not being able to use the account. It also disables all the related contents such as subscription, webhooks, teams, and API keys."
 msgstr "禁用用户后，该用户将无法再使用账户。与其相关的所有内容（如订阅、Webhook、团队和 API 密钥等）也会被禁用。"
 
-#: apps/remix/app/routes/_authenticated+/o.$orgUrl.support.tsx
-msgid "Discord"
-msgstr "Discord"
-
 #: apps/remix/app/components/dialogs/organisation-email-create-dialog.tsx
 #: apps/remix/app/components/dialogs/organisation-email-update-dialog.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/email-domains.$id.tsx
@@ -4320,14 +4430,6 @@ msgstr "DNS 记录"
 #: apps/remix/app/routes/_unauthenticated+/team.verify.email.$token.tsx
 msgid "Do not proceed if you are unsure about this request."
 msgstr ""
-
-#: apps/remix/app/components/general/admin-license-card.tsx
-msgid "Documenso License"
-msgstr "Documenso 许可证"
-
-#: apps/remix/app/components/dialogs/account-delete-dialog.tsx
-msgid "Documenso will delete <0>all of your documents</0>, along with all of your completed documents, signatures, and all other resources belonging to your Account."
-msgstr "Documenso 将删除<0>你所有的文档</0>，包括所有已完成的文档、签名以及属于你账号的其他所有资源。"
 
 #: apps/remix/app/components/general/template/template-page-view-documents-table.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/documents.$id.logs.tsx
@@ -4563,6 +4665,19 @@ msgctxt "Audit log format"
 msgid "Document moved to team"
 msgstr "文档已移动到团队"
 
+#: apps/remix/app/components/dialogs/template-use-dialog.tsx
+#: apps/remix/app/components/dialogs/template-use-dialog.tsx
+msgid "Document name"
+msgstr ""
+
+#: apps/remix/app/components/dialogs/template-use-dialog.tsx
+msgid "Document name is required"
+msgstr ""
+
+#: apps/remix/app/components/dialogs/template-use-dialog.tsx
+msgid "Document name is too long"
+msgstr ""
+
 #: apps/remix/app/utils/toast-error-messages.ts
 msgid "Document no longer available"
 msgstr ""
@@ -4651,6 +4766,10 @@ msgstr "文档签署流程将被取消"
 msgid "Document status"
 msgstr "文档状态"
 
+#: apps/remix/app/components/general/analytics/analytics-status-breakdown-card.tsx
+msgid "Document status distribution"
+msgstr ""
+
 #: apps/remix/app/components/general/admin-global-settings-section.tsx
 msgid "Document timezone"
 msgstr "文档时区"
@@ -4729,19 +4848,13 @@ msgstr "文档量"
 msgid "Document will be permanently deleted"
 msgstr "文档将被永久删除"
 
-#: apps/remix/app/routes/_authenticated+/o.$orgUrl.support.tsx
-msgid "Documentation"
-msgstr "文档"
-
 #: apps/remix/app/components/general/app-command-menu.tsx
 #: apps/remix/app/components/general/app-nav-desktop.tsx
 #: apps/remix/app/components/general/app-nav-mobile.tsx
 #: apps/remix/app/components/general/claim-limit-fields.tsx
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-upload-page.tsx
 #: apps/remix/app/components/general/organisation-usage-panel.tsx
-#: apps/remix/app/components/general/skeletons/document-edit-skeleton.tsx
 #: apps/remix/app/components/general/use-admin-search-categories.ts
-#: apps/remix/app/components/general/user-profile-skeleton.tsx
 #: apps/remix/app/components/general/user-profile-timur.tsx
 #: apps/remix/app/components/tables/admin-dashboard-users-table.tsx
 #: apps/remix/app/components/tables/admin-organisation-stats-table.tsx
@@ -4770,6 +4883,10 @@ msgstr "文档已取消"
 msgid "Documents Completed"
 msgstr "已完成的文档"
 
+#: apps/remix/app/components/general/analytics/analytics-documents-over-time-card.tsx
+msgid "Documents created"
+msgstr ""
+
 #: apps/remix/app/components/tables/organisation-insights-table.tsx
 msgid "Documents Created"
 msgstr "已创建的文档"
@@ -4777,6 +4894,14 @@ msgstr "已创建的文档"
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/templates.$id._index.tsx
 msgid "Documents created from template"
 msgstr "由模板创建的文档"
+
+#: apps/remix/app/components/general/analytics/analytics-template-usage-card.tsx
+msgid "Documents created from templates"
+msgstr ""
+
+#: apps/remix/app/components/general/analytics/analytics-status-breakdown-card.tsx
+msgid "Documents created in this period"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/envelopes-bulk-delete-dialog.tsx
 msgid "Documents deleted"
@@ -4802,9 +4927,33 @@ msgstr ""
 msgid "Documents Received"
 msgstr "已接收的文档"
 
+#: apps/remix/app/components/general/analytics/analytics-overview-cards.tsx
+msgid "Documents sent"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/analytics._index.tsx
+msgid "Documents sent by each member in this period"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/o.$orgUrl.analytics._index.tsx
+msgid "Documents sent by each team in this period"
+msgstr ""
+
+#: apps/remix/app/components/tables/inbox-table.tsx
+msgid "Documents that have been cancelled will appear here"
+msgstr ""
+
+#: apps/remix/app/components/tables/inbox-table.tsx
+msgid "Documents that have been rejected will appear here"
+msgstr ""
+
 #: apps/remix/app/components/tables/inbox-table.tsx
 msgid "Documents that require your attention will appear here"
 msgstr "需要您关注的文档会显示在此处"
+
+#: apps/remix/app/components/tables/inbox-table.tsx
+msgid "Documents that you have completed will appear here"
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/admin+/stats.tsx
 msgid "Documents Viewed"
@@ -4914,6 +5063,7 @@ msgid "Downloading {progress} / {0}..."
 msgstr ""
 
 #: apps/remix/app/components/dialogs/envelopes-bulk-download-dialog.tsx
+#: apps/remix/app/components/general/analytics/analytics-status-breakdown-card.tsx
 #: apps/remix/app/components/general/document/document-status.tsx
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-header.tsx
 #: apps/remix/app/components/general/template/template-page-view-documents-table.tsx
@@ -5458,6 +5608,10 @@ msgstr "请确保您使用的是嵌入令牌，而不是 API 令牌"
 msgid "Enter"
 msgstr "输入"
 
+#: apps/remix/app/components/dialogs/template-use-dialog.tsx
+msgid "Enter a document name"
+msgstr ""
+
 #: apps/remix/app/components/general/rate-limit-array-input.tsx
 msgid "Enter a max request count greater than 0"
 msgstr ""
@@ -5478,6 +5632,10 @@ msgstr ""
 msgid "Enter claim name"
 msgstr "输入声明名称"
 
+#: apps/remix/app/components/dialogs/template-use-dialog.tsx
+msgid "Enter custom document name"
+msgstr ""
+
 #: apps/remix/app/components/dialogs/sign-field-email-dialog.tsx
 msgid "Enter Email"
 msgstr "输入邮箱"
@@ -5494,9 +5652,17 @@ msgstr "输入姓名"
 msgid "Enter Number"
 msgstr "输入数字"
 
+#: apps/remix/app/components/forms/2fa/two-factor-code-dialog.tsx
+msgid "Enter one of your backup codes to continue."
+msgstr ""
+
 #: apps/remix/app/components/dialogs/sign-field-text-dialog.tsx
 msgid "Enter Text"
 msgstr "输入文本"
+
+#: apps/remix/app/components/forms/2fa/two-factor-code-dialog.tsx
+msgid "Enter the code from your authenticator app to continue."
+msgstr ""
 
 #: apps/remix/app/components/dialogs/organisation-email-domain-create-dialog.tsx
 msgid "Enter the domain you want to use for sending emails (without http:// or www)"
@@ -5618,7 +5784,6 @@ msgstr "信封已更新"
 #: apps/remix/app/components/dialogs/envelopes-bulk-download-dialog.tsx
 #: apps/remix/app/components/dialogs/envelopes-bulk-download-dialog.tsx
 #: apps/remix/app/components/dialogs/session-logout-all-dialog.tsx
-#: apps/remix/app/components/dialogs/template-bulk-send-dialog.tsx
 #: apps/remix/app/components/dialogs/webhook-create-dialog.tsx
 #: apps/remix/app/components/embed/multisign/multi-sign-document-signing-view.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-auto-sign.tsx
@@ -5767,6 +5932,7 @@ msgid "Expired"
 msgstr "已过期"
 
 #: apps/remix/app/components/general/admin-license-card.tsx
+#: apps/remix/app/components/general/signup-invite/signup-invite-status-card.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.tokens.tsx
 msgid "Expires"
 msgstr "到期时间"
@@ -5776,6 +5942,10 @@ msgstr "到期时间"
 msgid "Expires {0}"
 msgstr "于 {0} 到期"
 
+#: apps/remix/app/components/general/signup-invite/signup-invite-status-card.tsx
+msgid "Expires {relativeExpiry}"
+msgstr ""
+
 #: apps/remix/app/components/dialogs/token-create-dialog.tsx
 msgid "Expires in"
 msgstr ""
@@ -5784,6 +5954,10 @@ msgstr ""
 #: apps/remix/app/components/general/document-signing/access-auth-2fa-form.tsx
 msgid "Expires in {0}"
 msgstr "将在 {0} 后过期"
+
+#: apps/remix/app/components/general/signup-invite/signup-invite-status-card.tsx
+msgid "Expiring soon"
+msgstr ""
 
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-settings-dialog.tsx
 #: packages/ui/primitives/document-flow/add-settings.tsx
@@ -5811,10 +5985,6 @@ msgstr "创建文件夹失败"
 #: apps/remix/app/components/dialogs/claim-create-dialog.tsx
 msgid "Failed to create subscription claim."
 msgstr "创建订阅声明失败。"
-
-#: apps/remix/app/components/forms/support-ticket-form.tsx
-msgid "Failed to create support ticket"
-msgstr "创建支持工单失败"
 
 #: apps/remix/app/components/dialogs/email-transport-create-dialog.tsx
 msgid "Failed to create transport."
@@ -6117,6 +6287,10 @@ msgstr "忘记密码？"
 msgid "Forgot your password?"
 msgstr "忘记密码？"
 
+#: apps/remix/app/components/general/fork-attribution-footer.tsx
+msgid "Forked from <0>Documenso</0>"
+msgstr ""
+
 #: apps/remix/app/components/dialogs/organisation-create-dialog.tsx
 msgctxt "Plan price"
 msgid "Free"
@@ -6281,6 +6455,10 @@ msgstr "前往所有者"
 #: packages/ui/primitives/data-table-pagination.tsx
 msgid "Go to previous page"
 msgstr "转到上一页"
+
+#: apps/remix/app/routes/_unauthenticated+/signup-invite.$token.tsx
+msgid "Go to sign in"
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl._index.tsx
 msgid "Go to team"
@@ -6533,6 +6711,10 @@ msgstr "正在识别收件人"
 msgid "If there is any issue with your subscription, please contact us at <0>{SUPPORT_EMAIL}</0>."
 msgstr "如果您的订阅出现任何问题，请通过 <0>{SUPPORT_EMAIL}</0> 联系我们。"
 
+#: packages/email/templates/reset-password.tsx
+msgid "If this was you, no action is needed. If it wasn't, reset your password immediately and <0>contact us</0>."
+msgstr ""
+
 #: apps/remix/app/routes/embed+/v2+/authoring+/_layout.tsx
 msgid "If you are using staging, ensure that you have set the host prop on the embedding component to the staging domain (https://stg-app.documenso.com)"
 msgstr "如果您在使用预发布环境，请确保已将嵌入组件的 host 属性设置为预发布域名 (https://stg-app.documenso.com)"
@@ -6716,13 +6898,17 @@ msgstr "嵌入参数无效"
 msgid "Invalid embedding presign token provided"
 msgstr "提供的嵌入预签名令牌无效"
 
+#: apps/remix/app/routes/_unauthenticated+/signup-invite.$token.tsx
+msgid "Invalid invitation"
+msgstr ""
+
 #: apps/remix/app/components/general/admin-license-card.tsx
 msgid "Invalid License Key"
 msgstr "许可证密钥无效"
 
 #: apps/remix/app/components/general/admin-license-status-banner.tsx
-msgid "Invalid License Type - Your Documenso instance is using features that are not part of your license."
-msgstr "许可证类型无效 - 您的 Documenso 实例正在使用不在当前许可证范围内的功能。"
+msgid "Invalid License Type - Your {appName} instance is using features that are not part of your license."
+msgstr ""
 
 #: apps/remix/app/routes/_unauthenticated+/team.verify.email.$token.tsx
 msgid "Invalid link"
@@ -6752,10 +6938,22 @@ msgstr "邀请已接受！"
 msgid "Invitation already accepted"
 msgstr ""
 
+#: apps/remix/app/routes/_unauthenticated+/signup-invite.$token.tsx
+msgid "Invitation already used"
+msgstr ""
+
 #: apps/remix/app/components/general/organisations/organisation-invitations.tsx
 #: apps/remix/app/routes/_unauthenticated+/organisation.invite.$token.tsx
 msgid "Invitation declined"
 msgstr "邀请已被拒绝"
+
+#: apps/remix/app/components/general/signup-invite/signup-invite-status-card.tsx
+msgid "Invitation details"
+msgstr ""
+
+#: apps/remix/app/routes/_unauthenticated+/signup-invite.$token.tsx
+msgid "Invitation expired"
+msgstr ""
 
 #: apps/remix/app/components/tables/organisation-member-invites-table.tsx
 msgid "Invitation has been deleted"
@@ -6764,6 +6962,18 @@ msgstr "邀请已被删除"
 #: apps/remix/app/components/tables/organisation-member-invites-table.tsx
 msgid "Invitation has been resent"
 msgstr "邀请已被重新发送"
+
+#: apps/remix/app/routes/_unauthenticated+/signup-invite.$token.tsx
+msgid "Invitation revoked"
+msgstr ""
+
+#: apps/remix/app/components/general/signup-invite/signup-invite-side-panel.tsx
+msgid "Invitation-only signup"
+msgstr ""
+
+#: apps/remix/app/components/general/signup-invite/signup-invite-status-card.tsx
+msgid "Invitations are single-use and expire automatically."
+msgstr ""
 
 #: apps/remix/app/components/dialogs/organisation-member-invite-dialog.tsx
 msgid "Invite"
@@ -6797,6 +7007,10 @@ msgstr "已邀请"
 #: apps/remix/app/components/tables/organisation-member-invites-table.tsx
 msgid "Invited At"
 msgstr "邀请时间"
+
+#: apps/remix/app/components/general/signup-invite/signup-invite-status-card.tsx
+msgid "Invited email"
+msgstr ""
 
 #: apps/remix/app/components/tables/organisation-billing-invoices-table.tsx
 msgid "Invoice"
@@ -6863,12 +7077,8 @@ msgid "Japanese"
 msgstr "日语"
 
 #: packages/email/templates/organisation-invite.tsx
-msgid "Join {organisationName} on Documenso"
-msgstr "加入 {organisationName}，使用 Documenso"
-
-#: apps/remix/app/routes/_authenticated+/o.$orgUrl.support.tsx
-msgid "Join our community on <0>Discord</0> for community support and discussion."
-msgstr "加入我们在<0>Discord</0>上的社区，以获取社区支持并参与讨论。"
+msgid "Join {organisationName} on {appName}"
+msgstr ""
 
 #: apps/remix/app/components/tables/organisation-insights-table.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/organisations.$id.tsx
@@ -6914,6 +7124,10 @@ msgstr "标签"
 msgid "Language"
 msgstr "语言"
 
+#: apps/remix/app/utils/analytics.ts
+msgid "Last 12 months"
+msgstr ""
+
 #: apps/remix/app/components/general/period-selector.tsx
 #: apps/remix/app/components/tables/documents-table-period-filter.tsx
 msgid "Last 14 days"
@@ -6921,6 +7135,7 @@ msgstr "最近 14 天"
 
 #: apps/remix/app/components/general/period-selector.tsx
 #: apps/remix/app/components/tables/documents-table-period-filter.tsx
+#: apps/remix/app/utils/analytics.ts
 msgid "Last 30 days"
 msgstr "最近 30 天"
 
@@ -6930,12 +7145,21 @@ msgstr "最近 30 天"
 
 #: apps/remix/app/components/general/period-selector.tsx
 #: apps/remix/app/components/tables/documents-table-period-filter.tsx
+#: apps/remix/app/utils/analytics.ts
 msgid "Last 7 days"
 msgstr "最近 7 天"
+
+#: apps/remix/app/utils/analytics.ts
+msgid "Last 90 days"
+msgstr ""
 
 #: apps/remix/app/components/filters/date-range-filter.tsx
 msgid "Last 90 Days"
 msgstr "最近 90 天"
+
+#: apps/remix/app/components/general/analytics/analytics-activity-table-card.tsx
+msgid "Last active"
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/settings+/security.sessions.tsx
 msgid "Last Active"
@@ -7081,14 +7305,18 @@ msgstr "链接将在 1 小时后过期。"
 msgid "Link expires in 30 minutes."
 msgstr "链接将在 30 分钟后失效。"
 
+#: apps/remix/app/components/forms/password-setup-request-button.tsx
+msgid "Link sent"
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.public-profile.tsx
 msgctxt "Action button to link template to public profile"
 msgid "Link template"
 msgstr "链接模板"
 
 #: packages/email/templates/organisation-account-link-confirmation.tsx
-msgid "Link your Documenso account"
-msgstr "关联您的 Documenso 账户"
+msgid "Link your {appName} account"
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/settings+/security._index.tsx
 #: apps/remix/app/routes/_authenticated+/settings+/security.linked-accounts.tsx
@@ -7118,13 +7346,12 @@ msgstr "加载更早的活动记录"
 msgid "Loading"
 msgstr "正在加载"
 
-#: apps/remix/app/components/embed/multisign/multi-sign-document-signing-view.tsx
-#: apps/remix/app/components/general/skeletons/document-edit-skeleton.tsx
-msgid "Loading document..."
-msgstr "正在加载文档..."
+#: apps/remix/app/components/general/analytics/analytics-hydrate-fallback.tsx
+msgid "Loading analytics"
+msgstr ""
 
-#: apps/remix/app/components/general/skeletons/document-edit-skeleton.tsx
-msgid "Loading Document..."
+#: apps/remix/app/components/embed/multisign/multi-sign-document-signing-view.tsx
+msgid "Loading document..."
 msgstr "正在加载文档..."
 
 #: packages/ui/components/recipient/recipient-autocomplete-input.tsx
@@ -7393,10 +7620,15 @@ msgstr "每个信封允许上传的最大文件数量"
 #: apps/remix/app/routes/_authenticated+/admin+/organisations.$id.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/organisations.$id.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/teams.$id.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/analytics._index.tsx
 #: packages/lib/constants/organisations-translations.ts
 #: packages/lib/constants/teams-translations.ts
 msgid "Member"
 msgstr "成员"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/analytics._index.tsx
+msgid "Member activity"
+msgstr ""
 
 #: apps/remix/app/components/forms/subscription-claim-form.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/organisations.$id.tsx
@@ -7426,6 +7658,7 @@ msgstr "加入时间"
 #: apps/remix/app/routes/_authenticated+/admin+/teams.$id.tsx
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl._index.tsx
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.groups.$id.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/analytics._index.tsx
 #: packages/lib/utils/settings-nav.ts
 #: packages/lib/utils/settings-nav.ts
 msgid "Members"
@@ -7434,10 +7667,6 @@ msgstr "成员"
 #: apps/remix/app/routes/_authenticated+/admin+/teams.$id.tsx
 msgid "Members that currently belong to this team."
 msgstr "当前属于此团队的成员。"
-
-#: apps/remix/app/components/forms/support-ticket-form.tsx
-msgid "Message"
-msgstr "消息"
 
 #: apps/remix/app/components/dialogs/envelope-distribute-dialog.tsx
 #: apps/remix/app/components/embed/authoring/configure-document-advanced-settings.tsx
@@ -7457,8 +7686,8 @@ msgid "Min"
 msgstr "最小值"
 
 #: apps/remix/app/components/general/admin-license-status-banner.tsx
-msgid "Missing License - Your Documenso instance is using features that require a license."
-msgstr "缺少许可证 - 您的 Documenso 实例正在使用需要许可证的功能。"
+msgid "Missing License - Your {appName} instance is using features that require a license."
+msgstr ""
 
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-fields-page.tsx
 msgid "Missing Recipients"
@@ -7483,6 +7712,7 @@ msgid "Modify the details of the subscription claim."
 msgstr "修改订阅声明的详细信息。"
 
 #: apps/remix/app/components/dialogs/organisation-create-dialog.tsx
+#: apps/remix/app/components/general/analytics/analytics-documents-over-time-card.tsx
 #: apps/remix/app/components/general/billing-plans.tsx
 msgid "Monthly"
 msgstr "按月"
@@ -7640,6 +7870,10 @@ msgstr "从不"
 msgid "Never expires"
 msgstr "永不过期"
 
+#: apps/remix/app/components/general/analytics/analytics-overview-cards.tsx
+msgid "New"
+msgstr ""
+
 #: apps/remix/app/components/forms/editor/editor-field-dropdown-form.tsx
 #: packages/ui/primitives/document-flow/field-items-advanced-settings/dropdown-field.tsx
 #: packages/ui/primitives/document-flow/field-items-advanced-settings/dropdown-field.tsx
@@ -7690,6 +7924,26 @@ msgstr "否"
 msgid "No active drafts"
 msgstr "没有活动草稿"
 
+#: apps/remix/app/utils/analytics.ts
+msgid "No activity in the last 12 months."
+msgstr ""
+
+#: apps/remix/app/utils/analytics.ts
+msgid "No activity in the last 30 days."
+msgstr ""
+
+#: apps/remix/app/utils/analytics.ts
+msgid "No activity in the last 7 days."
+msgstr ""
+
+#: apps/remix/app/utils/analytics.ts
+msgid "No activity in the last 90 days."
+msgstr ""
+
+#: apps/remix/app/utils/analytics.ts
+msgid "No activity in the selected range."
+msgstr ""
+
 #: apps/remix/app/components/general/pdf-viewer/envelope-pdf-viewer.tsx
 #: apps/remix/app/components/general/pdf-viewer/pdf-viewer.tsx
 msgid "No document found"
@@ -7699,10 +7953,27 @@ msgstr "未找到文档"
 msgid "No document selected"
 msgstr "未选择文档"
 
+#: apps/remix/app/components/general/analytics/analytics-documents-over-time-card.tsx
+msgid "No documents created in this period"
+msgstr ""
+
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-fields-page.tsx
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-preview-page.tsx
 msgid "No documents found"
 msgstr "未找到文档"
+
+#: apps/remix/app/components/general/analytics/analytics-status-breakdown-card.tsx
+#: apps/remix/app/components/general/analytics/analytics-status-breakdown-card.tsx
+msgid "No documents in this period"
+msgstr ""
+
+#: apps/remix/app/components/tables/inbox-table.tsx
+msgid "No documents match your search"
+msgstr ""
+
+#: apps/remix/app/components/general/analytics/analytics-template-usage-card.tsx
+msgid "No documents were created from templates in this period"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/admin-swap-subscription-dialog.tsx
 msgid "No eligible organisations found. The target must be on the free plan."
@@ -7763,9 +8034,17 @@ msgstr ""
 msgid "No License Configured"
 msgstr "未配置许可证"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/analytics._index.tsx
+msgid "No members"
+msgstr ""
+
 #: apps/remix/app/components/general/organisation-members-multiselect-combobox.tsx
 msgid "No members found"
 msgstr "未找到成员"
+
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/analytics._index.tsx
+msgid "No members match your search"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/team-member-create-dialog.tsx
 msgid "No members selected"
@@ -7782,6 +8061,10 @@ msgstr "目前还没有与您的团队共享的组织模板。"
 #: apps/remix/app/routes/_authenticated+/dashboard.tsx
 msgid "No organisations found"
 msgstr "未找到组织"
+
+#: apps/remix/app/components/general/document-signing/document-signing-auth-set-password.tsx
+msgid "No password set"
+msgstr ""
 
 #: apps/remix/app/components/tables/settings-public-profile-templates-table.tsx
 msgid "No public profile templates found"
@@ -7867,6 +8150,14 @@ msgstr "未找到建议"
 msgid "No team groups found"
 msgstr "未找到团队组"
 
+#: apps/remix/app/routes/_authenticated+/o.$orgUrl.analytics._index.tsx
+msgid "No teams"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/o.$orgUrl.analytics._index.tsx
+msgid "No teams match your search"
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl._index.tsx
 msgid "No teams yet"
 msgstr "还没有团队"
@@ -7906,6 +8197,10 @@ msgstr "无"
 #: packages/lib/constants/document-auth.ts
 msgid "None (Overrides global settings)"
 msgstr "无（覆盖全局设置）"
+
+#: apps/remix/app/components/general/analytics/analytics-activity-table-card.tsx
+msgid "Not available"
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/documents.$id._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/documents.$id.edit.tsx
@@ -7970,6 +8265,10 @@ msgstr "允许的团队数量。0 = 不限"
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-fields-page.tsx
 msgid "Number Settings"
 msgstr "数字设置"
+
+#: apps/remix/app/components/general/analytics/analytics-overview-cards.tsx
+msgid "of sent documents completed"
+msgstr ""
 
 #: apps/remix/app/components/general/admin-global-settings-section.tsx
 msgid "Off"
@@ -8098,12 +8397,12 @@ msgstr "或者使用以下方式继续"
 #: apps/remix/app/components/tables/admin-organisation-stats-table.tsx
 #: apps/remix/app/components/tables/admin-organisations-table.tsx
 #: apps/remix/app/components/tables/admin-user-teams-table.tsx
+#: apps/remix/app/components/tables/templates-table-view-filter.tsx
 #: apps/remix/app/components/tables/templates-table.tsx
 #: apps/remix/app/components/tables/user-billing-organisations-table.tsx
 #: apps/remix/app/components/tables/user-organisations-table.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/email-domains._index.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/email-domains.$id.tsx
-#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/templates._index.tsx
 #: apps/remix/app/routes/_unauthenticated+/organisation.sso.confirmation.$token.tsx
 #: packages/ui/components/template/template-type-select.tsx
 msgid "Organisation"
@@ -8305,6 +8604,7 @@ msgstr "覆盖组织设置"
 #: apps/remix/app/components/tables/admin-organisations-table.tsx
 #: apps/remix/app/components/tables/admin-organisations-table.tsx
 #: apps/remix/app/components/tables/organisation-members-table.tsx
+#: apps/remix/app/components/tables/templates-table-owner-filter.tsx
 #: apps/remix/app/components/tables/user-organisations-table.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/documents._index.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/organisations.$id.tsx
@@ -8408,6 +8708,10 @@ msgstr "此浏览器不支持通行密钥"
 msgid "Password"
 msgstr "密码"
 
+#: apps/remix/app/components/general/document-signing/document-signing-auth-set-password.tsx
+msgid "Password authentication unavailable"
+msgstr ""
+
 #: apps/remix/app/routes/_internal+/[__htmltopdf]+/certificate.tsx
 #: packages/lib/server-only/pdf/generate-certificate-pdf.ts
 msgid "Password Re-Authentication"
@@ -8417,6 +8721,10 @@ msgstr "密码重新验证"
 msgid "Password Reset Requested"
 msgstr "已请求重置密码"
 
+#: packages/lib/server-only/auth/send-reset-password.ts
+msgid "Password Reset Success!"
+msgstr ""
+
 #: packages/email/templates/reset-password.tsx
 msgid "Password Reset Successful"
 msgstr "密码重置成功"
@@ -8425,6 +8733,14 @@ msgstr "密码重置成功"
 #: apps/remix/app/components/general/claim-account.tsx
 msgid "Password should not be common or based on personal information"
 msgstr "密码不应为常见密码或基于个人信息设置"
+
+#: apps/remix/app/components/forms/password-setup-request-button.tsx
+msgid "Password sign in is disabled for this instance."
+msgstr ""
+
+#: apps/remix/app/components/forms/password-setup-request.tsx
+msgid "Password sign in is disabled for this instance. Please contact support."
+msgstr ""
 
 #: apps/remix/app/components/forms/password.tsx
 #: apps/remix/app/components/forms/reset-password.tsx
@@ -8457,6 +8773,8 @@ msgid "PDF Document"
 msgstr "PDF 文档"
 
 #: apps/remix/app/components/dialogs/envelopes-bulk-download-dialog.tsx
+#: apps/remix/app/components/general/analytics/analytics-activity-table-card.tsx
+#: apps/remix/app/components/general/analytics/analytics-status-breakdown-card.tsx
 #: apps/remix/app/components/general/document/document-page-view-recipients.tsx
 #: apps/remix/app/components/general/document/document-page-view-recipients.tsx
 #: apps/remix/app/components/general/document/document-status.tsx
@@ -8543,6 +8861,14 @@ msgstr "选择一个数字"
 #: apps/remix/app/components/general/claim-account.tsx
 msgid "Pick a password"
 msgstr "设置密码"
+
+#: apps/remix/app/components/general/analytics/analytics-range-picker.tsx
+msgid "Pick a start date"
+msgstr ""
+
+#: apps/remix/app/components/general/analytics/analytics-range-picker.tsx
+msgid "Pick an end date"
+msgstr ""
 
 #: apps/remix/app/components/general/user-profile-timur.tsx
 msgid "Pick any of the following agreements below and start signing to get started"
@@ -8789,6 +9115,10 @@ msgstr "请上传文档后继续"
 msgid "Please upload a logo"
 msgstr "请上传一个 Logo"
 
+#: packages/ui/primitives/signature-pad/signature-pad-upload.tsx
+msgid "Please upload a valid image file."
+msgstr ""
+
 #: packages/lib/constants/i18n.ts
 msgid "Polish"
 msgstr "波兰语"
@@ -8991,10 +9321,6 @@ msgstr "只读"
 #: packages/ui/components/document/envelope-recipient-field-tooltip.tsx
 msgid "Read Only"
 msgstr "只读"
-
-#: apps/remix/app/routes/_authenticated+/o.$orgUrl.support.tsx
-msgid "Read our documentation to get started with Documenso."
-msgstr "阅读我们的文档，开始使用 Documenso。"
 
 #: apps/remix/app/routes/_authenticated+/admin+/documents.$id.tsx
 msgid "Read Status"
@@ -9281,6 +9607,7 @@ msgid "Redirecting to your identity provider"
 msgstr ""
 
 #: apps/remix/app/components/forms/signup.tsx
+#: apps/remix/app/components/forms/signup.tsx
 #: apps/remix/app/components/general/claim-account.tsx
 msgid "Registration Successful"
 msgstr "注册成功"
@@ -9298,6 +9625,7 @@ msgstr "拒签文档"
 
 #: apps/remix/app/components/dialogs/envelopes-bulk-download-dialog.tsx
 #: apps/remix/app/components/embed/multisign/multi-sign-document-list.tsx
+#: apps/remix/app/components/general/analytics/analytics-status-breakdown-card.tsx
 #: apps/remix/app/components/general/document/document-page-view-recipients.tsx
 #: apps/remix/app/components/general/document/document-status.tsx
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-header.tsx
@@ -9572,6 +9900,7 @@ msgstr "重新发送验证"
 #: apps/remix/app/components/forms/public-profile-form.tsx
 #: apps/remix/app/components/general/organisation-usage-reset-button.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/documents._index.tsx
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/templates._index.tsx
 msgid "Reset"
 msgstr "重置"
 
@@ -9664,6 +9993,7 @@ msgstr "文档保留"
 msgid "Retried"
 msgstr "已重试次数"
 
+#: apps/remix/app/components/general/analytics/analytics-query-error.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-auth-passkey.tsx
 msgid "Retry"
 msgstr "重试"
@@ -9682,8 +10012,8 @@ msgid "Return Home"
 msgstr "返回主页"
 
 #: apps/remix/app/routes/_unauthenticated+/o.$orgUrl.signin.tsx
-msgid "Return to Documenso sign in page here"
-msgstr "在此返回 Documenso 登录页面"
+msgid "Return to {appName} sign in page here"
+msgstr ""
 
 #: apps/remix/app/components/general/envelope-editor/envelope-editor.tsx
 msgid "Return to documents"
@@ -9749,6 +10079,12 @@ msgstr "角色"
 #: apps/remix/app/routes/_authenticated+/admin+/users.$id.tsx
 msgid "Roles"
 msgstr "角色"
+
+#. placeholder {0}: rowError.row
+#. placeholder {1}: rowError.column
+#: apps/remix/app/components/dialogs/template-bulk-send-dialog.tsx
+msgid "Row {0}: <0>{1}</0> must be a valid email or empty"
+msgstr ""
 
 #: packages/ui/primitives/data-table-pagination.tsx
 msgid "Rows per page"
@@ -9871,11 +10207,16 @@ msgstr "搜索语言…"
 msgid "Search languages…"
 msgstr ""
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/analytics._index.tsx
+msgid "Search members"
+msgstr ""
+
 #: apps/remix/app/components/general/organisation-members-multiselect-combobox.tsx
 msgid "Search members by name or email"
 msgstr "按姓名或邮箱搜索成员"
 
 #: apps/remix/app/components/tables/documents-table-sender-filter.tsx
+#: apps/remix/app/components/tables/templates-table-owner-filter.tsx
 msgid "Search members..."
 msgstr ""
 
@@ -9883,8 +10224,16 @@ msgstr ""
 msgid "Search organisations…"
 msgstr ""
 
+#: apps/remix/app/routes/_authenticated+/o.$orgUrl.analytics._index.tsx
+msgid "Search teams"
+msgstr ""
+
 #: apps/remix/app/components/general/settings-team-switcher.tsx
 msgid "Search teams…"
+msgstr ""
+
+#: apps/remix/app/components/general/template/template-search.tsx
+msgid "Search templates..."
 msgstr ""
 
 #: apps/remix/app/components/general/app-command-menu.tsx
@@ -10208,6 +10557,11 @@ msgstr "发送提醒"
 msgid "Send reminders to the following recipients"
 msgstr "向以下收件人发送提醒"
 
+#: apps/remix/app/components/forms/password-setup-request-button.tsx
+#: apps/remix/app/components/forms/password-setup-request.tsx
+msgid "Send setup link"
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/admin+/documents.$id.tsx
 msgid "Send Status"
 msgstr "发送状态"
@@ -10246,6 +10600,7 @@ msgstr "正在发送重置邮件..."
 msgid "Sending..."
 msgstr "正在发送..."
 
+#: apps/remix/app/components/general/analytics/analytics-activity-table-card.tsx
 #: apps/remix/app/components/general/document/document-page-view-recipients.tsx
 #: apps/remix/app/components/general/webhook-logs-sheet.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.webhooks.$id._index.tsx
@@ -10271,6 +10626,7 @@ msgid "Sessions have been revoked"
 msgstr "会话已被撤销"
 
 #: apps/remix/app/components/general/claim-account.tsx
+#: apps/remix/app/routes/_authenticated+/settings+/security._index.tsx
 msgid "Set a password"
 msgstr "设置密码"
 
@@ -10287,8 +10643,8 @@ msgid "Set up your template properties and recipient information"
 msgstr "设置模板属性和收件人信息"
 
 #: packages/email/templates/admin-user-created.tsx
-msgid "Set your password for Documenso"
-msgstr "为 Documenso 设置您的密码"
+msgid "Set your password for {appName}"
+msgstr ""
 
 #: apps/remix/app/components/general/app-command-menu.tsx
 #: apps/remix/app/components/general/app-command-menu.tsx
@@ -10338,9 +10694,17 @@ msgstr "显示"
 msgid "Show advanced settings"
 msgstr "显示高级设置"
 
+#: apps/remix/app/components/general/analytics/analytics-activity-table-card.tsx
+msgid "Show all"
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/admin+/organisation-stats._index.tsx
 msgid "Show daily averages for documents, emails and API usages"
 msgstr "显示文档、电子邮件和 API 使用量的每日平均值"
+
+#: apps/remix/app/components/general/analytics/analytics-no-activity-alert.tsx
+msgid "Show last 12 months"
+msgstr ""
 
 #: apps/remix/app/components/general/admin-license-card.tsx
 msgid "Show license key"
@@ -10358,6 +10722,14 @@ msgstr "显示使用情况"
 msgid "Show usage with quotas"
 msgstr "显示使用情况和配额"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/analytics._index.tsx
+msgid "Showing {visibleCount} of {totalCount} members"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/o.$orgUrl.analytics._index.tsx
+msgid "Showing {visibleCount} of {totalCount} teams"
+msgstr ""
+
 #: apps/remix/app/components/dialogs/sign-field-signature-dialog.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-auth-2fa.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-auth-passkey.tsx
@@ -10368,7 +10740,6 @@ msgstr "显示使用情况和配额"
 #: apps/remix/app/components/general/document-signing/document-signing-signature-field.tsx
 #: apps/remix/app/components/general/document/document-page-view-button.tsx
 #: apps/remix/app/components/general/settings-upsell/branding-upsell.tsx
-#: apps/remix/app/components/general/user-profile-skeleton.tsx
 #: apps/remix/app/components/general/user-profile-timur.tsx
 #: apps/remix/app/components/tables/documents-table-action-button.tsx
 #: apps/remix/app/components/tables/documents-table-action-dropdown.tsx
@@ -10403,13 +10774,10 @@ msgstr "签署文档"
 #: apps/remix/app/components/general/document-signing/document-signing-mobile-widget.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-page-view-v1.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-page-view-v2.tsx
+#: apps/remix/app/routes/_recipient+/_layout.tsx
 #: packages/email/template-components/template-document-reminder.tsx
 msgid "Sign Document"
 msgstr "签署文档"
-
-#: apps/remix/app/routes/_recipient+/_layout.tsx
-msgid "Sign Document - Documenso"
-msgstr "签署文档 - Documenso"
 
 #: apps/remix/app/components/embed/multisign/multi-sign-document-list.tsx
 msgid "Sign Documents"
@@ -10423,6 +10791,11 @@ msgstr "签署字段"
 #: apps/remix/app/components/forms/signup.tsx
 msgid "Sign Here"
 msgstr "在此签名"
+
+#: apps/remix/app/routes/_unauthenticated+/signup-invite.$token.tsx
+#: apps/remix/app/routes/_unauthenticated+/signup-invite.$token.tsx
+msgid "Sign in"
+msgstr ""
 
 #: apps/remix/app/components/forms/signin.tsx
 #: apps/remix/app/components/forms/signin.tsx
@@ -10501,6 +10874,7 @@ msgid "Signature ID"
 msgstr "签名 ID"
 
 #: packages/ui/primitives/signature-pad/signature-pad-draw.tsx
+#: packages/ui/primitives/signature-pad/signature-pad-upload.tsx
 msgid "Signature is too small"
 msgstr "签名太小"
 
@@ -10633,6 +11007,10 @@ msgstr "签署提醒"
 #: apps/remix/app/routes/_authenticated+/admin+/documents.$id.tsx
 msgid "Signing Status"
 msgstr "签署状态"
+
+#: apps/remix/app/components/general/document-signing/document-signing-auth-set-password.tsx
+msgid "Signing this field requires a password, but your account does not have one. We can email you a link to set one. Once done, sign in again and return to this document to continue."
+msgstr ""
 
 #: apps/remix/app/components/embed/embed-recipient-expired.tsx
 msgid "Signing Window Expired"
@@ -10876,6 +11254,10 @@ msgstr "统计"
 msgid "Status"
 msgstr "状态"
 
+#: apps/remix/app/components/general/analytics/analytics-status-breakdown-card.tsx
+msgid "Status breakdown"
+msgstr ""
+
 #. placeholder {0}: currentStepData.order
 #. placeholder {1}: envelopeEditorSteps.length
 #: apps/remix/app/components/general/envelope-editor/envelope-editor.tsx
@@ -10907,10 +11289,6 @@ msgstr "Stripe 客户 ID"
 msgid "Stuck For"
 msgstr "已卡住时长"
 
-#: apps/remix/app/components/forms/support-ticket-form.tsx
-msgid "Subject"
-msgstr "主题"
-
 #: apps/remix/app/components/dialogs/envelope-distribute-dialog.tsx
 #: apps/remix/app/components/embed/authoring/configure-document-advanced-settings.tsx
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-settings-dialog.tsx
@@ -10918,10 +11296,6 @@ msgstr "主题"
 #: packages/ui/primitives/template-flow/add-template-settings.tsx
 msgid "Subject <0>(Optional)</0>"
 msgstr "主题 <0>（可选）</0>"
-
-#: apps/remix/app/components/forms/support-ticket-form.tsx
-msgid "Submit"
-msgstr "提交"
 
 #: apps/remix/app/components/tables/admin-document-jobs-table.tsx
 msgid "Submitted"
@@ -11056,15 +11430,8 @@ msgstr "支持"
 
 #: apps/remix/app/components/dialogs/organisation-email-create-dialog.tsx
 #: apps/remix/app/components/dialogs/organisation-email-update-dialog.tsx
-#: apps/remix/app/components/general/org-menu-switcher.tsx
-#: apps/remix/app/routes/_authenticated+/o.$orgUrl.support.tsx
-#: apps/remix/app/routes/_authenticated+/o.$orgUrl.support.tsx
 msgid "Support"
 msgstr "支持"
-
-#: apps/remix/app/components/forms/support-ticket-form.tsx
-msgid "Support ticket created"
-msgstr "支持工单已创建"
 
 #: apps/remix/app/components/dialogs/admin-organisation-sync-subscription-dialog.tsx
 #: apps/remix/app/components/tables/organisation-email-domains-table.tsx
@@ -11117,16 +11484,22 @@ msgstr "目标组织"
 #: apps/remix/app/components/tables/admin-user-teams-table.tsx
 #: apps/remix/app/components/tables/organisation-insights-table.tsx
 #: apps/remix/app/components/tables/organisation-teams-table.tsx
+#: apps/remix/app/components/tables/templates-table-view-filter.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/organisations.$id.tsx
+#: apps/remix/app/routes/_authenticated+/o.$orgUrl.analytics._index.tsx
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.groups.$id.tsx
-#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/templates._index.tsx
 msgid "Team"
 msgstr "团队"
 
 #. placeholder {0}: team.name
+#. placeholder {1}: APP_NAME()
 #: packages/lib/server-only/team/delete-team.ts
-msgid "Team \"{0}\" has been deleted on Documenso"
-msgstr "团队“{0}”已在 Documenso 上被删除"
+msgid "Team \"{0}\" has been deleted on {1}"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/o.$orgUrl.analytics._index.tsx
+msgid "Team activity"
+msgstr ""
 
 #: packages/lib/constants/teams-translations.ts
 msgid "Team Admin"
@@ -11177,8 +11550,8 @@ msgid "Team email removed"
 msgstr "团队邮箱已被移除"
 
 #: packages/email/templates/team-email-removed.tsx
-msgid "Team email removed for {teamName} on Documenso"
-msgstr "Documenso 上团队 {teamName} 的团队邮箱已被移除"
+msgid "Team email removed for {teamName} on {appName}"
+msgstr ""
 
 #: apps/remix/app/routes/_unauthenticated+/team.verify.email.$token.tsx
 msgid "Team email verified!"
@@ -11275,6 +11648,7 @@ msgstr "团队 URL"
 #: apps/remix/app/components/tables/organisation-insights-table.tsx
 #: apps/remix/app/components/tables/organisation-insights-table.tsx
 #: apps/remix/app/routes/_authenticated+/dashboard.tsx
+#: apps/remix/app/routes/_authenticated+/o.$orgUrl.analytics._index.tsx
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.teams.tsx
 #: packages/lib/utils/settings-nav.ts
 msgid "Teams"
@@ -11390,6 +11764,10 @@ msgstr "模板更新成功"
 msgid "Template uploaded"
 msgstr "模板已上传"
 
+#: apps/remix/app/components/general/analytics/analytics-template-usage-card.tsx
+msgid "Template usage"
+msgstr ""
+
 #: apps/remix/app/components/general/app-command-menu.tsx
 #: apps/remix/app/components/general/app-nav-desktop.tsx
 #: apps/remix/app/components/general/app-nav-mobile.tsx
@@ -11483,8 +11861,8 @@ msgid "Thank you for letting us know, we have flagged this sender for review. If
 msgstr "感谢你的反馈，我们已将此发件人标记为待审核。如果你有任何疑虑，请随时联系我们的<0>支持团队</0>。"
 
 #: apps/remix/app/routes/_unauthenticated+/articles.signature-disclosure.tsx
-msgid "Thank you for using Documenso to perform your electronic document signing. The purpose of this disclosure is to inform you about the process, legality, and your rights regarding the use of electronic signatures on our platform. By opting to use an electronic signature, you are agreeing to the terms and conditions outlined below."
-msgstr "感谢你使用 Documenso 进行电子文档签署。本披露旨在向你说明在我们平台上使用电子签名的流程、合法性以及你的权利。选择使用电子签名，即表示你同意以下条款和条件。"
+msgid "Thank you for using {appName} to perform your electronic document signing. The purpose of this disclosure is to inform you about the process, legality, and your rights regarding the use of electronic signatures on our platform. By opting to use an electronic signature, you are agreeing to the terms and conditions outlined below."
+msgstr ""
 
 #: packages/email/template-components/template-forgot-password.tsx
 msgid "That's okay, it happens! Click the button below to reset your password."
@@ -11517,6 +11895,26 @@ msgstr "收件人查看文档所需的认证方式。"
 #: apps/remix/app/components/general/admin-site-banner-section.tsx
 msgid "The content to show in the banner, HTML is allowed"
 msgstr "横幅中要显示的内容，允许使用 HTML"
+
+#: apps/remix/app/components/dialogs/template-bulk-send-dialog.tsx
+msgid "The CSV contains invalid recipient emails. Please fix the following rows:"
+msgstr ""
+
+#: apps/remix/app/components/dialogs/template-bulk-send-dialog.tsx
+msgid "The CSV could not be parsed. Please check the file format and try again."
+msgstr ""
+
+#: apps/remix/app/components/dialogs/template-bulk-send-dialog.tsx
+msgid "The CSV does not contain any rows. Please add at least one row of recipient details."
+msgstr ""
+
+#: apps/remix/app/components/dialogs/template-bulk-send-dialog.tsx
+msgid "The CSV exceeds the maximum file size."
+msgstr ""
+
+#: apps/remix/app/components/dialogs/template-bulk-send-dialog.tsx
+msgid "The CSV is missing the following required columns. Please download the template CSV for the correct format."
+msgstr ""
 
 #: apps/remix/app/components/forms/email-preferences-form.tsx
 msgid "The default email to use when sending emails to recipients"
@@ -11560,6 +11958,10 @@ msgstr "文档已保存，无法更改。"
 #: apps/remix/app/components/embed/embed-document-completed.tsx
 msgid "The document is now completed, please follow any instructions provided within the parent application."
 msgstr "文档现已完成，请按照宿主应用中的后续说明进行操作。"
+
+#: apps/remix/app/components/dialogs/template-use-dialog.tsx
+msgid "The document name will use the most recently uploaded file name without its extension."
+msgstr ""
 
 #: packages/email/template-components/template-document-rejection-confirmed.tsx
 msgid "The document owner has been notified of this rejection. No further action is required from you at this time. The document owner may contact you with any questions regarding this rejection."
@@ -11658,8 +12060,9 @@ msgid "The fields have been updated to the new field insertion method successful
 msgstr "字段已成功更新为新的字段插入方式"
 
 #: apps/remix/app/components/dialogs/envelope-item-edit-dialog.tsx
-msgid "The file is not a valid PDF."
-msgstr "该文件不是有效的 PDF。"
+#: apps/remix/app/utils/toast-error-messages.ts
+msgid "The file is not a valid PDF or is password protected."
+msgstr ""
 
 #: apps/remix/app/components/dialogs/folder-delete-dialog.tsx
 msgid "The folder you are trying to delete does not exist."
@@ -11696,6 +12099,25 @@ msgstr "以下签署人缺少签名字段："
 #: packages/email/templates/team-delete.tsx
 msgid "The following team has been deleted. You will no longer be able to access this team and its documents"
 msgstr "以下团队已被删除。您将无法再访问该团队及其文档"
+
+#: packages/ui/primitives/signature-pad/signature-pad-upload.tsx
+msgid "The image could not be loaded. Please try again."
+msgstr ""
+
+#: packages/ui/primitives/signature-pad/signature-pad-upload.tsx
+msgid "The image must be smaller than 5MB."
+msgstr ""
+
+#. placeholder {0}: loaderData.email
+#. placeholder {1}: new Date(loaderData.expiresAt).toLocaleString()
+#: apps/remix/app/routes/_unauthenticated+/signup-invite.$token.tsx
+msgid "The invitation for <0>{0}</0> expired on {1}. Please contact your administrator for a new invite."
+msgstr ""
+
+#. placeholder {0}: loaderData.email
+#: apps/remix/app/routes/_unauthenticated+/signup-invite.$token.tsx
+msgid "The invitation for <0>{0}</0> is no longer valid. Please contact your administrator."
+msgstr ""
 
 #: apps/remix/app/components/general/admin-license-card.tsx
 msgid "The license key has been copied to your clipboard"
@@ -11821,9 +12243,9 @@ msgstr "签署人的姓名"
 msgid "The signing deadline for this document has passed. Please contact the document owner if you need a new copy to sign."
 msgstr "此文档的签署截止日期已过。若您需要新的签署副本，请联系文档所有者。"
 
-#: apps/remix/app/components/general/avatar-with-recipient.tsx
 #: apps/remix/app/components/general/document/document-page-view-recipients.tsx
 #: apps/remix/app/components/general/document/document-recipient-link-copy-dialog.tsx
+#: apps/remix/app/components/general/stack-avatars-with-tooltip.tsx
 #: packages/ui/primitives/document-flow/add-subject.tsx
 msgid "The signing link has been copied to your clipboard."
 msgstr "签署链接已复制到剪贴板。"
@@ -11887,6 +12309,10 @@ msgstr "令牌已成功删除。"
 msgid "The token you have used to reset your password is either expired or it never existed. If you have still forgotten your password, please request a new reset link."
 msgstr "你用于重置密码的令牌已过期或不存在。如果你仍然忘记密码，请重新请求一个重置链接。"
 
+#: apps/remix/app/components/forms/password.tsx
+msgid "The two factor code you provided is invalid. Please try again."
+msgstr ""
+
 #: apps/remix/app/components/forms/signin.tsx
 msgid "The two-factor authentication code provided is incorrect."
 msgstr "提供的双重身份验证代码不正确。"
@@ -11901,8 +12327,8 @@ msgstr "收件人在签署文档时允许使用的签名类型。"
 
 #: apps/remix/app/components/dialogs/webhook-create-dialog.tsx
 #: apps/remix/app/components/dialogs/webhook-edit-dialog.tsx
-msgid "The URL for Documenso to send webhook events to."
-msgstr "Documenso 向其发送 Webhook 事件的 URL。"
+msgid "The URL for {appName} to send webhook events to."
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/admin+/users.$id.tsx
 msgid "The user you are looking for may have been removed, renamed or may have never existed."
@@ -12017,6 +12443,10 @@ msgstr "根据文档大小，这可能需要一到两分钟。"
 msgid "This claim is locked and cannot be deleted."
 msgstr "此声明已锁定，无法删除。"
 
+#: apps/remix/app/components/general/analytics/analytics-query-error.tsx
+msgid "This data could not be loaded."
+msgstr ""
+
 #: apps/remix/app/utils/toast-error-messages.ts
 msgid "This direct link template cannot be used because one or more signers do not have a signature field assigned."
 msgstr ""
@@ -12104,8 +12534,8 @@ msgid "This document has too many recipients. Please remove some recipients or c
 msgstr "此文档的收件人数量过多。请删除部分收件人，或在需要更多收件人时联系支持。"
 
 #: apps/remix/app/components/general/document/document-certificate-qr-view.tsx
-msgid "This document is available in your Documenso account. You can view more details, recipients, and audit logs there."
-msgstr "此文档在您的 Documenso 账户中可用。您可以在那里查看更多详情、收件人和审计日志。"
+msgid "This document is available in your {appName} account. You can view more details, recipients, and audit logs there."
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/documents.$id._index.tsx
 msgid "This document is currently a draft and has not been sent"
@@ -12132,8 +12562,8 @@ msgid "This document was created using a direct link."
 msgstr "此文档是通过直接链接创建的。"
 
 #: packages/email/template-components/template-footer.tsx
-msgid "This document was sent using <0>Documenso</0>."
-msgstr "此文档是使用 <0>Documenso</0> 发送的。"
+msgid "This document was sent using <0>{appName}</0>."
+msgstr ""
 
 #: apps/remix/app/components/dialogs/envelope-duplicate-dialog.tsx
 msgid "This document will be duplicated."
@@ -12192,6 +12622,30 @@ msgstr "不支持该文件类型。请上传 PDF 或 Word 文档。"
 msgid "This folder contains multiple items. Deleting it will remove all subfolders and move all nested documents and templates to the root folder."
 msgstr "此文件夹包含多个项目。删除它将移除所有子文件夹，并将其中的所有文档和模板移动到根文件夹。"
 
+#: packages/ui/primitives/signature-pad/signature-pad-upload.tsx
+msgid "This image is invalid, please upload a valid image file."
+msgstr ""
+
+#: packages/email/templates/signup-invite.tsx
+msgid "This invitation expires on <0>{formattedExpiresAt}</0> ({relativeExpiresAt})."
+msgstr ""
+
+#: apps/remix/app/components/forms/signup.tsx
+msgid "This invitation has expired. Please request a new invite."
+msgstr ""
+
+#: apps/remix/app/components/forms/signup.tsx
+msgid "This invitation is invalid or no longer available. Please request a new invite."
+msgstr ""
+
+#: apps/remix/app/routes/_unauthenticated+/signup-invite.$token.tsx
+msgid "This invitation link is invalid. Please contact your administrator for a new invite."
+msgstr ""
+
+#: apps/remix/app/components/forms/signup.tsx
+msgid "This invite is for this email address."
+msgstr ""
+
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-settings-dialog.tsx
 #: packages/ui/primitives/template-flow/add-template-settings.tsx
 msgid "This is how the document will reach the recipients once the document is ready for signing."
@@ -12249,6 +12703,10 @@ msgstr "该收件人已签署某个字段或已完成文档，因此无法再修
 #: apps/remix/app/components/forms/signin.tsx
 msgid "This session has expired. Please try again."
 msgstr "此会话已过期。请重试。"
+
+#: apps/remix/app/components/forms/signup.tsx
+msgid "This sign-in link is invalid or has expired. Sign in with your email and password."
+msgstr ""
 
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-recipient-form.tsx
 #: packages/ui/primitives/document-flow/add-signers.tsx
@@ -12559,6 +13017,11 @@ msgstr "请求过多"
 msgid "Top"
 msgstr "顶部对齐"
 
+#: apps/remix/app/components/general/analytics/analytics-documents-over-time-card.tsx
+#: apps/remix/app/components/general/analytics/analytics-status-breakdown-card.tsx
+msgid "total"
+msgstr ""
+
 #: apps/remix/app/components/tables/admin-organisation-stats-table.tsx
 msgid "Total"
 msgstr "总计"
@@ -12616,6 +13079,10 @@ msgstr "触发条件"
 msgid "Try a different search or switch category."
 msgstr ""
 
+#: apps/remix/app/components/general/analytics/analytics-no-activity-alert.tsx
+msgid "Try a longer range."
+msgstr ""
+
 #: apps/remix/app/components/dialogs/ai-field-detection-dialog.tsx
 #: apps/remix/app/components/dialogs/ai-field-detection-dialog.tsx
 #: apps/remix/app/components/dialogs/ai-recipient-detection-dialog.tsx
@@ -12636,6 +13103,7 @@ msgstr "双重验证"
 msgid "Two factor authentication recovery codes are used to access your account in the event that you lose access to your authenticator app."
 msgstr "双重验证恢复代码用于在你无法访问验证器应用时登录账号。"
 
+#: apps/remix/app/components/forms/2fa/two-factor-code-dialog.tsx
 #: apps/remix/app/components/forms/signin.tsx
 #: apps/remix/app/routes/_internal+/[__htmltopdf]+/certificate.tsx
 #: packages/lib/server-only/pdf/generate-certificate-pdf.ts
@@ -12774,6 +13242,10 @@ msgstr "无法登录"
 msgid "Unable to start the signing flow"
 msgstr "无法启动签名流程"
 
+#: packages/ui/primitives/signature-pad/signature-pad-upload.tsx
+msgid "Unable to upload image"
+msgstr ""
+
 #: apps/remix/app/components/general/document-signing/document-signing-auth-2fa.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-auth-passkey.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-auth-password.tsx
@@ -12782,11 +13254,16 @@ msgstr "无法启动签名流程"
 msgid "Unauthorized"
 msgstr "未授权"
 
+#: apps/remix/app/components/general/analytics/analytics-template-usage-card.tsx
+msgid "Unavailable template"
+msgstr ""
+
 #: apps/remix/app/components/general/stack-avatars-with-tooltip.tsx
 msgid "Uncompleted"
 msgstr "未完成"
 
 #: apps/remix/app/components/forms/form-sticky-save-bar.tsx
+#: packages/ui/primitives/signature-pad/signature-pad-draw.tsx
 #: packages/ui/primitives/signature-pad/signature-pad-draw.tsx
 msgid "Undo"
 msgstr "撤销"
@@ -12930,6 +13407,7 @@ msgid "Update passkey"
 msgstr "更新通行密钥"
 
 #: apps/remix/app/components/forms/password.tsx
+#: apps/remix/app/components/forms/password.tsx
 msgid "Update password"
 msgstr "更新密码"
 
@@ -12984,6 +13462,11 @@ msgstr "请更新标题或替换该 PDF 文件。"
 #: apps/remix/app/routes/_authenticated+/admin+/users.$id.tsx
 msgid "Update user"
 msgstr "更新用户"
+
+#. placeholder {0}: formatRelativeDate(template.updatedAt, i18n.locale)
+#: apps/remix/app/components/general/analytics/analytics-template-usage-card.tsx
+msgid "Updated {0}"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/admin-organisation-member-update-dialog.tsx
 msgid "Updated {organisationMemberName} to {roleLabel}."
@@ -13041,6 +13524,10 @@ msgstr "上传 CSV 文件，以从该模板创建多个文档。每一行代表�
 msgid "Upload a custom document to use instead of the template's default document"
 msgstr "上传自定义文档以替换模板的默认文档"
 
+#: apps/remix/app/components/dialogs/template-use-dialog.tsx
+msgid "Upload a custom document to use its file name."
+msgstr ""
+
 #: apps/remix/app/components/dialogs/template-bulk-send-dialog.tsx
 msgid "Upload and Process"
 msgstr "上传并处理"
@@ -13077,6 +13564,10 @@ msgstr "上传文档并添加收件人"
 #: apps/remix/app/components/general/envelope/envelope-upload-button.tsx
 msgid "Upload failed"
 msgstr "上传失败"
+
+#: packages/ui/primitives/signature-pad/signature-pad-upload.tsx
+msgid "Upload New Image"
+msgstr ""
 
 #: apps/remix/app/components/general/admin-global-settings-section.tsx
 msgid "Upload signature"
@@ -13126,6 +13617,10 @@ msgstr "正在上传"
 msgid "URL"
 msgstr "URL"
 
+#: apps/remix/app/components/general/analytics/analytics-page-header.tsx
+msgid "Usage overview for {name} · {rangeLabel}"
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/templates.$id._index.tsx
 msgid "Use"
 msgstr "使用"
@@ -13139,15 +13634,17 @@ msgid "Use a unique window for each rate limit"
 msgstr ""
 
 #: apps/remix/app/components/dialogs/token-create-dialog.tsx
-msgid "Use API tokens to authenticate with the Documenso API."
+msgid "Use API tokens to authenticate with the {appName} API."
 msgstr ""
 
 #: apps/remix/app/components/forms/2fa/disable-authenticator-app-dialog.tsx
+#: apps/remix/app/components/forms/2fa/two-factor-code-dialog.tsx
 #: apps/remix/app/components/forms/signin.tsx
 msgid "Use Authenticator"
 msgstr "使用验证器"
 
 #: apps/remix/app/components/forms/2fa/disable-authenticator-app-dialog.tsx
+#: apps/remix/app/components/forms/2fa/two-factor-code-dialog.tsx
 #: apps/remix/app/components/forms/signin.tsx
 msgid "Use Backup Code"
 msgstr "使用备份代码"
@@ -13156,6 +13653,14 @@ msgstr "使用备份代码"
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-header.tsx
 msgid "Use Template"
 msgstr "使用模板"
+
+#: apps/remix/app/components/dialogs/template-use-dialog.tsx
+msgid "Use template name"
+msgstr ""
+
+#: apps/remix/app/components/dialogs/template-use-dialog.tsx
+msgid "Use uploaded file name"
+msgstr ""
 
 #: apps/remix/app/components/general/document-signing/access-auth-2fa-form.tsx
 msgid "Use your authenticator app to generate a code"
@@ -13315,6 +13820,7 @@ msgstr "垂直对齐"
 #: apps/remix/app/components/tables/inbox-table.tsx
 #: apps/remix/app/components/tables/inbox-table.tsx
 #: apps/remix/app/components/tables/organisation-billing-invoices-table.tsx
+#: apps/remix/app/components/tables/templates-table-view-filter.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/email-domains._index.tsx
 msgid "View"
 msgstr "查看"
@@ -13432,6 +13938,10 @@ msgstr "查看更多"
 msgid "View next document"
 msgstr "查看下一份文档"
 
+#: apps/remix/app/routes/_authenticated+/t.$teamUrl+/analytics._index.tsx
+msgid "View organisation analytics"
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/templates.$id._index.tsx
 msgid "View organisation template"
 msgstr "查看组织模板"
@@ -13452,6 +13962,10 @@ msgstr "查看恢复代码"
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/_layout.tsx
 msgid "View teams"
 msgstr "查看团队"
+
+#: apps/remix/app/components/general/analytics/analytics-template-usage-card.tsx
+msgid "View templates"
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.email-domains.$id.tsx
 msgid "View the DNS records for this email domain"
@@ -13496,6 +14010,10 @@ msgstr "查看中"
 msgid "Visibility"
 msgstr "可见性"
 
+#: apps/remix/app/components/general/analytics/analytics-overview-cards.tsx
+msgid "vs. previous period"
+msgstr ""
+
 #: apps/remix/app/components/general/stack-avatars-with-tooltip.tsx
 msgid "Waiting"
 msgstr "等待中"
@@ -13519,8 +14037,8 @@ msgstr "正在等待你的顺序"
 
 #: apps/remix/app/routes/_recipient+/sign.$token+/_index.tsx
 #: apps/remix/app/routes/_recipient+/sign.$token+/_index.tsx
-msgid "Want to send slick signing links like this one? <0>Check out Documenso</0>."
-msgstr "想要发送像这样顺畅好用的签署链接吗？<0>来了解一下 Documenso</0>。"
+msgid "Want to send slick signing links like this one? <0>Check out {appName}</0>."
+msgstr ""
 
 #: apps/remix/app/routes/_profile+/_layout.tsx
 msgid "Want your own public profile?"
@@ -13826,6 +14344,14 @@ msgstr "目前无法将你登出。"
 msgid "We were unable to report this sender at this time. Please try again later."
 msgstr "目前无法举报此发件人。请稍后再试。"
 
+#: apps/remix/app/components/forms/password-setup-request-button.tsx
+msgid "We were unable to send the email. Please try again later."
+msgstr ""
+
+#: apps/remix/app/components/forms/password-setup-request.tsx
+msgid "We were unable to send the email. Please try again or contact support."
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.public-profile.tsx
 msgid "We were unable to set your public profile to public. Please try again."
 msgstr "我们未能将你的公开资料设置为公开。请重试。"
@@ -13899,10 +14425,6 @@ msgstr "我们将为你生成签署链接，你可以使用任意方式将这些
 msgid "We won't send anything to notify recipients."
 msgstr "我们不会发送任何通知给收件人。"
 
-#: apps/remix/app/routes/_authenticated+/o.$orgUrl.support.tsx
-msgid "We'll get back to you as soon as possible via email."
-msgstr "我们会尽快通过电子邮件回复您。"
-
 #: apps/remix/app/components/dialogs/ai-field-detection-dialog.tsx
 msgid "We'll scan your document to find form fields like signature lines, text inputs, checkboxes, and more. Detected fields will be suggested for you to review."
 msgstr "我们将扫描您的文档，以查找签名行、文本输入、复选框等表单字段。检测到的字段将作为建议供您审核。"
@@ -13947,6 +14469,16 @@ msgstr "我们已向您的邮箱发送了一个 6 位数验证码。请在下方
 #: apps/remix/app/components/general/verify-email-banner.tsx
 msgid "We've sent a confirmation email to <0>{email}</0>. Please check your inbox and click the link in the email to verify your account."
 msgstr "我们已向 <0>{email}</0> 发送确认邮件。请检查收件箱并点击邮件中的链接以验证账号。"
+
+#. placeholder {0}: user.email
+#: apps/remix/app/components/forms/password-setup-request.tsx
+msgid "We've sent a link to {0}. Follow it to set your password, then sign in again to continue."
+msgstr ""
+
+#. placeholder {0}: user.email
+#: apps/remix/app/components/forms/password-setup-request-button.tsx
+msgid "We've sent a link to {0}. Follow it to set your password."
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.webhooks._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.webhooks.$id._index.tsx
@@ -14006,18 +14538,18 @@ msgstr "欢迎回来！以下是您的账户概览。"
 msgid "Welcome to {0}"
 msgstr ""
 
-#: apps/remix/app/routes/_unauthenticated+/o.$orgUrl.signin.tsx
-msgid "Welcome to {organisationName}"
-msgstr "欢迎加入 {organisationName}"
-
 #: packages/lib/jobs/definitions/emails/send-admin-user-created-email.handler.ts
-msgid "Welcome to Documenso"
-msgstr "欢迎使用 Documenso"
+msgid "Welcome to {appName}"
+msgstr ""
 
 #: packages/email/template-components/template-admin-user-created.tsx
 #: packages/email/template-components/template-confirmation-email.tsx
-msgid "Welcome to Documenso!"
-msgstr "欢迎来到 Documenso！"
+msgid "Welcome to {appName}!"
+msgstr ""
+
+#: apps/remix/app/routes/_unauthenticated+/o.$orgUrl.signin.tsx
+msgid "Welcome to {organisationName}"
+msgstr "欢迎加入 {organisationName}"
 
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.sso.tsx
 msgid "Well-known URL is required"
@@ -14059,8 +14591,8 @@ msgid "Whether to enable the SSO portal for your organisation"
 msgstr "是否为您的组织启用 SSO 门户"
 
 #: apps/remix/app/routes/_profile+/p.$url.tsx
-msgid "While waiting for them to do so you can create your own Documenso account and get started with document signing right away."
-msgstr "在等待对方操作期间，你可以创建自己的 Documenso 账号，立即开始使用文档签署功能。"
+msgid "While waiting for them to do so you can create your own {appName} account and get started with document signing right away."
+msgstr ""
 
 #: apps/remix/app/components/dialogs/organisation-create-dialog.tsx
 msgid "Whitelabeling, unlimited members and more"
@@ -14351,8 +14883,8 @@ msgid "You can only detect fields in draft envelopes"
 msgstr "您只能在草稿信封中检测字段"
 
 #: packages/email/templates/confirm-team-email.tsx
-msgid "You can revoke access at any time in your team settings on Documenso <0>here</0>."
-msgstr "你可以随时在 Documenso 的团队设置中撤销访问权限，入口在<0>这里</0>。"
+msgid "You can revoke access at any time in your team settings on {appName} <0>here</0>."
+msgstr ""
 
 #: apps/remix/app/components/forms/public-profile-form.tsx
 msgid "You can update the profile URL by updating the team URL in the general settings page."
@@ -14420,10 +14952,6 @@ msgstr "你无法将组织所有者从团队中移除。"
 #: packages/ui/primitives/document-upload-button.tsx
 msgid "You cannot upload documents at this time."
 msgstr "您目前无法上传文档。"
-
-#: apps/remix/app/utils/toast-error-messages.ts
-msgid "You cannot upload encrypted PDFs."
-msgstr "你无法上传已加密的 PDF。"
 
 #: packages/lib/utils/document-audit-logs.ts
 msgid "You CC'd the document"
@@ -14506,13 +15034,18 @@ msgstr "你已经验证过在 <0>{0}</0> 的邮箱地址。"
 msgid "You have been invited by <0>{organisationName}</0> to join their organisation."
 msgstr ""
 
+#: packages/email/templates/signup-invite.tsx
+msgid "You have been invited to create an account for"
+msgstr ""
+
 #. placeholder {0}: organisation.name
+#. placeholder {1}: APP_NAME()
 #: packages/lib/server-only/organisation/create-organisation-member-invites.ts
-msgid "You have been invited to join {0} on Documenso"
-msgstr "您已被邀请加入 Documenso 上的 {0}"
+msgid "You have been invited to join {0} on {1}"
+msgstr ""
 
 #: apps/remix/app/routes/_unauthenticated+/organisation.invite.$token.tsx
-msgid "You have been invited to join <0>{organisationName}</0> on Documenso."
+msgid "You have been invited to join <0>{organisationName}</0> on {appName}."
 msgstr ""
 
 #: packages/email/templates/organisation-invite.tsx
@@ -14898,6 +15431,16 @@ msgstr "当所有人签署完成后，您将收到一份已签署文档的电子
 msgid "You're an admin. You can enable AI features for this team right away. Everyone on the team will see AI detection once enabled."
 msgstr "您是管理员，您可以立即为此团队启用 AI 功能。启用后，团队中的所有成员都能看到 AI 检测。"
 
+#. placeholder {0}: APP_NAME()
+#: packages/lib/server-only/signup-invite/create-signup-invite.ts
+msgid "You've been invited to create a {0} account"
+msgstr ""
+
+#: apps/remix/app/components/general/signup-invite/signup-invite-side-panel.tsx
+#: packages/email/templates/signup-invite.tsx
+msgid "You've been invited to create a {appName} account"
+msgstr ""
+
 #: apps/remix/app/components/dialogs/ai-field-detection-dialog.tsx
 #: apps/remix/app/components/dialogs/ai-recipient-detection-dialog.tsx
 msgid "You've made too many detection requests. Please wait a minute before trying again."
@@ -14907,9 +15450,21 @@ msgstr "您发起了太多检测请求。请等待一分钟后再试。"
 msgid "Your Account"
 msgstr "您的账户"
 
+#: apps/remix/app/components/general/document-signing/document-signing-auth-set-password.tsx
+msgid "Your account does not have a password and password sign in is disabled for this instance. Please contact the document sender to use a different authentication method."
+msgstr ""
+
+#: apps/remix/app/components/forms/signup.tsx
+msgid "Your account has been created. Signing you in now."
+msgstr ""
+
 #: apps/remix/app/components/dialogs/account-delete-dialog.tsx
 msgid "Your account has been deleted successfully."
 msgstr "你的账号已成功删除。"
+
+#: apps/remix/app/routes/_authenticated+/settings+/security._index.tsx
+msgid "Your account has no password. Add one to sign in with your email and to sign documents that require it. We'll email you a link."
+msgstr ""
 
 #: apps/remix/app/components/forms/avatar-image.tsx
 msgid "Your avatar has been updated successfully."
@@ -14986,10 +15541,6 @@ msgstr "您当前的 {currentProductName} 套餐已逾期。请更新您的支�
 #: apps/remix/app/routes/_authenticated+/admin+/organisations.$id.tsx
 msgid "Your current license does not include these features."
 msgstr "您当前的许可证不包含这些功能。"
-
-#: apps/remix/app/routes/_authenticated+/o.$orgUrl.support.tsx
-msgid "Your current plan includes the following support channels:"
-msgstr "您当前的套餐包含以下支持渠道："
 
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.billing.tsx
 msgid "Your current plan is inactive."
@@ -15074,12 +15625,12 @@ msgid "Your Email"
 msgstr "您的邮箱"
 
 #: apps/remix/app/routes/_unauthenticated+/verify-email.$token.tsx
-msgid "Your email has already been confirmed. You can now use all features of Documenso."
-msgstr "您的邮箱已确认。您现在可以使用 Documenso 的全部功能。"
+msgid "Your email has already been confirmed. You can now use all features of {appName}."
+msgstr ""
 
 #: apps/remix/app/routes/_unauthenticated+/verify-email.$token.tsx
-msgid "Your email has been successfully confirmed! You can now use all features of Documenso."
-msgstr "你的邮箱已成功确认！你现在可以使用 Documenso 的所有功能。"
+msgid "Your email has been successfully confirmed! You can now use all features of {appName}."
+msgstr ""
 
 #. placeholder {0}: teamEmail.team.name
 #. placeholder {1}: teamEmail.team.url
@@ -15187,6 +15738,15 @@ msgstr "你的密码已成功更新。"
 msgid "Your password has been updated."
 msgstr "您的密码已更新。"
 
+#: packages/email/templates/reset-password.tsx
+#: packages/lib/server-only/auth/send-reset-password.ts
+msgid "Your password was changed"
+msgstr ""
+
+#: packages/email/templates/reset-password.tsx
+msgid "Your password was just changed from your account security settings."
+msgstr ""
+
 #: apps/remix/app/components/general/organisations/organisation-billing-banner.tsx
 msgid "Your payment is overdue. Please settle the payment to avoid any service disruptions."
 msgstr "您的付款已逾期。请尽快完成支付，以免服务中断。"
@@ -15196,8 +15756,8 @@ msgid "Your plan does not support inviting members. Please upgrade or your plan 
 msgstr "您的套餐不支持邀请成员。请升级您的套餐或通过 <0>{SUPPORT_EMAIL}</0> 联系销售了解更多选项。"
 
 #: apps/remix/app/components/general/organisations/organisation-billing-banner.tsx
-msgid "Your plan is no longer valid. Please subscribe to a new plan to continue using Documenso."
-msgstr "您的套餐已无效。请订阅新套餐以继续使用 Documenso。"
+msgid "Your plan is no longer valid. Please subscribe to a new plan to continue using {appName}."
+msgstr ""
 
 #: apps/remix/app/components/forms/profile.tsx
 msgid "Your profile has been updated successfully."
@@ -15256,10 +15816,6 @@ msgstr "您的签名服务提供商未为此账户返回任何可用凭据。请
 #: apps/remix/app/components/embed/embed-recipient-expired.tsx
 msgid "Your signing window for this document has expired. Please contact the sender for a new invitation."
 msgstr "您在此文档上的签署时间窗口已过期。请联系发送方以获取新的邀请。"
-
-#: apps/remix/app/components/forms/support-ticket-form.tsx
-msgid "Your support request has been submitted. We'll get back to you soon!"
-msgstr "您的支持请求已提交。我们会尽快回复您！"
 
 #: apps/remix/app/components/dialogs/team-create-dialog.tsx
 msgid "Your team has been created."
@@ -15322,3 +15878,13 @@ msgstr "您的验证码："
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.sso.tsx
 msgid "your-domain.com another-domain.com"
 msgstr "your-domain.com another-domain.com"
+
+#: packages/ui/primitives/signature-pad/signature-pad-upload.tsx
+#: packages/ui/primitives/signature-pad/signature-pad-upload.tsx
+msgid "Zoom in"
+msgstr ""
+
+#: packages/ui/primitives/signature-pad/signature-pad-upload.tsx
+#: packages/ui/primitives/signature-pad/signature-pad-upload.tsx
+msgid "Zoom out"
+msgstr ""

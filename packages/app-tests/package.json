@@ -5,9 +5,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:dev": "NODE_OPTIONS='--import tsx' playwright test",
-    "test-ui:dev": "NODE_OPTIONS='--import tsx' playwright test --ui",
-    "test:e2e": "NODE_OPTIONS='--import tsx' NODE_ENV=test NEXT_PRIVATE_LOGGER_FILE_PATH=./logs.json start-server-and-test \"npm run start -w @documenso/remix\" http://localhost:3000 \"playwright test $E2E_TEST_PATH\""
+    "test:dev": "bunx playwright test",
+    "test-ui:dev": "bunx playwright test --ui",
+    "test:e2e": "NODE_ENV=test NEXT_PRIVATE_LOGGER_FILE_PATH=./logs.json start-server-and-test \"bun run --filter '@documenso/remix' start\" http://localhost:3000 \"bunx playwright test $E2E_TEST_PATH\""
   },
   "keywords": [],
   "author": "",

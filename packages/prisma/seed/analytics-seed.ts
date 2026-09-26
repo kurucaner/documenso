@@ -27,7 +27,7 @@ import { seedBlankTemplate } from './templates';
  * the organisation owned by `admin@documenso.com` (created by `initial-seed.ts`).
  *
  * Run via:
- *   npm run with:env -- tsx packages/prisma/seed/analytics-seed.ts
+ *   bun run with:env -- bunx tsx packages/prisma/seed/analytics-seed.ts
  *
  * Produces (idempotent: an existing team with the same URL is deleted and recreated):
  *   - analytics-quiet   "Quiet Team"   2 members, 3 documents, no templates
@@ -437,7 +437,7 @@ const getAdminUserAndOrganisation = async () => {
   });
 
   if (!admin) {
-    throw new Error(`User ${ADMIN_EMAIL} not found. Run the initial seed first (npm run prisma:seed).`);
+    throw new Error(`User ${ADMIN_EMAIL} not found. Run the initial seed first (bun run prisma:seed).`);
   }
 
   const organisation = await prisma.organisation.findFirst({

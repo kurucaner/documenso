@@ -161,7 +161,7 @@ If you are deploying to an environment that uses only IPv6, set the `HOST` envir
 **Docker:**
 
 ```bash
-docker run -it -e HOST=:: documenso/documenso:latest npm run start
+docker run -it -e HOST=:: documenso/documenso:latest sh -c 'cd /app/apps/remix && sh start.sh'
 ```
 
 **Kubernetes or Docker Compose:**
@@ -171,7 +171,7 @@ containers:
   - name: documenso
     image: documenso/documenso:latest
     command:
-      - npm
+      - bun
     args:
       - run
       - start

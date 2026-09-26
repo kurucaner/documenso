@@ -127,16 +127,16 @@ git clone https://github.com/<your-username>/documenso
 
 2. Set up your `.env` file using the recommendations in the `.env.example` file. Alternatively, just run `cp .env.example .env` to get started with our handpicked defaults.
 
-3. Run `npm run dx` in the root directory
+3. Run `bun run dx` in the root directory
 
    - This will spin up a postgres database and inbucket mailserver in a docker container.
 
-4. Run `npm run dev` in the root directory
+4. Run `bun run dev` in the root directory
 
 5. Want it even faster? Just use
 
 ```sh
-npm run d
+bun run d
 ```
 
 #### Access Points for Your Application
@@ -237,13 +237,13 @@ The Web UI can be found at http://localhost:9000, while the SMTP port will be on
 Wrap your package script with the `with:env` script like such:
 
 ```
-npm run with:env -- npm run myscript
+bun run with:env -- bun run myscript
 ```
 
-The same can be done when using `npx` for one of the bin scripts:
+The same can be done when using `bunx` for one of the bin scripts:
 
 ```
-npm run with:env -- npx myscript
+bun run with:env -- bunx myscript
 ```
 
 This will load environment variables from your `.env` and `.env.local` files.

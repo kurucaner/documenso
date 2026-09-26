@@ -1,10 +1,10 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Install dependencies
-npm install
+bun install
 
-# Copy the env file
+# Copy the .env.example files to .env
 cp .env.example .env
 
-# Run the dev setup
-npm run dx
+# Start the database and services
+bun run dx

@@ -22,13 +22,13 @@ jobs:
         with:
           fetch-depth: 2
 
-      - uses: ./.github/actions/node-install
+      - uses: ./.github/actions/bun-install
 
       - name: Copy env
         run: cp .env.example .env
 
       - name: Build app
-        run: npm run build
+        run: bun run build
 
   build_docker:
     name: Build Docker Image
