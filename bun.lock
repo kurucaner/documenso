@@ -137,7 +137,7 @@
     },
     "apps/remix": {
       "name": "@documenso/remix",
-      "version": "2.18.0",
+      "version": "2.19.0",
       "dependencies": {
         "@cantoo/pdf-lib": "^2.5.3",
         "@documenso/api": "*",
