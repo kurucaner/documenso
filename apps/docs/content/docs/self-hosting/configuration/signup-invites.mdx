@@ -314,6 +314,73 @@ Example `201` response:
 | `409`  | Team URL already exists |
 | `503`  | `NEXT_PRIVATE_INTERNAL_SECRET` is not configured |
 
+### Organisation team access (PropertyOS / integrations)
+
+Grant or revoke Documenso **team** membership for an existing organisation without a user session. Property-scoped integrations use this after `POST /api/internal/organisations/{orgUrl}/teams` so managers can open the Documenso UI for one property team only.
+
+`PUT /api/internal/organisations/{orgUrl}/team-access`  
+`PATCH /api/internal/organisations/{orgUrl}/team-access`
+
+Both accept the same JSON body. `PATCH` is an alias for role or membership updates.
+
+| Field                     | Type    | Required | Description |
+| ------------------------- | ------- | -------- | ----------- |
+| `email`                   | string  | Yes      | Grantee email (normalized) |
+| `name`                    | string  | No       | Display name when provisioning a new user |
+| `teamUrl`                 | string  | Yes      | Target team slug under this organisation |
+| `organisationMemberRole`  | string  | Yes      | `ADMIN`, `MANAGER`, or `MEMBER` (typically `MEMBER`) |
+| `teamMemberRole`          | string  | Yes      | `ADMIN`, `MANAGER`, or `MEMBER` (template editors usually `MANAGER`) |
+| `provisionIfMissing`      | boolean | No       | When `true`, create a Documenso user if the email is new (password is **not** returned) |
+| `disableAccountDeletion`  | boolean | No       | When provisioning, default `true` — user cannot self-delete |
+
+<Tabs items={['curl']}>
+<Tab value="curl">
+```bash
+curl -X PUT "https://documenso.example.com/api/internal/organisations/org_abc123/team-access" \
+  -H "Authorization: Bearer your-long-random-secret" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "manager@example.com",
+    "teamUrl": "oak_street_duplex_a1b2",
+    "organisationMemberRole": "MEMBER",
+    "teamMemberRole": "MANAGER",
+    "provisionIfMissing": true
+  }'
+```
+</Tab>
+</Tabs>
+
+Example `200` response:
+
+```json
+{
+  "userId": 55,
+  "organisationMemberId": "member_abc123",
+  "status": "active"
+}
+```
+
+| Status | Meaning |
+| ------ | ------- |
+| `200`  | Org/team access applied |
+| `400`  | Invalid body or billing/seat limit |
+| `401`  | Invalid or missing secret |
+| `403`  | Cannot remove organisation owner |
+| `404`  | Organisation, team, or user not found |
+| `503`  | `NEXT_PRIVATE_INTERNAL_SECRET` is not configured |
+
+`DELETE /api/internal/organisations/{orgUrl}/team-access`
+
+Removes explicit team role groups for a member on one team. Optionally removes org membership when `removeOrgMembership` is `true` (refuses the organisation owner).
+
+| Field                   | Type    | Required | Description |
+| ----------------------- | ------- | -------- | ----------- |
+| `teamUrl`               | string  | Yes      | Team slug |
+| `organisationMemberId`  | string  | Yes      | Documenso organisation member id |
+| `removeOrgMembership`   | boolean | No       | When `true`, delete org membership after team revoke |
+
+Example `204` with no body on success.
+
 ### Team Metadata Lookup
 
 `GET /api/internal/teams/{teamReference}`
