@@ -144,12 +144,14 @@ export const createInternalTeam = async ({
     teamUrl,
   });
 
+  // PropertyOS property teams: do not inherit all org members onto each team.
+  // The connect owner stays on the team via org ADMIN/MANAGER inheritance in createTeam.
   await createTeam({
-    userId,
+    inheritMembers: false,
+    organisationId: organisation.id,
     teamName,
     teamUrl: resolvedTeamUrl,
-    organisationId: organisation.id,
-    inheritMembers: true,
+    userId,
   });
 
   const team = await prisma.team.findUnique({

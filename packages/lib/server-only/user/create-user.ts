@@ -19,6 +19,7 @@ export interface CreateUserOptions {
   emailVerified?: Date | null;
   accountDeletionDisabled?: boolean;
   personalOrganisation?: PersonalOrganisationOptions;
+  skipPersonalOrganisation?: boolean;
 }
 
 export const createUser = async ({
@@ -29,6 +30,7 @@ export const createUser = async ({
   emailVerified,
   accountDeletionDisabled = false,
   personalOrganisation,
+  skipPersonalOrganisation = false,
 }: CreateUserOptions) => {
   const hashedPassword = await hash(password, SALT_ROUNDS);
 
@@ -53,7 +55,7 @@ export const createUser = async ({
     },
   });
 
-  await onCreateUserHook(user, { personalOrganisation }).catch((err) => {
+  await onCreateUserHook(user, { personalOrganisation, skipPersonalOrganisation }).catch((err) => {
     // Todo: (RR7) Add logging.
     console.error(err);
   });
