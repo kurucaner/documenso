@@ -5,7 +5,7 @@ import { isValidReturnTo, normalizeReturnTo } from '@documenso/lib/utils/is-vali
 import { getContext } from 'hono/context-storage';
 import { redirect } from 'react-router';
 import type { HonoEnv } from 'server/router';
-import { establishBootstrapSession } from 'server/utils/establish-bootstrap-session';
+import { establishBootstrapSessionForRedirect } from 'server/utils/establish-bootstrap-session';
 
 import type { Route } from './+types/signin.bootstrap';
 
@@ -48,7 +48,7 @@ export async function loader({ request }: Route.LoaderArgs) {
   try {
     const { tokenId, userId } = await consumeBootstrapSession({ token: token! });
 
-    await establishBootstrapSession(userId, request);
+    const { setCookieHeader } = await establishBootstrapSessionForRedirect(userId, request);
 
     logger.info({
       eventType: 'documenso.bootstrap_session.consumed',
@@ -56,7 +56,11 @@ export async function loader({ request }: Route.LoaderArgs) {
       userId,
     });
 
-    throw redirect(returnTo);
+    throw redirect(returnTo, {
+      headers: {
+        'Set-Cookie': setCookieHeader,
+      },
+    });
   } catch (error) {
     if (error instanceof Response) {
       throw error;
