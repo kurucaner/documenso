@@ -381,6 +381,49 @@ Removes explicit team role groups for a member on one team. Optionally removes o
 
 Example `204` with no body on success.
 
+### Team isolation repair (PropertyOS / multi-property orgs)
+
+Legacy property teams may have been created with **org member inheritance** (`inheritMembers: true`), so every org member implicitly receives team MEMBER on all property teams. PropertyOS connect now creates teams with inheritance disabled; use these endpoints to **repair existing teams** without recreating them.
+
+`GET /api/internal/organisations/{orgUrl}/teams/{teamUrl}/inherits-org-members`
+
+| Status | Meaning |
+| ------ | ------- |
+| `200`  | Body includes `inheritsOrgMembers` (boolean) and `teamUrl` |
+| `401`  | Invalid or missing secret |
+| `404`  | Organisation or team not found |
+| `503`  | `NEXT_PRIVATE_INTERNAL_SECRET` is not configured |
+
+Example `200` response:
+
+```json
+{
+  "inheritsOrgMembers": true,
+  "teamUrl": "oak_street_duplex_a1b2"
+}
+```
+
+`POST /api/internal/organisations/{orgUrl}/teams/{teamUrl}/apply-isolation-repair`
+
+Removes org-wide **MEMBER** internal group links from the team (idempotent). Explicit team memberships and org ADMIN/MANAGER team links are unchanged.
+
+Example `200` response:
+
+```json
+{
+  "alreadyIsolated": false,
+  "removedLinkCount": 1,
+  "teamUrl": "oak_street_duplex_a1b2"
+}
+```
+
+| Status | Meaning |
+| ------ | ------- |
+| `200`  | Repair applied or team was already isolated |
+| `401`  | Invalid or missing secret |
+| `404`  | Organisation or team not found |
+| `503`  | `NEXT_PRIVATE_INTERNAL_SECRET` is not configured |
+
 ### Team Metadata Lookup
 
 `GET /api/internal/teams/{teamReference}`

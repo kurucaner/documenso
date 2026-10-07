@@ -29,6 +29,7 @@ import { downloadRoute } from './api/download/download';
 import { filesRoute } from './api/files/files';
 import { internalApiTokensRoute } from './api/internal-api-tokens/route';
 import { internalOrganisationTeamAccessRoute } from './api/internal-organisation-team-access/route';
+import { internalOrganisationTeamIsolationRoute } from './api/internal-organisation-team-isolation/route';
 import { internalOrganisationTeamsRoute } from './api/internal-organisation-teams/route';
 import { internalTeamRoute } from './api/internal-team/route';
 import { internalUserBootstrapSessionRoute } from './api/internal-user-bootstrap-session/route';
@@ -121,6 +122,7 @@ app.route('/api/internal/users/:userId/bootstrap-session', internalUserBootstrap
 app.route('/api/internal/users/:userId/organisations', internalUserOrganisationsRoute);
 app.route('/api/internal/users', internalUsersRoute);
 app.route('/api/internal/organisations/:orgUrl/team-access', internalOrganisationTeamAccessRoute);
+app.route('/api/internal/organisations/:orgUrl/teams/:teamUrl', internalOrganisationTeamIsolationRoute);
 app.route('/api/internal/organisations/:orgUrl/teams', internalOrganisationTeamsRoute);
 app.route('/api/internal/teams/:teamReference', internalTeamRoute);
 app.route('/api/internal/teams/:teamUrl/api-tokens', internalApiTokensRoute);
