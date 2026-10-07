@@ -2,7 +2,7 @@ import { formatSecureCookieName, getCookieDomain, useSecureCookies } from '@docu
 import { appLog } from '@documenso/lib/utils/debugger';
 import { env } from '@documenso/lib/utils/env';
 import type { Context } from 'hono';
-import { deleteCookie, getSignedCookie, setSignedCookie } from 'hono/cookie';
+import { deleteCookie, generateSignedCookie, getSignedCookie, setSignedCookie } from 'hono/cookie';
 
 import { AUTH_SESSION_LIFETIME } from '../../config';
 import { extractCookieFromHeaders } from '../utils/cookies';
@@ -37,6 +37,16 @@ export const extractSessionCookieFromHeaders = (headers: Headers): string | null
 };
 
 /**
+ * Build a signed `Set-Cookie` header value for the auth session (React Router loaders and other non-Hono responses).
+ */
+export async function buildSessionSetCookieHeader(sessionToken: string): Promise<string> {
+  return generateSignedCookie(sessionCookieName, sessionToken, getAuthSecret(), {
+    ...sessionCookieOptions,
+    expires: new Date(Date.now() + AUTH_SESSION_LIFETIME),
+  });
+}
+
+/**
  * Get the session cookie attached to the request headers.
  *
  * @param c - The Hono context.
@@ -55,14 +65,14 @@ export const getSessionCookie = async (c: Context): Promise<string | null> => {
  * @param sessionToken - The session token to set.
  */
 export const setSessionCookie = async (c: Context, sessionToken: string) => {
-  await setSignedCookie(c, sessionCookieName, sessionToken, getAuthSecret(), {
-    ...sessionCookieOptions,
-    expires: new Date(Date.now() + AUTH_SESSION_LIFETIME),
-  }).catch((err) => {
+  try {
+    const cookie = await buildSessionSetCookieHeader(sessionToken);
+    c.header('Set-Cookie', cookie, { append: true });
+  } catch (err) {
     appLog('SetSessionCookie', `Error setting signed cookie: ${err}`);
 
     throw err;
-  });
+  }
 };
 
 /**
