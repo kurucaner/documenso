@@ -1,7 +1,8 @@
+import { sessionCookieName } from '@documenso/auth/server/lib/session/session-cookies';
 import { NEXT_PUBLIC_WEBAPP_URL } from '@documenso/lib/constants/app';
 import { hashBootstrapSessionToken } from '@documenso/lib/server-only/internal-api/bootstrap-session-token';
 import { prisma } from '@documenso/prisma';
-import type { APIRequestContext } from '@playwright/test';
+import type { APIRequestContext, Page } from '@playwright/test';
 import { expect, test } from '@playwright/test';
 
 import { checkSessionValid } from '../fixtures/authentication';
@@ -50,15 +51,30 @@ const mintBootstrapSession = async (request: APIRequestContext, userId: number) 
   };
 };
 
+async function expectBootstrapRedirectSetsSessionCookie(page: Page, bootstrapUrl: string): Promise<void> {
+  const bootstrapResponsePromise = page.waitForResponse(
+    (response) => response.request().method() === 'GET' && response.url().includes('/signin/bootstrap'),
+  );
+
+  await page.goto(bootstrapUrl);
+
+  const bootstrapResponse = await bootstrapResponsePromise;
+
+  expect(bootstrapResponse.status()).toBe(302);
+
+  const setCookieHeaders = await bootstrapResponse.headerValues('set-cookie');
+  expect(setCookieHeaders.some((header) => header.includes(`${sessionCookieName}=`))).toBe(true);
+}
+
 test.describe('Bootstrap sign-in route', () => {
   test('should establish a session and redirect to returnTo', async ({ page, request }) => {
     const email = `bootstrap-signin-${Date.now()}@example.com`;
     const provisioned = await provisionInternalUser(request, email);
     const minted = await mintBootstrapSession(request, provisioned.userId);
 
-    await page.goto(
-      `${WEBAPP_BASE_URL}${minted.bootstrapPath}?token=${encodeURIComponent(minted.token)}&returnTo=${encodeURIComponent('/')}`,
-    );
+    const bootstrapUrl = `${WEBAPP_BASE_URL}${minted.bootstrapPath}?token=${encodeURIComponent(minted.token)}&returnTo=${encodeURIComponent('/')}`;
+
+    await expectBootstrapRedirectSetsSessionCookie(page, bootstrapUrl);
 
     await page.waitForURL(`${WEBAPP_BASE_URL}/`);
 
