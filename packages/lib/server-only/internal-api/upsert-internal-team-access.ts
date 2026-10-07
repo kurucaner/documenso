@@ -12,7 +12,13 @@ import { addTeamMembersInternal } from '@documenso/lib/server-only/team/add-team
 import { removeTeamMemberInternal } from '@documenso/lib/server-only/team/remove-team-member-internal';
 import { createUser } from '@documenso/lib/server-only/user/create-user';
 import { prisma } from '@documenso/prisma';
-import { type OrganisationMemberRole, SubscriptionStatus, type TeamMemberRole } from '@prisma/client';
+import {
+  type OrganisationClaim,
+  type OrganisationMemberRole,
+  type Subscription,
+  SubscriptionStatus,
+  type TeamMemberRole,
+} from '@prisma/client';
 
 import { isInternalSecretConfigured } from './is-internal-secret-configured';
 
@@ -50,10 +56,9 @@ const resolveDisplayName = (email: string, name?: string): string => {
 };
 
 const assertBillingAllowsNewMember = async (organisation: {
-  id: string;
   members: { id: string }[];
-  organisationClaim: { teamCount: number };
-  subscription: { status: SubscriptionStatus } | null;
+  organisationClaim: OrganisationClaim;
+  subscription: Subscription | null;
 }): Promise<void> => {
   if (!IS_BILLING_ENABLED()) {
     return;
