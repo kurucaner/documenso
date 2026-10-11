@@ -7,7 +7,7 @@
       "dependencies": {
         "@ai-sdk/google-vertex": "5.0.48",
         "@documenso/prisma": "*",
-        "@libpdf/core": "^0.5.1",
+        "@libpdf/core": "^0.5.2",
         "@lingui/conf": "^5.6.0",
         "@lingui/core": "^5.6.0",
         "@marsidev/react-turnstile": "^1.5.0",
@@ -137,7 +137,7 @@
     },
     "apps/remix": {
       "name": "@documenso/remix",
-      "version": "2.19.0",
+      "version": "2.20.0",
       "dependencies": {
         "@cantoo/pdf-lib": "^2.5.3",
         "@documenso/api": "*",
@@ -1025,7 +1025,7 @@
 
     "@levischuck/tiny-cbor": ["@levischuck/tiny-cbor@0.2.11", "", {}, "sha512-llBRm4dT4Z89aRsm6u2oEZ8tfwL/2l6BwpZ7JcyieouniDECM5AqNgr/y08zalEIvW3RSK4upYyybDcmjXqAow=="],
 
-    "@libpdf/core": ["@libpdf/core@0.5.1", "", { "dependencies": { "@noble/ciphers": "^2.2.0", "@noble/hashes": "^2.2.0", "@scure/base": "^2.2.0", "asn1js": "^3.0.10", "lru-cache": "^11.5.1", "pako": "^2.1.0", "pkijs": "^3.4.0" }, "peerDependencies": { "@google-cloud/kms": "^5.0.0", "@google-cloud/secret-manager": "^6.0.0" }, "optionalPeers": ["@google-cloud/kms", "@google-cloud/secret-manager"] }, "sha512-q+y4AEk9ngqyC1pdX/hNScnfh0ROr4vSiqX4C9CmuBzhtuVukbfTesXCaGvHZ3pksi8AJYDPGQ/0HzSeHZfi3A=="],
+    "@libpdf/core": ["@libpdf/core@0.5.2", "", { "dependencies": { "@noble/ciphers": "^2.2.0", "@noble/hashes": "^2.2.0", "@scure/base": "^2.2.0", "asn1js": "^3.0.10", "lru-cache": "^11.5.1", "pako": "^2.1.0", "pkijs": "^3.4.0" }, "peerDependencies": { "@google-cloud/kms": "^5.0.0", "@google-cloud/secret-manager": "^6.0.0" }, "optionalPeers": ["@google-cloud/kms", "@google-cloud/secret-manager"] }, "sha512-tJygxS+S/md19ysK/AcgOGzZ1TnmnwY1a0xWdzN5Y/JtC2PsL7LJWTXcLrIdxXuPEPq5+sPW19Dz9YpZJePMig=="],
 
     "@lingui/babel-plugin-extract-messages": ["@lingui/babel-plugin-extract-messages@5.9.5", "", {}, "sha512-XOAXMPOkpy45784q5bCNN5PizoAecxkBm8kv8CEusI/f9kR3vMCcpH4kvSchU05JkKAVE8eIsdxb2zM6eDJTeA=="],
 
