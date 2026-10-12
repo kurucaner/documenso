@@ -37,6 +37,15 @@ type TEmbedAuthStart = InferRequestType<AuthClientType['embed']['start']['$post'
 
 type TEmbedAuthRedeem = InferRequestType<AuthClientType['embed']['redeem']['$post']>['json'];
 
+type TEmbedAuthStartResponse = {
+  redirectUrl: string | null;
+  returnTo?: string;
+};
+
+type TEmbedAuthRedeemResponse = {
+  status: 'ok' | 'failed';
+};
+
 export type TEmbedAuthRedeemResult = 'ok' | 'pending' | 'rate-limited' | 'failed';
 
 // Cross-site iframe requests need `credentials: 'include'` to carry the partitioned cookie.
@@ -296,11 +305,11 @@ export class AuthClient {
         throw AppError.parseError(error);
       }
 
-      const result = await response.json();
+      const result = (await response.json()) as TEmbedAuthStartResponse;
 
       return {
         redirectUrl: result.redirectUrl,
-        returnTo: 'returnTo' in result ? result.returnTo : null,
+        returnTo: 'returnTo' in result ? (result.returnTo ?? null) : null,
       };
     },
 
@@ -324,7 +333,7 @@ export class AuthClient {
         return 'pending';
       }
 
-      const result = await response.json();
+      const result = (await response.json()) as TEmbedAuthRedeemResponse;
 
       return result.status === 'failed' ? 'failed' : 'ok';
     },
