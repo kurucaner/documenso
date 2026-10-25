@@ -354,11 +354,14 @@ msgstr "{0} des {1} documents restants ce mois-ci."
 msgid "{0} Plan"
 msgstr ""
 
+<<<<<<< HEAD
 #. placeholder {0}: result.signatures.length
 #: apps/remix/app/components/general/verify/verify-pdf-upload.tsx
 msgid "{0} signature(s) checked"
 msgstr ""
 
+=======
+>>>>>>> origin/main
 #. placeholder {0}: organisation.name
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl._index.tsx
 msgid "{0} Teams"
@@ -809,6 +812,10 @@ msgstr "<0>{organisationName}</0> a demandé à créer un compte en votre nom."
 
 #: packages/email/templates/organisation-account-link-confirmation.tsx
 msgid "<0>{organisationName}</0> has requested to link your current {appName}account to their organisation."
+msgstr ""
+
+#: apps/remix/app/components/dialogs/admin-recipient-delete-dialog.tsx
+msgid "<0>{recipientLabel}</0> and their fields will be removed from this document. They and the document owner will be emailed."
 msgstr ""
 
 #: apps/remix/app/components/dialogs/admin-recipient-delete-dialog.tsx
@@ -1844,6 +1851,7 @@ msgstr "Vous avez déjà un compte ? <0>Connectez-vous plutôt</0>"
 msgid "Amount"
 msgstr "Montant"
 
+<<<<<<< HEAD
 #. placeholder {0}: loaderData.email
 #: apps/remix/app/routes/_unauthenticated+/signup-invite.$token.tsx
 msgid "An account already exists for <0>{0}</0>."
@@ -1852,6 +1860,10 @@ msgstr ""
 #. placeholder {0}: loaderData.email
 #: apps/remix/app/routes/_unauthenticated+/signup-invite.$token.tsx
 msgid "An account has already been created for <0>{0}</0>."
+=======
+#: packages/lib/jobs/definitions/emails/send-account-disabled-email.handler.ts
+msgid "An account was automatically disabled"
+>>>>>>> origin/main
 msgstr ""
 
 #: packages/email/templates/document-super-delete.tsx
@@ -6862,6 +6874,13 @@ msgstr "Si vous utilisez l’environnement de staging, assurez-vous d’avoir d�
 msgid "If you believe this is a mistake, please contact the sender directly."
 msgstr ""
 
+<<<<<<< HEAD
+=======
+#: packages/email/template-components/template-account-disabled.tsx
+msgid "If you believe this was a mistake, contact us at <0>{supportEmail}</0>."
+msgstr ""
+
+>>>>>>> origin/main
 #: apps/remix/app/routes/_recipient+/report.$token.tsx
 msgid "If you did not expect this email or believe it is spam, you can report the sender to our team for review."
 msgstr "Si vous ne vous attendiez pas à recevoir cet e‑mail ou si vous pensez qu’il s’agit de spam, vous pouvez signaler l’expéditeur à notre équipe pour vérification."
@@ -8487,6 +8506,10 @@ msgstr "Une fois votre modèle configuré, partagez le lien où vous le souhaite
 msgid "One of the documents in the current bundle has a signing role that is not compatible with the current signing experience."
 msgstr "L'un des documents du paquet actuel a un rôle de signature qui n'est pas compatible avec l'expérience de signature actuelle."
 
+#: packages/email/template-components/template-account-disabled.tsx
+msgid "One of your signing requests has been reported. As part of keeping signers safe, we've disabled your account for now."
+msgstr ""
+
 #: apps/remix/app/utils/toast-error-messages.ts
 msgid "One or more of your required fields have not been saved. Please refresh the page, complete any empty required fields, and try again."
 msgstr ""
@@ -8518,6 +8541,14 @@ msgstr "Seuls les fichiers PDF sont autorisés"
 #: apps/remix/app/components/dialogs/envelopes-bulk-cancel-dialog.tsx
 msgid "Only pending documents you have permission to manage will be cancelled."
 msgstr "Seuls les documents en attente que vous êtes autorisé à gérer seront annulés."
+
+#: packages/email/template-components/template-new-account-warning.tsx
+msgid "Only sign if you know and were expecting this sender."
+msgstr ""
+
+#: packages/email/template-components/template-new-account-warning.tsx
+msgid "Only sign if you know and were expecting this sender. <0>Report sender</0>"
+msgstr ""
 
 #: apps/remix/app/components/general/generic-error-layout.tsx
 #: apps/remix/app/components/general/generic-error-layout.tsx
@@ -9535,6 +9566,13 @@ msgstr "Lecture seule"
 msgid "Read Only"
 msgstr "Lecture Seule"
 
+<<<<<<< HEAD
+=======
+#: apps/remix/app/routes/_authenticated+/o.$orgUrl.support.tsx
+msgid "Read our documentation to get started with Documenso."
+msgstr "Lisez notre documentation pour commencer avec Documenso."
+
+>>>>>>> origin/main
 #: apps/remix/app/components/tables/admin-document-recipient-item-table.tsx
 msgid "Read Status"
 msgstr "Statut de lecture"
@@ -9835,7 +9873,10 @@ msgstr ""
 msgid "Redirecting to your sign in provider..."
 msgstr ""
 
+<<<<<<< HEAD
 #: apps/remix/app/components/forms/signup.tsx
+=======
+>>>>>>> origin/main
 #: apps/remix/app/components/forms/signup.tsx
 #: apps/remix/app/components/general/claim-account.tsx
 msgid "Registration Successful"
@@ -11815,6 +11856,10 @@ msgstr ""
 msgid "Team activity"
 msgstr ""
 
+#: apps/remix/app/routes/_authenticated+/o.$orgUrl.analytics._index.tsx
+msgid "Team activity"
+msgstr ""
+
 #: packages/lib/constants/teams-translations.ts
 msgid "Team Admin"
 msgstr "Admin de l'équipe"
@@ -12424,6 +12469,7 @@ msgstr ""
 msgid "The image must be smaller than 5MB."
 msgstr ""
 
+<<<<<<< HEAD
 #. placeholder {0}: loaderData.email
 #. placeholder {1}: new Date(loaderData.expiresAt).toLocaleString()
 #: apps/remix/app/routes/_unauthenticated+/signup-invite.$token.tsx
@@ -12435,6 +12481,8 @@ msgstr ""
 msgid "The invitation for <0>{0}</0> is no longer valid. Please contact your administrator."
 msgstr ""
 
+=======
+>>>>>>> origin/main
 #: apps/remix/app/components/general/admin-license-card.tsx
 msgid "The license key has been copied to your clipboard"
 msgstr ""
@@ -12964,6 +13012,7 @@ msgstr "Ce dossier contient plusieurs éléments. Le supprimer supprimera tous l
 msgid "This image is invalid, please upload a valid image file."
 msgstr ""
 
+<<<<<<< HEAD
 #: packages/email/templates/signup-invite.tsx
 msgid "This invitation expires on <0>{formattedExpiresAt}</0> ({relativeExpiresAt})."
 msgstr ""
@@ -12984,6 +13033,8 @@ msgstr ""
 msgid "This invite is for this email address."
 msgstr ""
 
+=======
+>>>>>>> origin/main
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-settings-dialog.tsx
 #: packages/ui/primitives/template-flow/add-template-settings.tsx
 msgid "This is how the document will reach the recipients once the document is ready for signing."
@@ -13046,10 +13097,13 @@ msgstr ""
 msgid "This session has expired. Please try again."
 msgstr "Cette session a expiré. Veuillez réessayer."
 
+<<<<<<< HEAD
 #: apps/remix/app/components/forms/signup.tsx
 msgid "This sign-in link is invalid or has expired. Sign in with your email and password."
 msgstr ""
 
+=======
+>>>>>>> origin/main
 #: apps/remix/app/components/general/envelope-editor/recipient-step-list.tsx
 #: packages/ui/primitives/document-flow/add-signers.tsx
 msgid "This signer has already signed the document."
@@ -14431,7 +14485,7 @@ msgstr "En attente des autres"
 
 #: packages/lib/jobs/definitions/emails/send-document-pending-email.handler.ts
 msgid "Waiting for others to complete signing"
-msgstr ""
+msgstr "En attente que les autres terminent de signer"
 
 #: apps/remix/app/routes/_recipient+/sign.$token+/complete.tsx
 msgid "Waiting for others to sign"
@@ -14464,6 +14518,10 @@ msgstr "Attention, ce canal de courrier est actuellement utilisé par :"
 #: packages/ui/primitives/template-flow/add-template-placeholder-recipients.tsx
 msgid "Warning: Assistant as last signer"
 msgstr "Avertissement : Assistant comme dernier signataire"
+
+#: packages/email/template-components/template-new-account-warning.tsx
+msgid "Warning: This was sent from a new account ({senderEmail})"
+msgstr ""
 
 #: apps/remix/app/components/general/organisations/organisation-billing-banner.tsx
 #: apps/remix/app/components/general/organisations/organisation-billing-portal-button.tsx
@@ -15871,6 +15929,10 @@ msgstr "Vous devrez maintenant entrer un code de votre application d'authentific
 msgid "You will receive an email copy of the signed document once everyone has signed."
 msgstr "Vous recevrez une copie par e-mail du document signé une fois que tout le monde aura signé."
 
+#: packages/email/template-components/template-account-disabled.tsx
+msgid "You won't be able to sign in or send documents while it is disabled."
+msgstr ""
+
 #: apps/remix/app/components/dialogs/ai-features-enable-dialog.tsx
 msgid "You're an admin. You can enable AI features for this team right away. Everyone on the team will see AI detection once enabled."
 msgstr "Vous êtes administrateur. Vous pouvez activer immédiatement les fonctionnalités d’IA pour cette équipe. Tous les membres de l’équipe verront la détection par IA une fois qu’elle sera activée."
@@ -15898,14 +15960,24 @@ msgstr "Votre Compte"
 msgid "Your account does not have a password and password sign in is disabled for this instance. Please contact the document sender to use a different authentication method."
 msgstr ""
 
+<<<<<<< HEAD
 #: apps/remix/app/components/forms/signup.tsx
 msgid "Your account has been created. Signing you in now."
 msgstr ""
 
+=======
+>>>>>>> origin/main
 #: apps/remix/app/components/dialogs/account-delete-dialog.tsx
 msgid "Your account has been deleted successfully."
 msgstr "Votre compte a été supprimé avec succès."
 
+<<<<<<< HEAD
+=======
+#: packages/email/template-components/template-account-disabled.tsx
+msgid "Your account has been disabled"
+msgstr ""
+
+>>>>>>> origin/main
 #: apps/remix/app/routes/_authenticated+/settings+/security._index.tsx
 msgid "Your account has no password. Add one to sign in with your email and to sign documents that require it. We'll email you a link."
 msgstr ""
@@ -16009,6 +16081,11 @@ msgstr "Votre plan actuel est arrivé à échéance."
 #: apps/remix/app/components/dialogs/public-profile-template-manage-dialog.tsx
 msgid "Your direct signing templates"
 msgstr "Vos modèles de signature directe"
+
+#: packages/email/templates/account-disabled.tsx
+#: packages/lib/jobs/definitions/emails/send-account-disabled-email.handler.ts
+msgid "Your Documenso account has been disabled"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/ai-features-enable-dialog.tsx
 msgid "Your document content will be sent securely to our AI provider solely for detection and will not be stored or used for training."
