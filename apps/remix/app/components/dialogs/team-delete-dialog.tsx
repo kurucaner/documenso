@@ -2,6 +2,7 @@ import { useCurrentOrganisation } from '@documenso/lib/client-only/providers/org
 import { useSession } from '@documenso/lib/client-only/providers/session';
 import { AppError } from '@documenso/lib/errors/app-error';
 import { trpc } from '@documenso/trpc/react';
+import { Alert, AlertDescription, AlertTitle } from '@documenso/ui/primitives/alert';
 import { Button } from '@documenso/ui/primitives/button';
 import {
   Dialog,
@@ -31,9 +32,10 @@ export type TeamDeleteDialogProps = {
   teamName: string;
   redirectTo?: string;
   trigger?: React.ReactNode;
+  className?: string;
 };
 
-export const TeamDeleteDialog = ({ trigger, teamId, teamName, redirectTo }: TeamDeleteDialogProps) => {
+export const TeamDeleteDialog = ({ className, trigger, teamId, teamName, redirectTo }: TeamDeleteDialogProps) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
@@ -42,6 +44,9 @@ export const TeamDeleteDialog = ({ trigger, teamId, teamName, redirectTo }: Team
   const { refreshSession } = useSession();
 
   const currentOrganisation = useCurrentOrganisation();
+
+  const managedTeam = currentOrganisation.teams.find((team) => team.id === teamId);
+  const isPropertyOsManaged = managedTeam?.propertyOsManaged ?? false;
 
   const deleteMessage = _(msg`delete ${teamName}`);
 
@@ -113,6 +118,19 @@ export const TeamDeleteDialog = ({ trigger, teamId, teamName, redirectTo }: Team
       form.reset();
     }
   }, [open, form]);
+
+  if (isPropertyOsManaged) {
+    return (
+      <Alert className={className} variant="neutral">
+        <AlertTitle>
+          <Trans>Delete Team</Trans>
+        </AlertTitle>
+        <AlertDescription>
+          <Trans>This team is managed by PropertyOS. Delete the property in PropertyOS to remove this workspace.</Trans>
+        </AlertDescription>
+      </Alert>
+    );
+  }
 
   return (
     <Dialog open={open} onOpenChange={(value) => !form.formState.isSubmitting && setOpen(value)}>

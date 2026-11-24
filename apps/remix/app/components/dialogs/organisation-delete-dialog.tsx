@@ -2,6 +2,7 @@ import { useCurrentOrganisation } from '@documenso/lib/client-only/providers/org
 import { useSession } from '@documenso/lib/client-only/providers/session';
 import { AppError } from '@documenso/lib/errors/app-error';
 import { trpc } from '@documenso/trpc/react';
+import { Alert, AlertDescription, AlertTitle } from '@documenso/ui/primitives/alert';
 import { Button } from '@documenso/ui/primitives/button';
 import {
   Dialog,
@@ -26,9 +27,10 @@ import { z } from 'zod';
 
 export type OrganisationDeleteDialogProps = {
   trigger?: React.ReactNode;
+  className?: string;
 };
 
-export const OrganisationDeleteDialog = ({ trigger }: OrganisationDeleteDialogProps) => {
+export const OrganisationDeleteDialog = ({ className, trigger }: OrganisationDeleteDialogProps) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
@@ -37,6 +39,9 @@ export const OrganisationDeleteDialog = ({ trigger }: OrganisationDeleteDialogPr
   const { refreshSession } = useSession();
 
   const organisation = useCurrentOrganisation();
+
+  const isPropertyOsManaged =
+    organisation.propertyOsManaged || organisation.teams.some((team) => team.propertyOsManaged);
 
   const deleteMessage = _(msg`delete ${organisation.name}`);
 
@@ -89,6 +94,22 @@ export const OrganisationDeleteDialog = ({ trigger }: OrganisationDeleteDialogPr
       form.reset();
     }
   }, [open, form]);
+
+  if (isPropertyOsManaged) {
+    return (
+      <Alert className={className} variant="neutral">
+        <AlertTitle>
+          <Trans>Delete Organisation</Trans>
+        </AlertTitle>
+        <AlertDescription>
+          <Trans>
+            This organisation is linked to PropertyOS. Remove or reset your Documenso account link in PropertyOS — do
+            not delete the organisation here.
+          </Trans>
+        </AlertDescription>
+      </Alert>
+    );
+  }
 
   return (
     <Dialog open={open} onOpenChange={(value) => !form.formState.isSubmitting && setOpen(value)}>
