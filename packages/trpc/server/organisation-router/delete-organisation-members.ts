@@ -5,6 +5,7 @@ import {
 
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
 import { jobs } from '@documenso/lib/jobs/client';
+import { assertManagedOrganisationDashboardWriteAllowedById } from '@documenso/lib/server-only/organisation/assert-managed-organisation-dashboard-write-allowed';
 import {
   buildOrganisationWhereQuery,
   getHighestOrganisationRoleInGroup,
@@ -32,6 +33,8 @@ export const deleteOrganisationMembersRoute = authenticatedProcedure
         organisationMemberIds,
       },
     });
+
+    await assertManagedOrganisationDashboardWriteAllowedById({ organisationId });
 
     await deleteOrganisationMembers({
       userId,

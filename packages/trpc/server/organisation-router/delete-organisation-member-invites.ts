@@ -1,5 +1,6 @@
 import { ORGANISATION_MEMBER_ROLE_PERMISSIONS_MAP } from '@documenso/lib/constants/organisations';
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
+import { assertManagedOrganisationDashboardWriteAllowedById } from '@documenso/lib/server-only/organisation/assert-managed-organisation-dashboard-write-allowed';
 import { getMemberOrganisationRole } from '@documenso/lib/server-only/team/get-member-roles';
 import { buildOrganisationWhereQuery, isOrganisationRoleWithinUserHierarchy } from '@documenso/lib/utils/organisations';
 import { prisma } from '@documenso/prisma';
@@ -24,6 +25,8 @@ export const deleteOrganisationMemberInvitesRoute = authenticatedProcedure
         invitationIds,
       },
     });
+
+    await assertManagedOrganisationDashboardWriteAllowedById({ organisationId });
 
     const organisation = await prisma.organisation.findFirst({
       where: buildOrganisationWhereQuery({

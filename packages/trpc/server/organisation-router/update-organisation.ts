@@ -1,6 +1,7 @@
 import { AdminRuleEngine } from '@documenso/ee/server-only/admin-rules/admin-rule-engine';
 import { ORGANISATION_MEMBER_ROLE_PERMISSIONS_MAP } from '@documenso/lib/constants/organisations';
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
+import { assertManagedOrganisationDashboardWriteAllowedById } from '@documenso/lib/server-only/organisation/assert-managed-organisation-dashboard-write-allowed';
 import { stripe } from '@documenso/lib/server-only/stripe';
 import { buildOrganisationWhereQuery } from '@documenso/lib/utils/organisations';
 import { prisma } from '@documenso/prisma';
@@ -23,6 +24,8 @@ export const updateOrganisationRoute = authenticatedProcedure
         organisationId,
       },
     });
+
+    await assertManagedOrganisationDashboardWriteAllowedById({ organisationId });
 
     // Check if organisation exists and user has access to it
     const existingOrganisation = await prisma.organisation.findFirst({

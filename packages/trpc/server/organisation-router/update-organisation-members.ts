@@ -1,5 +1,6 @@
 import { ORGANISATION_MEMBER_ROLE_PERMISSIONS_MAP } from '@documenso/lib/constants/organisations';
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
+import { assertManagedOrganisationDashboardWriteAllowedById } from '@documenso/lib/server-only/organisation/assert-managed-organisation-dashboard-write-allowed';
 import { generateDatabaseId } from '@documenso/lib/universal/id';
 import {
   buildOrganisationWhereQuery,
@@ -29,6 +30,8 @@ export const updateOrganisationMemberRoute = authenticatedProcedure
         organisationMemberId,
       },
     });
+
+    await assertManagedOrganisationDashboardWriteAllowedById({ organisationId });
 
     const organisation = await prisma.organisation.findFirst({
       where: buildOrganisationWhereQuery({

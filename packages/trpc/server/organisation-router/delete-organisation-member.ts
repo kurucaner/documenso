@@ -1,3 +1,5 @@
+import { assertManagedOrganisationDashboardWriteAllowedById } from '@documenso/lib/server-only/organisation/assert-managed-organisation-dashboard-write-allowed';
+
 import { authenticatedProcedure } from '../trpc';
 import {
   ZDeleteOrganisationMemberRequestSchema,
@@ -19,6 +21,8 @@ export const deleteOrganisationMemberRoute = authenticatedProcedure
         organisationMemberId,
       },
     });
+
+    await assertManagedOrganisationDashboardWriteAllowedById({ organisationId });
 
     await deleteOrganisationMembers({
       userId,

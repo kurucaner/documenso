@@ -1,3 +1,4 @@
+import { assertManagedOrganisationDashboardWriteAllowedById } from '@documenso/lib/server-only/organisation/assert-managed-organisation-dashboard-write-allowed';
 import { createOrganisationMemberInvites } from '@documenso/lib/server-only/organisation/create-organisation-member-invites';
 
 import { authenticatedProcedure } from '../trpc';
@@ -19,6 +20,8 @@ export const createOrganisationMemberInvitesRoute = authenticatedProcedure
         organisationId,
       },
     });
+
+    await assertManagedOrganisationDashboardWriteAllowedById({ organisationId });
 
     await createOrganisationMemberInvites({
       userId,
