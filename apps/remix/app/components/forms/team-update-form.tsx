@@ -1,3 +1,4 @@
+import { useCurrentOrganisation } from '@documenso/lib/client-only/providers/organisation';
 import { NEXT_PUBLIC_WEBAPP_URL } from '@documenso/lib/constants/app';
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
 import { trpc } from '@documenso/trpc/react';
@@ -32,6 +33,8 @@ export const TeamUpdateForm = ({ teamId, teamName, teamUrl }: UpdateTeamDialogPr
   const navigate = useNavigate();
   const { _ } = useLingui();
   const { toast } = useToast();
+  const organisation = useCurrentOrganisation();
+  const isStructureLocked = organisation.isManaged;
 
   const form = useForm({
     resolver: zodResolver(ZTeamUpdateFormSchema),
@@ -102,7 +105,7 @@ export const TeamUpdateForm = ({ teamId, teamName, teamUrl }: UpdateTeamDialogPr
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onFormSubmit)}>
-        <fieldset className="flex h-full flex-col" disabled={form.formState.isSubmitting}>
+        <fieldset className="flex h-full flex-col" disabled={form.formState.isSubmitting || isStructureLocked}>
           <FormField
             control={form.control}
             name="name"
@@ -112,7 +115,7 @@ export const TeamUpdateForm = ({ teamId, teamName, teamUrl }: UpdateTeamDialogPr
                   <Trans>Team Name</Trans>
                 </FormLabel>
                 <FormControl>
-                  <Input className="bg-background" {...field} />
+                  <Input className="bg-background" readOnly={isStructureLocked} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -128,7 +131,7 @@ export const TeamUpdateForm = ({ teamId, teamName, teamUrl }: UpdateTeamDialogPr
                   <Trans>Team URL</Trans>
                 </FormLabel>
                 <FormControl>
-                  <Input className="bg-background" {...field} />
+                  <Input className="bg-background" readOnly={isStructureLocked} {...field} />
                 </FormControl>
                 {!form.formState.errors.url && (
                   <span className="font-normal text-foreground/50 text-xs">
@@ -145,11 +148,13 @@ export const TeamUpdateForm = ({ teamId, teamName, teamUrl }: UpdateTeamDialogPr
             )}
           />
 
-          <FormStickySaveBar
-            isDirty={form.formState.isDirty}
-            isSubmitting={form.formState.isSubmitting}
-            onReset={() => form.reset()}
-          />
+          {!isStructureLocked && (
+            <FormStickySaveBar
+              isDirty={form.formState.isDirty}
+              isSubmitting={form.formState.isSubmitting}
+              onReset={() => form.reset()}
+            />
+          )}
         </fieldset>
       </form>
     </Form>

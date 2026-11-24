@@ -125,7 +125,10 @@ export const TeamDeleteDialog = ({ className, trigger, teamId, teamName, redirec
           <Trans>Delete Team</Trans>
         </AlertTitle>
         <AlertDescription>
-          <Trans>This team is managed by PropertyOS. Delete the property in PropertyOS to remove this workspace.</Trans>
+          <Trans>
+            This team belongs to an organisation managed by an integration. Remove the workspace in the application that
+            connected Documenso — do not delete the team here.
+          </Trans>
         </AlertDescription>
       </Alert>
     );

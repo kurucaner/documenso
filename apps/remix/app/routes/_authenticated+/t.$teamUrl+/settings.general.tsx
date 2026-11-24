@@ -1,4 +1,5 @@
 import { getSession } from '@documenso/auth/server/lib/utils/get-session';
+import { useCurrentOrganisation } from '@documenso/lib/client-only/providers/organisation';
 import { TEAM_MEMBER_ROLE_PERMISSIONS_MAP } from '@documenso/lib/constants/teams';
 import { formatAvatarUrl } from '@documenso/lib/utils/avatars';
 import { extractInitials } from '@documenso/lib/utils/recipient-formatter';
@@ -24,6 +25,7 @@ import { TeamEmailDeleteDialog } from '~/components/dialogs/team-email-delete-di
 import { TeamEmailUpdateDialog } from '~/components/dialogs/team-email-update-dialog';
 import { AvatarImageForm } from '~/components/forms/avatar-image';
 import { TeamUpdateForm } from '~/components/forms/team-update-form';
+import { ManagedOrganisationAlert } from '~/components/general/managed-organisation-alert';
 import { SettingsHeader } from '~/components/general/settings-header';
 import { useCurrentTeam } from '~/providers/team';
 import type { Route } from './+types/settings.general';
@@ -89,6 +91,7 @@ export default function TeamsSettingsPage({ loaderData }: Route.ComponentProps) 
   const { teamEmail, emailVerification } = loaderData;
 
   const team = useCurrentTeam();
+  const organisation = useCurrentOrganisation();
 
   const { mutateAsync: resendEmailVerification, isPending: isResendingEmailVerification } =
     trpc.team.email.verification.resend.useMutation({
@@ -112,6 +115,8 @@ export default function TeamsSettingsPage({ loaderData }: Route.ComponentProps) 
   return (
     <div>
       <SettingsHeader title={t`General settings`} subtitle={t`Here you can edit your team's details.`} />
+
+      {organisation.isManaged && <ManagedOrganisationAlert className="mb-8" />}
 
       <AvatarImageForm team={team} className="mb-8" />
 

@@ -27,6 +27,7 @@ type TOrganisationUpdateFormSchema = z.infer<typeof ZOrganisationUpdateFormSchem
 export const OrganisationUpdateForm = () => {
   const navigate = useNavigate();
   const organisation = useCurrentOrganisation();
+  const isStructureLocked = organisation.isManaged;
 
   const { refreshSession } = useSession();
 
@@ -104,7 +105,7 @@ export const OrganisationUpdateForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onFormSubmit)}>
-        <fieldset className="flex h-full flex-col" disabled={form.formState.isSubmitting}>
+        <fieldset className="flex h-full flex-col" disabled={form.formState.isSubmitting || isStructureLocked}>
           <FormField
             control={form.control}
             name="name"
@@ -114,7 +115,7 @@ export const OrganisationUpdateForm = () => {
                   <Trans>Organisation Name</Trans>
                 </FormLabel>
                 <FormControl>
-                  <Input className="bg-background" {...field} />
+                  <Input className="bg-background" readOnly={isStructureLocked} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -130,7 +131,7 @@ export const OrganisationUpdateForm = () => {
                   <Trans>Organisation URL</Trans>
                 </FormLabel>
                 <FormControl>
-                  <Input className="bg-background" {...field} />
+                  <Input className="bg-background" readOnly={isStructureLocked} {...field} />
                 </FormControl>
                 {!form.formState.errors.url && (
                   <span className="font-normal text-foreground/50 text-xs">
@@ -147,11 +148,13 @@ export const OrganisationUpdateForm = () => {
             )}
           />
 
-          <FormStickySaveBar
-            isDirty={form.formState.isDirty}
-            isSubmitting={form.formState.isSubmitting}
-            onReset={() => form.reset()}
-          />
+          {!isStructureLocked && (
+            <FormStickySaveBar
+              isDirty={form.formState.isDirty}
+              isSubmitting={form.formState.isSubmitting}
+              onReset={() => form.reset()}
+            />
+          )}
         </fieldset>
       </form>
     </Form>

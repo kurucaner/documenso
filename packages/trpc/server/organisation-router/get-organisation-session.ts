@@ -70,10 +70,11 @@ export const getOrganisationSession = async ({
   });
 
   return organisations.map((organisation) => {
-    const { organisationGlobalSettings } = organisation;
+    const { organisationGlobalSettings, isManaged } = organisation;
 
     return {
       ...organisation,
+      isManaged,
       teams: organisation.teams.map((team) => {
         const derivedSettings = extractDerivedTeamSettings(organisationGlobalSettings, team.teamGlobalSettings);
 

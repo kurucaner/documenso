@@ -40,7 +40,7 @@ export const OrganisationDeleteDialog = ({ className, trigger }: OrganisationDel
 
   const organisation = useCurrentOrganisation();
 
-  const isPropertyOsManaged = organisation.isManaged;
+  const isIntegrationManaged = organisation.isManaged;
 
   const deleteMessage = _(msg`delete ${organisation.name}`);
 
@@ -94,7 +94,7 @@ export const OrganisationDeleteDialog = ({ className, trigger }: OrganisationDel
     }
   }, [open, form]);
 
-  if (isPropertyOsManaged) {
+  if (isIntegrationManaged) {
     return (
       <Alert className={className} variant="neutral">
         <AlertTitle>
@@ -102,8 +102,8 @@ export const OrganisationDeleteDialog = ({ className, trigger }: OrganisationDel
         </AlertTitle>
         <AlertDescription>
           <Trans>
-            This organisation is linked to PropertyOS. Remove or reset your Documenso account link in PropertyOS — do
-            not delete the organisation here.
+            This organisation is managed by an integration. Remove or change workspace settings in the application that
+            connected Documenso — do not delete the organisation here.
           </Trans>
         </AlertDescription>
       </Alert>
