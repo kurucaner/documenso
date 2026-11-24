@@ -1,5 +1,6 @@
 import { TEAM_MEMBER_ROLE_PERMISSIONS_MAP } from '@documenso/lib/constants/teams';
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
+import { assertManagedOrganisationDashboardWriteAllowedByTeamId } from '@documenso/lib/server-only/organisation/assert-managed-organisation-dashboard-write-allowed';
 import { addTeamMembersInternal } from '@documenso/lib/server-only/team/add-team-members-internal';
 import { getMemberRoles } from '@documenso/lib/server-only/team/get-member-roles';
 import { buildTeamWhereQuery, isTeamRoleWithinUserHierarchy } from '@documenso/lib/utils/teams';
@@ -22,6 +23,8 @@ export const createTeamMembersRoute = authenticatedProcedure
         organisationMembers,
       },
     });
+
+    await assertManagedOrganisationDashboardWriteAllowedByTeamId({ teamId });
 
     return await createTeamMembers({
       userId: user.id,

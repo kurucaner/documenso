@@ -49,6 +49,33 @@ export const assertManagedOrganisationDashboardWriteAllowedById = async ({
   });
 };
 
+export type ResolveOrganisationIdByTeamIdOptions = {
+  teamId: number;
+};
+
+/**
+ * Loads the parent organisation id for dashboard write guards on team-scoped tRPC routes.
+ */
+export const resolveOrganisationIdByTeamId = async ({
+  teamId,
+}: ResolveOrganisationIdByTeamIdOptions): Promise<string> => {
+  const team = await prisma.team.findFirst({
+    select: {
+      organisationId: true,
+    },
+    where: { id: teamId },
+  });
+
+  if (!team) {
+    throw new AppError(AppErrorCode.NOT_FOUND, {
+      message: 'Team not found',
+      statusCode: 404,
+    });
+  }
+
+  return team.organisationId;
+};
+
 export type AssertManagedOrganisationDashboardWriteAllowedByTeamIdOptions = {
   teamId: number;
 };

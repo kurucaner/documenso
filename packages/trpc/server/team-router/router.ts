@@ -1,3 +1,4 @@
+import { assertManagedOrganisationDashboardWriteAllowedByTeamId } from '@documenso/lib/server-only/organisation/assert-managed-organisation-dashboard-write-allowed';
 import { createTeamEmailVerification } from '@documenso/lib/server-only/team/create-team-email-verification';
 import { deleteTeamEmail } from '@documenso/lib/server-only/team/delete-team-email';
 import { deleteTeamEmailVerification } from '@documenso/lib/server-only/team/delete-team-email-verification';
@@ -93,6 +94,8 @@ export const teamRouter = router({
           teamId: input.teamId,
         },
       });
+
+      await assertManagedOrganisationDashboardWriteAllowedByTeamId({ teamId: input.teamId });
 
       await updateTeamEmail({
         userId: ctx.user.id,

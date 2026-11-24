@@ -1,3 +1,4 @@
+import { assertManagedOrganisationDashboardWriteAllowedByTeamId } from '@documenso/lib/server-only/organisation/assert-managed-organisation-dashboard-write-allowed';
 import { updateTeam } from '@documenso/lib/server-only/team/update-team';
 import { updateTeamPublicProfile } from '@documenso/lib/server-only/team/update-team-public-profile';
 
@@ -18,6 +19,8 @@ export const updateTeamRoute = authenticatedProcedure
         teamId,
       },
     });
+
+    await assertManagedOrganisationDashboardWriteAllowedByTeamId({ teamId });
 
     if (name || url) {
       await updateTeam({

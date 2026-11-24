@@ -1,7 +1,7 @@
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
 import { orphanEnvelopes } from '@documenso/lib/server-only/envelope/orphan-envelopes';
 import { transferTeamEnvelopes } from '@documenso/lib/server-only/envelope/transfer-team-envelopes';
-import { assertTeamDeletionAllowedById } from '@documenso/lib/server-only/team/assert-team-deletion-allowed';
+import { assertManagedOrganisationDashboardWriteAllowedByTeamId } from '@documenso/lib/server-only/organisation/assert-managed-organisation-dashboard-write-allowed';
 import { deleteTeam } from '@documenso/lib/server-only/team/delete-team';
 import { getTeamById } from '@documenso/lib/server-only/team/get-team';
 import { TeamMemberRole } from '@prisma/client';
@@ -31,7 +31,7 @@ export const deleteTeamRoute = authenticatedProcedure
       },
     });
 
-    await assertTeamDeletionAllowedById({ teamId });
+    await assertManagedOrganisationDashboardWriteAllowedByTeamId({ teamId });
 
     const transferTeam = transferTeamId
       ? await getTeamById({ userId: user.id, teamId: transferTeamId }).catch(() => {
