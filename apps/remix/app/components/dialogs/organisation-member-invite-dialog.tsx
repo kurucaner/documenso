@@ -250,6 +250,10 @@ export const OrganisationMemberInviteDialog = ({ trigger, ...props }: Organisati
     });
   };
 
+  if (organisation.isManaged) {
+    return null;
+  }
+
   return (
     <Dialog {...props} open={open} onOpenChange={(value) => !form.formState.isSubmitting && setOpen(value)}>
       <DialogTrigger onClick={(e) => e.stopPropagation()} asChild>

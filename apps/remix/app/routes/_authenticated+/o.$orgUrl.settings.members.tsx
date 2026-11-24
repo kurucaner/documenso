@@ -1,3 +1,4 @@
+import { useCurrentOrganisation } from '@documenso/lib/client-only/providers/organisation';
 import { Input } from '@documenso/ui/primitives/input';
 import { Tabs, TabsList, TabsTrigger } from '@documenso/ui/primitives/tabs';
 import { msg } from '@lingui/core/macro';
@@ -13,6 +14,7 @@ import { OrganisationMembersDataTable } from '~/components/tables/organisation-m
 
 export default function TeamsSettingsMembersPage() {
   const { _ } = useLingui();
+  const organisation = useCurrentOrganisation();
 
   const [searchParams] = useSearchParams();
   const { pathname } = useLocation();
@@ -31,7 +33,7 @@ export default function TeamsSettingsMembersPage() {
         title={_(msg`Organisation Members`)}
         subtitle={_(msg`Manage the members or invite new members.`)}
       >
-        <OrganisationMemberInviteDialog />
+        {organisation.isManaged ? null : <OrganisationMemberInviteDialog />}
       </SettingsHeader>
 
       <div>

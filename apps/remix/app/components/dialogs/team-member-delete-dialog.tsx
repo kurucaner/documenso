@@ -1,3 +1,4 @@
+import { useCurrentOrganisation } from '@documenso/lib/client-only/providers/organisation';
 import { trpc } from '@documenso/trpc/react';
 import { Alert, AlertDescription } from '@documenso/ui/primitives/alert';
 import { AvatarWithText } from '@documenso/ui/primitives/avatar';
@@ -51,6 +52,7 @@ export const TeamMemberDeleteDialog = ({
 
   const { _ } = useLingui();
   const { toast } = useToast();
+  const organisation = useCurrentOrganisation();
 
   const { mutateAsync: deleteTeamMember, isPending: isDeletingTeamMember } = trpc.team.member.delete.useMutation({
     onSuccess: () => {
@@ -73,6 +75,10 @@ export const TeamMemberDeleteDialog = ({
       });
     },
   });
+
+  if (organisation.isManaged) {
+    return null;
+  }
 
   return (
     <Dialog open={open} onOpenChange={(value) => !isDeletingTeamMember && setOpen(value)}>

@@ -160,6 +160,10 @@ export const TeamMemberCreateDialog = ({ trigger, ...props }: TeamMemberCreateDi
     prevInviteDialogOpenRef.current = inviteDialogOpen;
   }, [inviteDialogOpen, utils, team.organisationId]);
 
+  if (organisation.isManaged) {
+    return null;
+  }
+
   return (
     <Dialog
       {...props}

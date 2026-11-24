@@ -1,3 +1,4 @@
+import { useCurrentOrganisation } from '@documenso/lib/client-only/providers/organisation';
 import { ORGANISATION_MEMBER_ROLE_HIERARCHY } from '@documenso/lib/constants/organisations';
 import { ORGANISATION_MEMBER_ROLE_MAP } from '@documenso/lib/constants/organisations-translations';
 import { isOrganisationRoleWithinUserHierarchy } from '@documenso/lib/utils/organisations';
@@ -61,6 +62,7 @@ export const OrganisationMemberUpdateDialog = ({
     },
   });
 
+  const organisation = useCurrentOrganisation();
   const { mutateAsync: updateOrganisationMember } = trpc.organisation.member.update.useMutation();
 
   const onFormSubmit = async ({ role }: ZUpdateOrganisationMemberSchema) => {
@@ -108,6 +110,10 @@ export const OrganisationMemberUpdateDialog = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, currentUserOrganisationRole, organisationMemberRole, form, toast]);
+
+  if (organisation.isManaged) {
+    return null;
+  }
 
   return (
     <Dialog {...props} open={open} onOpenChange={(value) => !form.formState.isSubmitting && setOpen(value)}>

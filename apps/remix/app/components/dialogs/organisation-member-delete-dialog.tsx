@@ -61,6 +61,10 @@ export const OrganisationMemberDeleteDialog = ({
       },
     });
 
+  if (organisation.isManaged) {
+    return null;
+  }
+
   return (
     <Dialog open={open} onOpenChange={(value) => !isDeletingOrganisationMember && setOpen(value)}>
       <DialogTrigger asChild>

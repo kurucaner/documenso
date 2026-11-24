@@ -1,3 +1,4 @@
+import { useCurrentOrganisation } from '@documenso/lib/client-only/providers/organisation';
 import { TEAM_MEMBER_ROLE_HIERARCHY } from '@documenso/lib/constants/teams';
 import { EXTENDED_TEAM_MEMBER_ROLE_MAP } from '@documenso/lib/constants/teams-translations';
 import { isTeamRoleWithinUserHierarchy } from '@documenso/lib/utils/teams';
@@ -61,6 +62,7 @@ export const TeamMemberUpdateDialog = ({
     },
   });
 
+  const organisation = useCurrentOrganisation();
   const { mutateAsync: updateTeamMember } = trpc.team.member.update.useMutation();
 
   const onFormSubmit = async ({ role }: ZUpdateTeamMemberSchema) => {
@@ -108,6 +110,10 @@ export const TeamMemberUpdateDialog = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, currentUserTeamRole, memberTeamRole, form, toast]);
+
+  if (organisation.isManaged) {
+    return null;
+  }
 
   return (
     <Dialog {...props} open={open} onOpenChange={(value) => !form.formState.isSubmitting && setOpen(value)}>

@@ -119,7 +119,7 @@ export const TeamMembersTable = () => {
       return null;
     };
 
-    return [
+    const tableColumns = [
       {
         header: _(msg`Team Member`),
         cell: ({ row }) => {
@@ -146,6 +146,14 @@ export const TeamMembersTable = () => {
         header: _(msg`Source`),
         cell: ({ row }) => (isMemberPartOfInternalTeamGroup(row.original.id) ? _(msg`Member`) : _(msg`Group`)),
       },
+    ] satisfies DataTableColumnDef<(typeof results)['data'][number]>[];
+
+    if (organisation.isManaged) {
+      return tableColumns;
+    }
+
+    return [
+      ...tableColumns,
       {
         header: _(msg`Actions`),
         cell: ({ row }) => (
@@ -199,7 +207,7 @@ export const TeamMembersTable = () => {
         ),
       },
     ] satisfies DataTableColumnDef<(typeof results)['data'][number]>[];
-  }, [groups]);
+  }, [_, groups, organisation, team]);
 
   return (
     <div className="space-y-8">
@@ -234,9 +242,11 @@ export const TeamMembersTable = () => {
               <TableCell>
                 <Skeleton className="h-4 w-20 rounded-full" />
               </TableCell>
-              <TableCell>
-                <Skeleton className="h-4 w-6 rounded-full" />
-              </TableCell>
+              {organisation.isManaged ? null : (
+                <TableCell>
+                  <Skeleton className="h-4 w-6 rounded-full" />
+                </TableCell>
+              )}
             </>
           ),
         }}
@@ -245,7 +255,9 @@ export const TeamMembersTable = () => {
       </DataTable>
 
       <AnimateGenericFadeInOut key={groupQuery.isPending ? 'pending' : 'fetched'}>
-        {!groupQuery.isPending && <TeamInheritMemberAlert memberAccessTeamGroup={memberAccessTeamGroup || null} />}
+        {!organisation.isManaged && !groupQuery.isPending ? (
+          <TeamInheritMemberAlert memberAccessTeamGroup={memberAccessTeamGroup || null} />
+        ) : null}
       </AnimateGenericFadeInOut>
     </div>
   );

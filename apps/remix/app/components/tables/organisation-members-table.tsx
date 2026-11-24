@@ -65,7 +65,7 @@ export const OrganisationMembersDataTable = () => {
   };
 
   const columns = useMemo(() => {
-    return [
+    const tableColumns = [
       {
         header: _(msg`Organisation Member`),
         cell: ({ row }) => {
@@ -100,6 +100,14 @@ export const OrganisationMembersDataTable = () => {
         header: _(msg`Groups`),
         cell: ({ row }) => row.original.groups.filter((group) => group.type === OrganisationGroupType.CUSTOM).length,
       },
+    ] satisfies DataTableColumnDef<(typeof results)['data'][number]>[];
+
+    if (organisation.isManaged) {
+      return tableColumns;
+    }
+
+    return [
+      ...tableColumns,
       {
         header: _(msg`Actions`),
         cell: ({ row }) => (
@@ -163,7 +171,7 @@ export const OrganisationMembersDataTable = () => {
         ),
       },
     ] satisfies DataTableColumnDef<(typeof results)['data'][number]>[];
-  }, []);
+  }, [_, i18n, organisation]);
 
   return (
     <DataTable
@@ -197,9 +205,11 @@ export const OrganisationMembersDataTable = () => {
             <TableCell>
               <Skeleton className="h-4 w-20 rounded-full" />
             </TableCell>
-            <TableCell>
-              <Skeleton className="h-4 w-6 rounded-full" />
-            </TableCell>
+            {organisation.isManaged ? null : (
+              <TableCell>
+                <Skeleton className="h-4 w-6 rounded-full" />
+              </TableCell>
+            )}
           </>
         ),
       }}

@@ -96,7 +96,7 @@ export const OrganisationMemberInvitesTable = () => {
   };
 
   const columns = useMemo(() => {
-    return [
+    const tableColumns = [
       {
         header: _(msg`Organisation Member`),
         cell: ({ row }) => {
@@ -119,6 +119,14 @@ export const OrganisationMemberInvitesTable = () => {
         accessorKey: 'createdAt',
         cell: ({ row }) => i18n.date(row.original.createdAt),
       },
+    ] satisfies DataTableColumnDef<(typeof results)['data'][number]>[];
+
+    if (organisation.isManaged) {
+      return tableColumns;
+    }
+
+    return [
+      ...tableColumns,
       {
         header: _(msg`Actions`),
         cell: ({ row }) => (
@@ -165,7 +173,7 @@ export const OrganisationMemberInvitesTable = () => {
         ),
       },
     ] satisfies DataTableColumnDef<(typeof results)['data'][number]>[];
-  }, []);
+  }, [_, deleteOrganisationMemberInvitations, i18n, organisation, resendOrganisationMemberInvitation]);
 
   return (
     <DataTable
