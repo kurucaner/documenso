@@ -152,14 +152,21 @@ export const SettingsTeamSwitcher = ({ currentOrgUrl, currentTeamUrl }: Settings
           })}
         </ul>
 
-        <div className="border-t p-1">
-          <Button variant="ghost" asChild className="w-full justify-start" data-testid="settings-team-switcher-create">
-            <a href={`/o/${currentOrg.url}/settings/teams?action=add-team`}>
-              <PlusIcon className="mr-2 h-4 w-4" />
-              <Trans>Create team</Trans>
-            </a>
-          </Button>
-        </div>
+        {!currentOrg.isManaged ? (
+          <div className="border-t p-1">
+            <Button
+              variant="ghost"
+              asChild
+              className="w-full justify-start"
+              data-testid="settings-team-switcher-create"
+            >
+              <a href={`/o/${currentOrg.url}/settings/teams?action=add-team`}>
+                <PlusIcon className="mr-2 h-4 w-4" />
+                <Trans>Create team</Trans>
+              </a>
+            </Button>
+          </div>
+        ) : null}
       </PopoverContent>
     </Popover>
   );

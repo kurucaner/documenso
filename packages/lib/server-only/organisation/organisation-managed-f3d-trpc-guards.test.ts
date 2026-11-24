@@ -31,6 +31,12 @@ describe('organisation managed F3d team group tRPC guards', () => {
     vi.clearAllMocks();
   });
 
+  it('guards team.create with assertManagedOrganisationDashboardWriteAllowedById', () => {
+    const source = readFileSync(join(teamRouterDirectory, 'create-team.ts'), 'utf8');
+
+    expect(source).toContain('assertManagedOrganisationDashboardWriteAllowedById');
+  });
+
   it('blocks createTeamGroups when the parent organisation is managed', async () => {
     prismaMock.team.findFirst.mockResolvedValue({
       organisation: { isManaged: true },

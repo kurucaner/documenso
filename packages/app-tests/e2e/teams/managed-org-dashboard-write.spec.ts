@@ -84,6 +84,24 @@ test.describe('@internal Integration-managed org dashboard write guards', () => 
     expect(teamUpdateResponse.ok()).toBeFalsy();
     expect(await teamUpdateResponse.text()).toContain('managed by an integration');
 
+    const teamCreateResponse = await page.request.post(`${WEBAPP_BASE_URL}/api/trpc/team.create`, {
+      headers: {
+        ...WEBAPP_ORIGIN_HEADERS,
+        'content-type': 'application/json',
+      },
+      data: JSON.stringify({
+        json: {
+          organisationId: team.organisation.id,
+          teamName: 'Blocked Managed Team',
+          teamUrl: `blocked-managed-${Date.now()}`,
+          inheritMembers: false,
+        },
+      }),
+    });
+
+    expect(teamCreateResponse.ok()).toBeFalsy();
+    expect(await teamCreateResponse.text()).toContain('managed by an integration');
+
     const organisationUpdateResponse = await page.request.post(`${WEBAPP_BASE_URL}/api/trpc/organisation.update`, {
       headers: {
         ...WEBAPP_ORIGIN_HEADERS,

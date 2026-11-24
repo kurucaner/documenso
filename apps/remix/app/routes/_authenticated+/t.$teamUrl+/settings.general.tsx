@@ -263,23 +263,26 @@ export default function TeamsSettingsPage({ loaderData }: Route.ComponentProps) 
           </Alert>
         )}
 
-        {canExecuteTeamAction('MANAGE_TEAM', team.currentTeamRole) && (
-          <Alert className="flex flex-col justify-between p-6 sm:flex-row sm:items-center" variant="neutral">
-            <div className="mb-4 sm:mb-0">
-              <AlertTitle>
-                <Trans>Delete team</Trans>
-              </AlertTitle>
+        {canExecuteTeamAction('MANAGE_TEAM', team.currentTeamRole) &&
+          (organisation.isManaged ? (
+            <TeamDeleteDialog teamId={team.id} teamName={team.name} redirectTo="/dashboard" className="p-6" />
+          ) : (
+            <Alert className="flex flex-col justify-between p-6 sm:flex-row sm:items-center" variant="neutral">
+              <div className="mb-4 sm:mb-0">
+                <AlertTitle>
+                  <Trans>Delete team</Trans>
+                </AlertTitle>
 
-              <AlertDescription className="mr-2">
-                <Trans>
-                  This team, and any associated data excluding billing invoices will be permanently deleted.
-                </Trans>
-              </AlertDescription>
-            </div>
+                <AlertDescription className="mr-2">
+                  <Trans>
+                    This team, and any associated data excluding billing invoices will be permanently deleted.
+                  </Trans>
+                </AlertDescription>
+              </div>
 
-            <TeamDeleteDialog teamId={team.id} teamName={team.name} redirectTo="/dashboard" />
-          </Alert>
-        )}
+              <TeamDeleteDialog teamId={team.id} teamName={team.name} redirectTo="/dashboard" />
+            </Alert>
+          ))}
       </section>
     </div>
   );

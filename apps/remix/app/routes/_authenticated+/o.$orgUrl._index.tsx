@@ -53,48 +53,57 @@ export default function OrganisationSettingsTeamsPage() {
         </h2>
 
         {canExecuteOrganisationAction('MANAGE_ORGANISATION', organisation.currentOrganisationRole) ? (
-          <>
+          organisation.isManaged ? (
             <p className="mb-8 max-w-md text-center text-muted-foreground text-sm">
               <Trans>
-                Teams help you organise your work and collaborate with others. Create your first team to get started.
+                This organisation is managed by an integration. Add workspaces in the application that connected
+                Documenso — you cannot create teams here.
               </Trans>
             </p>
+          ) : (
+            <>
+              <p className="mb-8 max-w-md text-center text-muted-foreground text-sm">
+                <Trans>
+                  Teams help you organise your work and collaborate with others. Create your first team to get started.
+                </Trans>
+              </p>
 
-            <TeamCreateDialog
-              trigger={
-                <Button className="flex items-center gap-2">
-                  <PlusIcon className="h-4 w-4" />
-                  <Trans>Create team</Trans>
-                </Button>
-              }
-            />
+              <TeamCreateDialog
+                trigger={
+                  <Button className="flex items-center gap-2">
+                    <PlusIcon className="h-4 w-4" />
+                    <Trans>Create team</Trans>
+                  </Button>
+                }
+              />
 
-            <div className="mt-12 max-w-md rounded-lg border px-8 py-6">
-              <h3 className="mb-2 font-medium">
-                <Trans>What you can do with teams:</Trans>
-              </h3>
-              <ul className="space-y-2 text-muted-foreground text-sm">
-                <li className="flex flex-row items-center gap-2">
-                  <div className="mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-muted font-bold">
-                    <span className="text-xs">1</span>
-                  </div>
-                  <Trans>Organize your documents and templates</Trans>
-                </li>
-                <li className="flex flex-row items-center gap-2">
-                  <div className="mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-muted font-bold">
-                    <span className="text-xs">2</span>
-                  </div>
-                  <Trans>Invite team members to collaborate</Trans>
-                </li>
-                <li className="flex flex-row items-center gap-2">
-                  <div className="mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-muted font-bold">
-                    <span className="text-xs">3</span>
-                  </div>
-                  <Trans>Manage permissions and access controls</Trans>
-                </li>
-              </ul>
-            </div>
-          </>
+              <div className="mt-12 max-w-md rounded-lg border px-8 py-6">
+                <h3 className="mb-2 font-medium">
+                  <Trans>What you can do with teams:</Trans>
+                </h3>
+                <ul className="space-y-2 text-muted-foreground text-sm">
+                  <li className="flex flex-row items-center gap-2">
+                    <div className="mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-muted font-bold">
+                      <span className="text-xs">1</span>
+                    </div>
+                    <Trans>Organize your documents and templates</Trans>
+                  </li>
+                  <li className="flex flex-row items-center gap-2">
+                    <div className="mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-muted font-bold">
+                      <span className="text-xs">2</span>
+                    </div>
+                    <Trans>Invite team members to collaborate</Trans>
+                  </li>
+                  <li className="flex flex-row items-center gap-2">
+                    <div className="mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-muted font-bold">
+                      <span className="text-xs">3</span>
+                    </div>
+                    <Trans>Manage permissions and access controls</Trans>
+                  </li>
+                </ul>
+              </div>
+            </>
+          )
         ) : (
           <p className="mb-8 max-w-md text-center text-muted-foreground text-sm">
             <Trans>

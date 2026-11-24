@@ -247,14 +247,14 @@ export const OrgMenuSwitcher = () => {
                   </div>
                 )}
 
-                {displayedOrg && (
+                {displayedOrg && !displayedOrg.isManaged ? (
                   <Button variant="ghost" className="w-full justify-start" asChild>
                     <Link to={`/o/${displayedOrg.url}/settings/teams?action=add-team`}>
                       <Plus className="mr-2 h-4 w-4" />
                       <Trans>Create Team</Trans>
                     </Link>
                   </Button>
-                )}
+                ) : null}
               </AnimateGenericFadeInOut>
             </div>
           </div>

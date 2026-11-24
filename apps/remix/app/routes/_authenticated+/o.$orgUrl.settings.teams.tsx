@@ -1,3 +1,4 @@
+import { useCurrentOrganisation } from '@documenso/lib/client-only/providers/organisation';
 import { Input } from '@documenso/ui/primitives/input';
 import { useLingui } from '@lingui/react/macro';
 import { debounce, parseAsString, useQueryState } from 'nuqs';
@@ -8,6 +9,7 @@ import { OrganisationTeamsTable } from '~/components/tables/organisation-teams-t
 
 export default function OrganisationSettingsTeamsPage() {
   const { t } = useLingui();
+  const organisation = useCurrentOrganisation();
 
   const [searchQuery, setSearchQuery] = useQueryState(
     'query',
@@ -17,7 +19,7 @@ export default function OrganisationSettingsTeamsPage() {
   return (
     <div>
       <SettingsHeader hideDivider title={t`Teams`} subtitle={t`Manage the teams in this organisation.`}>
-        <TeamCreateDialog />
+        {organisation.isManaged ? null : <TeamCreateDialog />}
       </SettingsHeader>
 
       <Input

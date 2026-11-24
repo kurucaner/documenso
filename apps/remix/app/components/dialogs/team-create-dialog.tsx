@@ -150,15 +150,23 @@ export const TeamCreateDialog = ({ trigger, onCreated, ...props }: TeamCreateDia
   }, [fullOrganisation]);
 
   useEffect(() => {
+    if (organisation.isManaged) {
+      return;
+    }
+
     if (actionSearchParam === 'add-team') {
       setOpen(true);
       updateSearchParams({ action: null });
     }
-  }, [actionSearchParam, open]);
+  }, [actionSearchParam, open, organisation.isManaged, updateSearchParams]);
 
   useEffect(() => {
     form.reset();
   }, [open, form]);
+
+  if (organisation.isManaged) {
+    return null;
+  }
 
   return (
     <Dialog {...props} open={open} onOpenChange={(value) => !form.formState.isSubmitting && setOpen(value)}>
