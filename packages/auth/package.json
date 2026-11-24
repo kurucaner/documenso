@@ -9,6 +9,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@documenso/ee": "*",
     "@documenso/lib": "*",
     "@documenso/prisma": "*",
     "@hono/standard-validator": "^0.2.0",

@@ -36,7 +36,10 @@ type DatabaseIdPrefix =
   | 'bootstrap_session'
   | 'group_member'
   | 'team_group'
-  | 'team_setting';
+  | 'team_setting'
+  | 'admin_rule'
+  | 'admin_rule_match'
+  | 'admin_tag';
 
 /**
  * Security note: some of these IDs (e.g. `data`) deliberately double as access

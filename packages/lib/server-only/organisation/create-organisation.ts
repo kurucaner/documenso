@@ -194,6 +194,7 @@ export const createPersonalOrganisation = async ({
       teamUrl: resolvedTeamUrl,
       organisationId: organisation.id,
       inheritMembers,
+      bypassAdminRules: true,
     }).catch((err) => {
       console.error(err);
 
