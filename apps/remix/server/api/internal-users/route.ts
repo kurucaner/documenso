@@ -1,4 +1,9 @@
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
+import {
+  addManagedExternalIdAliasRefinement,
+  resolveManagedExternalIdFromRequest,
+  ZManagedExternalIdBodyFields,
+} from '@documenso/lib/server-only/internal-api/managed-external-id-request';
 import { provisionInternalUser } from '@documenso/lib/server-only/internal-api/provision-internal-user';
 import { createRateLimitMiddleware } from '@documenso/lib/server-only/rate-limit/rate-limit-middleware';
 import { internalUserRateLimit } from '@documenso/lib/server-only/rate-limit/rate-limits';
@@ -15,28 +20,30 @@ import type { HonoEnv } from '../../router';
 
 const internalUserRateLimitMiddleware = createRateLimitMiddleware(internalUserRateLimit);
 
-const ZProvisionInternalUserRequestSchema = z
-  .object({
-    name: ZNameSchema,
-    email: zEmail(),
-    password: ZPasswordSchema,
-    signature: z.string().min(1),
-    organisationName: ZNameSchema.optional(),
-    teamName: ZNameSchema.optional(),
-    disableAccountDeletion: z.boolean().optional().default(false),
-    propertyOsPropertyId: z.string().uuid().optional(),
-  })
-  .refine(
-    (data) => {
-      const { name, email, password } = data;
+const ZProvisionInternalUserRequestSchema = addManagedExternalIdAliasRefinement(
+  z
+    .object({
+      disableAccountDeletion: z.boolean().optional().default(false),
+      email: zEmail(),
+      name: ZNameSchema,
+      organisationName: ZNameSchema.optional(),
+      password: ZPasswordSchema,
+      signature: z.string().min(1),
+      teamName: ZNameSchema.optional(),
+      ...ZManagedExternalIdBodyFields,
+    })
+    .refine(
+      (data) => {
+        const { email, name, password } = data;
 
-      return !password.includes(name) && !password.includes(email.split('@')[0]);
-    },
-    {
-      message: 'Password should not be common or based on personal information',
-      path: ['password'],
-    },
-  );
+        return !password.includes(name) && !password.includes(email.split('@')[0]);
+      },
+      {
+        message: 'Password should not be common or based on personal information',
+        path: ['password'],
+      },
+    ),
+);
 
 export const internalUsersRoute = new Hono<HonoEnv>()
   .use('*', internalUserRateLimitMiddleware)
@@ -46,9 +53,11 @@ export const internalUsersRoute = new Hono<HonoEnv>()
     const body = c.req.valid('json');
 
     try {
+      const { managedExternalId: _managedExternalId, propertyOsPropertyId: _propertyOsPropertyId, ...rest } = body;
+
       const result = await provisionInternalUser({
-        ...body,
-        managedExternalId: body.propertyOsPropertyId,
+        ...rest,
+        managedExternalId: resolveManagedExternalIdFromRequest(body),
       });
 
       return c.json(result, 201);

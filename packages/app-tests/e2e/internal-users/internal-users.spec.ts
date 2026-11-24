@@ -80,8 +80,8 @@ test.describe('@internal Internal user provisioning API', () => {
     expect(organisation.teams[0]?.managedExternalId).toBeNull();
   });
 
-  test('should store managedExternalId when propertyOsPropertyId is sent', async ({ request }) => {
-    const email = `internal-user-pos-team-${Date.now()}@example.com`;
+  test('should store managedExternalId when managedExternalId is sent', async ({ request }) => {
+    const email = `internal-user-managed-ext-${Date.now()}@example.com`;
     const managedExternalId = crypto.randomUUID();
 
     const response = await request.post(`${WEBAPP_BASE_URL}/api/internal/users`, {
@@ -90,7 +90,7 @@ test.describe('@internal Internal user provisioning API', () => {
       },
       data: {
         ...validUserPayload(email),
-        propertyOsPropertyId: managedExternalId,
+        managedExternalId,
       },
     });
 

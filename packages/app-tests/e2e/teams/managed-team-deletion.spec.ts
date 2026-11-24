@@ -27,7 +27,7 @@ test.describe('@internal POS-managed team deletion', () => {
         email,
         password: PROVISIONED_USER_PASSWORD,
         signature: 'Provisioned User',
-        propertyOsPropertyId: managedExternalId,
+        managedExternalId,
       },
     });
 
@@ -84,7 +84,7 @@ test.describe('@internal POS-managed team deletion', () => {
         Authorization: `Bearer ${INTERNAL_SECRET}`,
       },
       data: {
-        propertyOsPropertyId: managedExternalId,
+        managedExternalId,
       },
     });
 

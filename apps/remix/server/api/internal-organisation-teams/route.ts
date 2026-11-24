@@ -1,5 +1,10 @@
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
 import { createInternalTeam } from '@documenso/lib/server-only/internal-api/create-internal-team';
+import {
+  addManagedExternalIdAliasRefinement,
+  resolveManagedExternalIdFromRequest,
+  ZManagedExternalIdBodyFields,
+} from '@documenso/lib/server-only/internal-api/managed-external-id-request';
 import { createRateLimitMiddleware } from '@documenso/lib/server-only/rate-limit/rate-limit-middleware';
 import { internalTeamRateLimit } from '@documenso/lib/server-only/rate-limit/rate-limits';
 import { ZNameSchema } from '@documenso/lib/types/name';
@@ -14,12 +19,14 @@ import type { HonoEnv } from '../../router';
 
 const internalTeamRateLimitMiddleware = createRateLimitMiddleware(internalTeamRateLimit);
 
-const ZCreateInternalTeamRequestSchema = z.object({
-  teamName: ZNameSchema,
-  userId: z.number().int().positive(),
-  teamUrl: ZTeamUrlSchema.optional(),
-  propertyOsPropertyId: z.string().uuid().optional(),
-});
+const ZCreateInternalTeamRequestSchema = addManagedExternalIdAliasRefinement(
+  z.object({
+    teamName: ZNameSchema,
+    teamUrl: ZTeamUrlSchema.optional(),
+    userId: z.number().int().positive(),
+    ...ZManagedExternalIdBodyFields,
+  }),
+);
 
 export const internalOrganisationTeamsRoute = new Hono<HonoEnv>()
   .use('*', internalTeamRateLimitMiddleware)
@@ -37,7 +44,7 @@ export const internalOrganisationTeamsRoute = new Hono<HonoEnv>()
 
     try {
       const result = await createInternalTeam({
-        managedExternalId: body.propertyOsPropertyId,
+        managedExternalId: resolveManagedExternalIdFromRequest(body),
         orgUrl,
         teamName: body.teamName,
         teamUrl: body.teamUrl,

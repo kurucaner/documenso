@@ -1,6 +1,11 @@
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
 import { deleteInternalManagedTeam } from '@documenso/lib/server-only/internal-api/delete-internal-managed-team';
 import { getInternalTeam } from '@documenso/lib/server-only/internal-api/get-internal-team';
+import {
+  addManagedExternalIdAliasRefinement,
+  resolveManagedExternalIdFromRequest,
+  ZManagedExternalIdBodyFields,
+} from '@documenso/lib/server-only/internal-api/managed-external-id-request';
 import { createRateLimitMiddleware } from '@documenso/lib/server-only/rate-limit/rate-limit-middleware';
 import { internalTeamRateLimit, internalTeamReadRateLimit } from '@documenso/lib/server-only/rate-limit/rate-limits';
 import { sValidator } from '@hono/standard-validator';
@@ -14,9 +19,16 @@ import type { HonoEnv } from '../../router';
 const internalTeamReadRateLimitMiddleware = createRateLimitMiddleware(internalTeamReadRateLimit);
 const internalTeamWriteRateLimitMiddleware = createRateLimitMiddleware(internalTeamRateLimit);
 
-const ZDeleteInternalManagedTeamRequestSchema = z.object({
-  propertyOsPropertyId: z.string().uuid(),
-});
+const ZDeleteInternalManagedTeamRequestSchema = addManagedExternalIdAliasRefinement(
+  z
+    .object({
+      ...ZManagedExternalIdBodyFields,
+    })
+    .refine((body) => resolveManagedExternalIdFromRequest(body) != null, {
+      message: 'managedExternalId is required',
+      path: ['managedExternalId'],
+    }),
+);
 
 export const internalTeamRoute = new Hono<HonoEnv>()
   .use('*', internalTeamReadRateLimitMiddleware)
@@ -38,8 +50,16 @@ export const internalTeamRoute = new Hono<HonoEnv>()
       const body = c.req.valid('json');
 
       try {
+        const managedExternalId = resolveManagedExternalIdFromRequest(body);
+
+        if (!managedExternalId) {
+          throw new HTTPException(400, {
+            message: 'managedExternalId is required',
+          });
+        }
+
         await deleteInternalManagedTeam({
-          managedExternalId: body.propertyOsPropertyId,
+          managedExternalId,
           teamUrl: teamReference,
         });
 
