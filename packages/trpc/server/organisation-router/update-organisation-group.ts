@@ -1,5 +1,6 @@
 import { ORGANISATION_MEMBER_ROLE_PERMISSIONS_MAP } from '@documenso/lib/constants/organisations';
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
+import { assertManagedOrganisationDashboardWriteAllowed } from '@documenso/lib/server-only/organisation/assert-managed-organisation-dashboard-write-allowed';
 import { getMemberOrganisationRole } from '@documenso/lib/server-only/team/get-member-roles';
 import { generateDatabaseId } from '@documenso/lib/universal/id';
 import { buildOrganisationWhereQuery, isOrganisationRoleWithinUserHierarchy } from '@documenso/lib/utils/organisations';
@@ -55,6 +56,10 @@ export const updateOrganisationGroupRoute = authenticatedProcedure
         message: 'Organisation group not found',
       });
     }
+
+    assertManagedOrganisationDashboardWriteAllowed({
+      isManaged: organisationGroup.organisation.isManaged,
+    });
 
     if (organisationGroup.type === OrganisationGroupType.INTERNAL_ORGANISATION) {
       throw new AppError(AppErrorCode.UNAUTHORIZED, {

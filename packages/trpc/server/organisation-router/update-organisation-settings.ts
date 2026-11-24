@@ -1,5 +1,6 @@
 import { ORGANISATION_MEMBER_ROLE_PERMISSIONS_MAP } from '@documenso/lib/constants/organisations';
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
+import { assertManagedOrganisationDashboardWriteAllowedById } from '@documenso/lib/server-only/organisation/assert-managed-organisation-dashboard-write-allowed';
 import { normalizeBrandingColors } from '@documenso/lib/utils/normalize-branding-colors';
 import { buildOrganisationWhereQuery } from '@documenso/lib/utils/organisations';
 import { type SanitizeBrandingCssWarning, sanitizeBrandingCss } from '@documenso/lib/utils/sanitize-branding-css';
@@ -24,6 +25,8 @@ export const updateOrganisationSettingsRoute = authenticatedProcedure
         organisationId,
       },
     });
+
+    await assertManagedOrganisationDashboardWriteAllowedById({ organisationId });
 
     const {
       // Document related settings.
