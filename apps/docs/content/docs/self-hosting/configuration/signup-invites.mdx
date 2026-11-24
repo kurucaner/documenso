@@ -184,6 +184,7 @@ Creates a fully provisioned email/password user in one request. Bypasses `NEXT_P
 | `organisationName` | string | No       | Display name for the user's personal organisation |
 | `teamName`           | string | No       | Display name for the user's personal team |
 | `disableAccountDeletion` | boolean | No  | When `true`, blocks self-service account deletion in profile settings (default `false`) |
+| `propertyOsPropertyId` | string (UUID) | No | When set, marks the provisioned personal team as PropertyOS-managed and links it to an external property id |
 
 <Tabs items={['curl']}>
 <Tab value="curl">
@@ -280,6 +281,7 @@ Creates an additional team under an existing organisation. Use after the user ac
 | `teamName` | string | Yes      | Display name for the team (e.g. property name) |
 | `userId`   | number | Yes      | Documenso user id with permission to create teams in the org |
 | `teamUrl`  | string | No       | URL slug for the team; auto-generated from `teamName` when omitted |
+| `propertyOsPropertyId` | string (UUID) | No | When set, marks the team as PropertyOS-managed and links it to an external property id |
 
 <Tabs items={['curl']}>
 <Tab value="curl">
@@ -312,6 +314,37 @@ Example `201` response:
 | `401`  | Invalid or missing secret |
 | `404`  | Organisation not found or user cannot manage it |
 | `409`  | Team URL already exists |
+| `503`  | `NEXT_PRIVATE_INTERNAL_SECRET` is not configured |
+
+### Delete PropertyOS-managed team
+
+`DELETE /api/internal/teams/{teamUrl}`
+
+Removes a PropertyOS-managed team when the linked external property is deleted. Dashboard team delete is blocked for managed teams; PropertyOS must call this endpoint with the same `propertyOsPropertyId` used at team creation.
+
+| Field                  | Type   | Required | Description |
+| ---------------------- | ------ | -------- | ----------- |
+| `propertyOsPropertyId` | string | Yes      | UUID that must match the team row |
+
+<Tabs items={['curl']}>
+<Tab value="curl">
+```bash
+curl -X DELETE "https://documenso.example.com/api/internal/teams/oak_street_duplex_a1b2" \
+  -H "Authorization: Bearer your-long-random-secret" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "propertyOsPropertyId": "550e8400-e29b-41d4-a716-446655440000"
+  }'
+```
+</Tab>
+</Tabs>
+
+| Status | Meaning |
+| ------ | ------- |
+| `204`  | Team deleted |
+| `400`  | Team exists but is not PropertyOS-managed, or invalid body |
+| `401`  | Invalid or missing secret |
+| `404`  | Team not found or property id mismatch |
 | `503`  | `NEXT_PRIVATE_INTERNAL_SECRET` is not configured |
 
 ### Organisation team access (PropertyOS / integrations)
