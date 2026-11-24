@@ -1,5 +1,6 @@
 import { ALLOWED_TEAM_GROUP_TYPES, TEAM_MEMBER_ROLE_PERMISSIONS_MAP } from '@documenso/lib/constants/teams';
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
+import { assertManagedOrganisationDashboardWriteAllowedByTeamId } from '@documenso/lib/server-only/organisation/assert-managed-organisation-dashboard-write-allowed';
 import { getMemberRoles } from '@documenso/lib/server-only/team/get-member-roles';
 import { generateDatabaseId } from '@documenso/lib/universal/id';
 import { buildTeamWhereQuery, isTeamRoleWithinUserHierarchy } from '@documenso/lib/utils/teams';
@@ -23,6 +24,8 @@ export const createTeamGroupsRoute = authenticatedProcedure
         groups,
       },
     });
+
+    await assertManagedOrganisationDashboardWriteAllowedByTeamId({ teamId });
 
     const team = await prisma.team.findFirst({
       where: buildTeamWhereQuery({
