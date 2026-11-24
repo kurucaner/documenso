@@ -1,5 +1,6 @@
 import { ORGANISATION_MEMBER_ROLE_PERMISSIONS_MAP } from '@documenso/lib/constants/organisations';
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
+import { assertOrganisationDeletionAllowedById } from '@documenso/lib/server-only/organisation/assert-organisation-deletion-allowed';
 import { deleteOrganisation } from '@documenso/lib/server-only/organisation/delete-organisation';
 import { buildOrganisationWhereQuery } from '@documenso/lib/utils/organisations';
 import { prisma } from '@documenso/prisma';
@@ -52,6 +53,8 @@ export const deleteOrganisationRoute = authenticatedProcedure
         message: 'You are not authorized to delete this organisation',
       });
     }
+
+    await assertOrganisationDeletionAllowedById({ organisationId: organisation.id });
 
     await deleteOrganisation({ organisation });
   });
