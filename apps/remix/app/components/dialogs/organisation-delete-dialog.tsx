@@ -2,7 +2,6 @@ import { useCurrentOrganisation } from '@documenso/lib/client-only/providers/org
 import { useSession } from '@documenso/lib/client-only/providers/session';
 import { AppError } from '@documenso/lib/errors/app-error';
 import { trpc } from '@documenso/trpc/react';
-import { Alert, AlertDescription, AlertTitle } from '@documenso/ui/primitives/alert';
 import { Button } from '@documenso/ui/primitives/button';
 import {
   Dialog,
@@ -95,19 +94,7 @@ export const OrganisationDeleteDialog = ({ className, trigger }: OrganisationDel
   }, [open, form]);
 
   if (isIntegrationManaged) {
-    return (
-      <Alert className={className} variant="neutral">
-        <AlertTitle>
-          <Trans>Delete Organisation</Trans>
-        </AlertTitle>
-        <AlertDescription>
-          <Trans>
-            This organisation is managed by an integration. Remove or change workspace settings in the application that
-            connected Documenso — do not delete the organisation here.
-          </Trans>
-        </AlertDescription>
-      </Alert>
-    );
+    return null;
   }
 
   return (

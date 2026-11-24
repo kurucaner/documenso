@@ -240,15 +240,15 @@ export const getSettingsNavGroups = ({
               label: msg`Groups`,
               icon: GroupIcon,
             },
-            {
-              key: 'public-profile',
-              path: `/t/${team.url}/settings/public-profile`,
-              label: msg`Public Profile`,
-              icon: Globe2Icon,
-            },
             ...(organisation !== null && organisation.isManaged
               ? []
               : [
+                  {
+                    key: 'public-profile',
+                    path: `/t/${team.url}/settings/public-profile`,
+                    label: msg`Public Profile`,
+                    icon: Globe2Icon,
+                  },
                   {
                     key: 'tokens',
                     path: `/t/${team.url}/settings/tokens`,

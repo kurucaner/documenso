@@ -53,14 +53,7 @@ export default function OrganisationSettingsTeamsPage() {
         </h2>
 
         {canExecuteOrganisationAction('MANAGE_ORGANISATION', organisation.currentOrganisationRole) ? (
-          organisation.isManaged ? (
-            <p className="mb-8 max-w-md text-center text-muted-foreground text-sm">
-              <Trans>
-                This organisation is managed by an integration. Add workspaces in the application that connected
-                Documenso — you cannot create teams here.
-              </Trans>
-            </p>
-          ) : (
+          organisation.isManaged ? null : (
             <>
               <p className="mb-8 max-w-md text-center text-muted-foreground text-sm">
                 <Trans>

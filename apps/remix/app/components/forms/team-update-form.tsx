@@ -102,6 +102,10 @@ export const TeamUpdateForm = ({ teamId, teamName, teamUrl }: UpdateTeamDialogPr
     }
   };
 
+  if (isStructureLocked) {
+    return null;
+  }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onFormSubmit)}>

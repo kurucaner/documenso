@@ -25,7 +25,6 @@ import { TeamEmailDeleteDialog } from '~/components/dialogs/team-email-delete-di
 import { TeamEmailUpdateDialog } from '~/components/dialogs/team-email-update-dialog';
 import { AvatarImageForm } from '~/components/forms/avatar-image';
 import { TeamUpdateForm } from '~/components/forms/team-update-form';
-import { ManagedOrganisationAlert } from '~/components/general/managed-organisation-alert';
 import { SettingsHeader } from '~/components/general/settings-header';
 import { useCurrentTeam } from '~/providers/team';
 import type { Route } from './+types/settings.general';
@@ -115,8 +114,6 @@ export default function TeamsSettingsPage({ loaderData }: Route.ComponentProps) 
   return (
     <div>
       <SettingsHeader title={t`General settings`} subtitle={t`Here you can edit your team's details.`} />
-
-      {organisation.isManaged && <ManagedOrganisationAlert className="mb-8" />}
 
       <AvatarImageForm team={team} className="mb-8" />
 
@@ -263,26 +260,23 @@ export default function TeamsSettingsPage({ loaderData }: Route.ComponentProps) 
           </Alert>
         )}
 
-        {canExecuteTeamAction('MANAGE_TEAM', team.currentTeamRole) &&
-          (organisation.isManaged ? (
-            <TeamDeleteDialog teamId={team.id} teamName={team.name} redirectTo="/dashboard" className="p-6" />
-          ) : (
-            <Alert className="flex flex-col justify-between p-6 sm:flex-row sm:items-center" variant="neutral">
-              <div className="mb-4 sm:mb-0">
-                <AlertTitle>
-                  <Trans>Delete team</Trans>
-                </AlertTitle>
+        {canExecuteTeamAction('MANAGE_TEAM', team.currentTeamRole) && !organisation.isManaged ? (
+          <Alert className="flex flex-col justify-between p-6 sm:flex-row sm:items-center" variant="neutral">
+            <div className="mb-4 sm:mb-0">
+              <AlertTitle>
+                <Trans>Delete team</Trans>
+              </AlertTitle>
 
-                <AlertDescription className="mr-2">
-                  <Trans>
-                    This team, and any associated data excluding billing invoices will be permanently deleted.
-                  </Trans>
-                </AlertDescription>
-              </div>
+              <AlertDescription className="mr-2">
+                <Trans>
+                  This team, and any associated data excluding billing invoices will be permanently deleted.
+                </Trans>
+              </AlertDescription>
+            </div>
 
-              <TeamDeleteDialog teamId={team.id} teamName={team.name} redirectTo="/dashboard" />
-            </Alert>
-          ))}
+            <TeamDeleteDialog teamId={team.id} teamName={team.name} redirectTo="/dashboard" />
+          </Alert>
+        ) : null}
       </section>
     </div>
   );

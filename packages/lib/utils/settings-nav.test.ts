@@ -26,6 +26,7 @@ describe('getSettingsNavGroups managed organisation', () => {
 
     expect(keys).not.toContain('tokens');
     expect(keys).not.toContain('webhooks');
+    expect(keys).not.toContain('public-profile');
     expect(keys).toContain('general');
   });
 

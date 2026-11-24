@@ -2,7 +2,6 @@ import { useCurrentOrganisation } from '@documenso/lib/client-only/providers/org
 import { useSession } from '@documenso/lib/client-only/providers/session';
 import { AppError } from '@documenso/lib/errors/app-error';
 import { trpc } from '@documenso/trpc/react';
-import { Alert, AlertDescription, AlertTitle } from '@documenso/ui/primitives/alert';
 import { Button } from '@documenso/ui/primitives/button';
 import {
   Dialog,
@@ -119,19 +118,7 @@ export const TeamDeleteDialog = ({ className, trigger, teamId, teamName, redirec
   }, [open, form]);
 
   if (isIntegrationManaged) {
-    return (
-      <Alert className={className} variant="neutral">
-        <AlertTitle>
-          <Trans>Delete Team</Trans>
-        </AlertTitle>
-        <AlertDescription>
-          <Trans>
-            This team belongs to an organisation managed by an integration. Remove the workspace in the application that
-            connected Documenso — do not delete the team here.
-          </Trans>
-        </AlertDescription>
-      </Alert>
-    );
+    return null;
   }
 
   return (

@@ -102,6 +102,10 @@ export const OrganisationUpdateForm = () => {
     }
   };
 
+  if (isStructureLocked) {
+    return null;
+  }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onFormSubmit)}>
