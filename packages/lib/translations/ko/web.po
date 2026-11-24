@@ -22,10 +22,21 @@ msgstr ""
 msgid ".PDF documents accepted (max {APP_DOCUMENT_UPLOAD_SIZE_LIMIT}MB)"
 msgstr ".PDF 문서만 허용됩니다(최대 {APP_DOCUMENT_UPLOAD_SIZE_LIMIT}MB)."
 
+#. placeholder {0}: rule.name
+#: apps/remix/app/routes/_authenticated+/admin+/rules.new.tsx
+msgid "\"{0}\" has been created."
+msgstr ""
+
 #. placeholder {0}: invalidEmails[0].value
 #: apps/remix/app/components/general/default-recipients-multiselect-combobox.tsx
 msgid "\"{0}\" is not a valid email address."
 msgstr "\"{0}\"은(는) 올바른 이메일 주소가 아닙니다."
+
+#. placeholder {0}: rule.name
+#. placeholder {1}: t(ADMIN_RULE_MODE_MAP[nextMode])
+#: apps/remix/app/components/tables/admin-rules-table.tsx
+msgid "\"{0}\" is now set to {1}."
+msgstr ""
 
 #. placeholder {0}: field.customText
 #. placeholder {1}: timezone || ''
@@ -49,6 +60,10 @@ msgstr "“{documentName}” 문서가 모든 서명자에게서 서명을 완�
 msgid "\"{placeholderEmail}\" on behalf of \"Team Name\" has invited you to sign \"example document\"."
 msgstr "\"{placeholderEmail}\"이(가) \"Team Name\"을(를) 대신하여 \"example document\"에 서명하도록 귀하를 초대했습니다."
 
+#: apps/remix/app/components/dialogs/admin-rule-delete-dialog.tsx
+msgid "\"{ruleName}\" has been removed."
+msgstr ""
+
 #: apps/remix/app/components/dialogs/envelope-cancel-dialog.tsx
 msgid "\"{title}\" has been successfully cancelled"
 msgstr "\"{title}\" 문서가 성공적으로 취소되었습니다."
@@ -70,6 +85,10 @@ msgstr "\"Team Name\"이(가) \"example document\"에 서명하도록 귀하를 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.branding.tsx
 msgid "(line {0})"
 msgstr "(줄 {0})"
+
+#: apps/remix/app/components/forms/admin-rule-form.tsx
+msgid "(optional)"
+msgstr ""
 
 #: apps/remix/app/components/embed/embed-document-signing-page-v1.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-form.tsx
@@ -152,6 +171,11 @@ msgstr "{0, plural, other {문서 #개}}"
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.webhooks._index.tsx
 msgid "{0, plural, one {# Event} other {# Events}}"
 msgstr "{0, plural, other {# 이벤트}}"
+
+#. placeholder {0}: row.original.exemptOrganisations.length
+#: apps/remix/app/components/tables/admin-rules-table.tsx
+msgid "{0, plural, one {# exempt organisation} other {# exempt organisations}}"
+msgstr ""
 
 #. placeholder {0}: assistantFields.filter((field) => field.recipientId === r.id).length
 #: apps/remix/app/components/general/envelope-signing/envelope-signer-form.tsx
@@ -240,8 +264,6 @@ msgid "{0, plural, one {1 field will be deleted because the new PDF has fewer pa
 msgstr "{0, plural, other {새 PDF의 페이지 수가 현재 PDF보다 적어서 필드 #개가 삭제됩니다.}}"
 
 #. placeholder {0}: fields.filter((field) => field.envelopeItemId === doc.id).length
-#. placeholder {0}: remainingFields.filter((field) => field.envelopeItemId === doc.id).length
-#: apps/remix/app/components/general/document-signing/document-signing-page-view-v2.tsx
 #: apps/remix/app/components/general/envelope-editor/envelope-file-selector.tsx
 msgid "{0, plural, one {1 Field} other {# Fields}}"
 msgstr "{0, plural, other {필드 #개}}"
@@ -405,6 +427,7 @@ msgstr ""
 #: apps/remix/app/components/general/verify/verify-pdf-upload.tsx
 msgid "{0} signature(s) checked"
 msgstr ""
+
 #. placeholder {0}: organisation.name
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl._index.tsx
 msgid "{0} Teams"
@@ -537,6 +560,10 @@ msgstr "{inviterName}이(가) \"{teamName}\"을(를) 대신하여 {documentName}
 msgid "{MAX_BULK_DOWNLOAD_ENVELOPES, plural, one {You can download up to # document at a time. Deselect some documents to continue.} other {You can download up to # documents at a time. Deselect some documents to continue.}}"
 msgstr ""
 
+#: apps/remix/app/components/general/admin-rules/admin-rule-condition-group-fields.tsx
+msgid "{maxConditions, plural, one {A rule can have at most # condition.} other {A rule can have at most # conditions.}}"
+msgstr ""
+
 #: apps/remix/app/components/dialogs/passkey-create-dialog.tsx
 msgid "{MAXIMUM_PASSKEYS, plural, one {You cannot have more than # passkey.} other {You cannot have more than # passkeys.}}"
 msgstr "{MAXIMUM_PASSKEYS, plural, other {패스키는 #개를 초과하여 가질 수 없습니다.}}"
@@ -602,6 +629,10 @@ msgstr "{recipientReference}님이 {documentName}에 서명했습니다."
 #: apps/remix/app/components/forms/public-profile-form.tsx
 msgid "{remaningLength, plural, one {# character remaining} other {# characters remaining}}"
 msgstr "{remaningLength, plural, other {#자 남음}}"
+
+#: apps/remix/app/components/general/admin-rules/admin-rule-last-match.tsx
+msgid "{retentionDays, plural, one {Not in the last # day} other {Not in the last # days}}"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/template-bulk-send-dialog.tsx
 msgid "{rowCount, plural, one {The CSV contains # row.} other {The CSV contains # rows.}} {maxRows, plural, one {A maximum of # row is allowed per upload.} other {A maximum of # rows is allowed per upload.}}"
@@ -878,10 +909,6 @@ msgstr ""
 msgid "<0>{recipientLabel}</0> and their fields will be removed from this document. They and the document owner will be emailed."
 msgstr ""
 
-#: apps/remix/app/components/dialogs/admin-recipient-delete-dialog.tsx
-msgid "<0>{recipientLabel}</0> and their fields will be removed from this document. They and the document owner will be emailed."
-msgstr ""
-
 #: apps/remix/app/components/general/document-signing/document-signing-page-view-v1.tsx
 msgid "<0>{senderName} {senderEmail}</0> has invited you to approve this document"
 msgstr "<0>{senderName} {senderEmail}</0> 님이 이 문서를 승인해 달라고 초대했습니다."
@@ -1101,6 +1128,10 @@ msgstr "404 조직을 찾을 수 없음"
 #: apps/remix/app/routes/_profile+/_layout.tsx
 msgid "404 Profile not found"
 msgstr "404 프로필을 찾을 수 없습니다"
+
+#: apps/remix/app/routes/_authenticated+/admin+/rules.$id.tsx
+msgid "404 Rule not found"
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/_layout.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/teams.$id.tsx
@@ -1418,6 +1449,7 @@ msgstr ""
 msgid "Acknowledgment"
 msgstr "확인"
 
+#: apps/remix/app/components/general/admin-rules/admin-rule-action-list-fields.tsx
 #: apps/remix/app/components/general/document/document-page-view-dropdown.tsx
 #: apps/remix/app/components/tables/admin-document-logs-table.tsx
 #: apps/remix/app/components/tables/admin-document-recipient-item-table.tsx
@@ -1429,12 +1461,19 @@ msgstr "확인"
 msgid "Action"
 msgstr "동작"
 
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Action is not available for this trigger"
+msgstr ""
+
 #: apps/remix/app/components/general/document-signing/document-signing-page-view-v2.tsx
 #: apps/remix/app/components/general/envelope-signing/envelope-signer-header.tsx
 #: apps/remix/app/components/general/template/template-page-view-documents-table.tsx
 #: apps/remix/app/components/tables/admin-claims-table.tsx
 #: apps/remix/app/components/tables/admin-email-transports-table.tsx
 #: apps/remix/app/components/tables/admin-organisations-table.tsx
+#: apps/remix/app/components/tables/admin-rule-matches-table.tsx
+#: apps/remix/app/components/tables/admin-rules-table.tsx
+#: apps/remix/app/components/tables/admin-rules-table.tsx
 #: apps/remix/app/components/tables/documents-table.tsx
 #: apps/remix/app/components/tables/inbox-table.tsx
 #: apps/remix/app/components/tables/organisation-email-domains-table.tsx
@@ -1520,6 +1559,10 @@ msgstr "문서 추가"
 msgid "Add a URL to redirect the user to once the document is signed"
 msgstr "문서 서명 완료 후 리디렉션할 URL을 추가하세요."
 
+#: apps/remix/app/components/general/admin-rules/admin-rule-action-list-fields.tsx
+msgid "Add action"
+msgstr ""
+
 #: apps/remix/app/components/general/document/document-edit-form.tsx
 #: apps/remix/app/components/general/template/template-edit-form.tsx
 msgid "Add all relevant fields for each recipient."
@@ -1567,10 +1610,26 @@ msgstr "옵션 추가"
 msgid "Add another value"
 msgstr "값 추가"
 
+#: apps/remix/app/components/forms/admin-rule-form.tsx
+msgid "Add at least one action"
+msgstr ""
+
+#: apps/remix/app/components/forms/admin-rule-form.tsx
+msgid "Add at least one condition"
+msgstr ""
+
 #: apps/remix/app/components/general/document/document-attachments-popover.tsx
 #: apps/remix/app/components/general/document/embedded-editor-attachment-popover.tsx
 msgid "Add Attachment"
 msgstr "첨부 파일 추가"
+
+#: apps/remix/app/components/general/admin-rules/admin-rule-condition-group-fields.tsx
+msgid "Add condition"
+msgstr ""
+
+#: apps/remix/app/components/general/admin-rules/admin-rule-condition-group-fields.tsx
+msgid "Add condition group"
+msgstr ""
 
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-fields-page.tsx
 msgid "Add Content"
@@ -1763,6 +1822,10 @@ msgstr "관리자 패널"
 msgid "Admin Panel"
 msgstr "관리자 패널"
 
+#: apps/remix/app/components/general/admin-user-tags-section.tsx
+msgid "Admin tags"
+msgstr ""
+
 #: apps/remix/app/components/dialogs/folder-update-dialog.tsx
 #: packages/lib/constants/document-visibility.ts
 msgid "Admins only"
@@ -1811,9 +1874,14 @@ msgstr "AI 기능이 현재 팀에서 비활성화되어 있습니다. 팀 소�
 
 #: apps/remix/app/components/general/app-command-menu.tsx
 #: apps/remix/app/components/general/document/document-status.tsx
+#: apps/remix/app/routes/_authenticated+/admin+/rules._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.webhooks.$id._index.tsx
 msgid "All"
 msgstr "전체"
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "all are in list"
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/admin+/organisation-stats._index.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/organisation-stats._index.tsx
@@ -1872,6 +1940,10 @@ msgstr "모든 상태"
 #: apps/remix/app/components/general/app-command-menu.tsx
 msgid "All templates"
 msgstr "전체 템플릿"
+
+#: apps/remix/app/routes/_authenticated+/admin+/rules.events.tsx
+msgid "All time"
+msgstr ""
 
 #: apps/remix/app/components/filters/date-range-filter.tsx
 #: apps/remix/app/components/general/period-selector.tsx
@@ -1941,6 +2013,8 @@ msgstr ""
 #. placeholder {0}: loaderData.email
 #: apps/remix/app/routes/_unauthenticated+/signup-invite.$token.tsx
 msgid "An account has already been created for <0>{0}</0>."
+msgstr ""
+
 #: packages/lib/jobs/definitions/emails/send-account-disabled-email.handler.ts
 msgid "An account was automatically disabled"
 msgstr ""
@@ -2170,6 +2244,10 @@ msgstr "프로필을 업데이트하는 중 오류가 발생했습니다."
 msgid "An error occurred while uploading your document."
 msgstr "문서를 업로드하는 중 오류가 발생했습니다."
 
+#: apps/remix/app/components/forms/admin-rule-form.tsx
+msgid "An escape hatch for organisations this rule should never run against. Leave empty to apply the rule everywhere."
+msgstr ""
+
 #: packages/lib/jobs/definitions/emails/send-organisation-limit-alert-email.handler.ts
 msgid "An organisation has exceeded their fair use limits"
 msgstr "조직이 공정 이용 한도를 초과했습니다."
@@ -2272,12 +2350,21 @@ msgid "Analyzing pages"
 msgstr "페이지 분석 중"
 
 #: apps/remix/app/components/forms/signup.tsx
+#: packages/lib/constants/admin-rules-translations.ts
 msgid "and"
 msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/inbox.tsx
 msgid "Any documents that you have been invited to will appear here"
 msgstr "귀하를 초대한 문서는 여기에 표시됩니다."
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "any is in list"
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "any matches regex"
+msgstr ""
 
 #: apps/remix/app/components/general/template/template-page-view-documents-table.tsx
 msgid "Any Source"
@@ -2422,6 +2509,8 @@ msgstr "이 조직을 삭제하시겠습니까?"
 msgid "Are you sure you wish to delete this team?"
 msgstr "이 팀을 정말 삭제하시겠습니까?"
 
+#: apps/remix/app/components/dialogs/admin-rule-delete-dialog.tsx
+#: apps/remix/app/components/dialogs/admin-tag-delete-dialog.tsx
 #: apps/remix/app/components/dialogs/envelope-cancel-dialog.tsx
 #: apps/remix/app/components/dialogs/envelope-delete-dialog.tsx
 #: apps/remix/app/components/dialogs/envelope-item-delete-dialog.tsx
@@ -2662,6 +2751,10 @@ msgstr "검정"
 msgid "Block signups from additional email domains on top of the bundled disposable email list. Subdomains are matched automatically (e.g. blocking \"bad.com\" also blocks \"foo.bad.com\")."
 msgstr "일회용 이메일 목록에 더해 추가로 차단할 이메일 도메인을 설정합니다. 서브도메인은 자동으로 매칭됩니다(예: \"bad.com\"을 차단하면 \"foo.bad.com\"도 함께 차단됩니다)."
 
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Block the event"
+msgstr ""
+
 #: apps/remix/app/components/general/organisation-usage-panel.tsx
 msgid "Blocked"
 msgstr "차단됨"
@@ -2669,6 +2762,10 @@ msgstr "차단됨"
 #: apps/remix/app/components/general/admin-email-blocklist-section.tsx
 msgid "Blocked Domains"
 msgstr "차단된 도메인"
+
+#: apps/remix/app/routes/_authenticated+/admin+/rules.events.tsx
+msgid "Blocked only"
+msgstr ""
 
 #: packages/ui/primitives/signature-pad/signature-pad-color-picker.tsx
 msgid "Blue"
@@ -2804,6 +2901,11 @@ msgstr "CSV로 템플릿 대량 발송"
 msgid "Bulk Send via CSV"
 msgstr "CSV로 대량 발송"
 
+#. placeholder {0}: tag.createdByUser.email
+#: apps/remix/app/components/general/admin-user-tags-section.tsx
+msgid "by {0}"
+msgstr ""
+
 #: packages/email/templates/organisation-invite.tsx
 msgid "by <0>{senderName}</0>"
 msgstr "작성자: <0>{senderName}</0>"
@@ -2838,6 +2940,11 @@ msgstr "전자 서명을 진행함으로써 귀하는 해당 서명이 문서 �
 msgid "By proceeding, you agree to our {0}."
 msgstr ""
 
+#. placeholder {0}: tag.adminRule.name
+#: apps/remix/app/components/general/admin-user-tags-section.tsx
+msgid "by rule <0>{0}</0>"
+msgstr ""
+
 #: apps/remix/app/routes/_unauthenticated+/articles.signature-disclosure.tsx
 msgid "By using the electronic signature feature, you are consenting to conduct transactions and receive disclosures electronically. You acknowledge that your electronic signature on documents is binding and that you accept the terms outlined in the documents you are signing."
 msgstr "전자 서명 기능을 사용함으로써 귀하는 거래를 전자적으로 진행하고, 관련 고지를 전자적으로 수령하는 데 동의하는 것입니다. 또한 문서에 대한 전자 서명이 구속력이 있으며, 서명하는 문서의 약관을 수락한다는 점을 인정합니다."
@@ -2856,7 +2963,9 @@ msgstr "누군가를 찾을 수 없나요?"
 #: apps/remix/app/components/dialogs/admin-organisation-member-update-dialog.tsx
 #: apps/remix/app/components/dialogs/admin-organisation-sync-subscription-dialog.tsx
 #: apps/remix/app/components/dialogs/admin-recipient-delete-dialog.tsx
+#: apps/remix/app/components/dialogs/admin-rule-delete-dialog.tsx
 #: apps/remix/app/components/dialogs/admin-swap-subscription-dialog.tsx
+#: apps/remix/app/components/dialogs/admin-tag-delete-dialog.tsx
 #: apps/remix/app/components/dialogs/admin-team-member-delete-dialog.tsx
 #: apps/remix/app/components/dialogs/admin-user-create-dialog.tsx
 #: apps/remix/app/components/dialogs/ai-field-detection-dialog.tsx
@@ -2935,6 +3044,7 @@ msgstr "누군가를 찾을 수 없나요?"
 #: apps/remix/app/components/embed/embed-popup-auth.tsx
 #: apps/remix/app/components/forms/2fa/enable-authenticator-app-dialog.tsx
 #: apps/remix/app/components/forms/2fa/view-recovery-codes-dialog.tsx
+#: apps/remix/app/components/forms/admin-rule-form.tsx
 #: apps/remix/app/components/general/analytics/analytics-range-picker.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-auth-2fa.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-auth-account.tsx
@@ -2963,7 +3073,6 @@ msgstr "누군가를 찾을 수 없나요?"
 #: apps/remix/app/routes/_authenticated+/admin+/email-domains.$id.tsx
 #: apps/remix/app/routes/_authenticated+/settings+/security.linked-accounts.tsx
 #: packages/ui/primitives/document-flow/field-item-advanced-settings.tsx
-#: packages/ui/primitives/document-flow/send-document-action-dialog.tsx
 #: packages/ui/primitives/signature-pad/signature-pad-dialog.tsx
 msgid "Cancel"
 msgstr "취소"
@@ -3066,6 +3175,10 @@ msgstr "수신자 변경"
 #: apps/remix/app/components/general/app-command-menu.tsx
 msgid "Change theme"
 msgstr "테마 변경하기"
+
+#: apps/remix/app/components/forms/admin-rule-form.tsx
+msgid "Changing the trigger resets the conditions and actions below."
+msgstr ""
 
 #: apps/remix/app/components/forms/editor/editor-field-text-form.tsx
 msgid "Character limit"
@@ -3314,6 +3427,10 @@ msgstr "다음 서명자들의 필드를 완료해 주세요."
 msgid "Complete the form to create your account using this invitation."
 msgstr ""
 
+#: apps/remix/app/components/general/admin-rules/admin-rule-tester.tsx
+msgid "Complete the rule to see a result."
+msgstr ""
+
 #: apps/remix/app/components/dialogs/envelopes-bulk-download-dialog.tsx
 #: apps/remix/app/components/embed/multisign/multi-sign-document-list.tsx
 #: apps/remix/app/components/general/analytics/analytics-activity-table-card.tsx
@@ -3357,6 +3474,22 @@ msgstr "{formattedDate}에 완료됨"
 #: apps/remix/app/components/general/analytics/analytics-activity-table-card.tsx
 #: apps/remix/app/components/general/analytics/analytics-overview-cards.tsx
 msgid "Completion rate"
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Condition groups are nested too deeply"
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Conditions are evaluated and actions run."
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Conditions are evaluated and logged but no actions run. Useful for tuning a rule."
+msgstr ""
+
+#: apps/remix/app/components/general/admin-rules/admin-rule-tester.tsx
+msgid "Conditions match"
 msgstr ""
 
 #: packages/lib/constants/pdf-viewer-i18n.ts
@@ -3501,6 +3634,10 @@ msgstr "영업팀에 문의"
 
 #: apps/remix/app/components/general/settings-upsell/settings-upsell-card.tsx
 msgid "Contact your organisation owner to upgrade plans."
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "contains"
 msgstr ""
 
 #: apps/remix/app/components/general/admin-site-banner-section.tsx
@@ -3718,6 +3855,10 @@ msgstr ""
 msgid "Could not connect to the Documenso embed. Close this window and try again."
 msgstr ""
 
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "count is greater than"
+msgstr ""
+
 #: apps/remix/app/components/general/organisation-usage-reset-button.tsx
 msgid "Counter reset."
 msgstr "카운터가 초기화되었습니다."
@@ -3753,6 +3894,10 @@ msgstr "새 조직을 {planName} 요금제로 생성하고, 현재 조직은 기
 #: apps/remix/app/components/dialogs/admin-user-create-dialog.tsx
 msgid "Create a new user. A welcome email will be sent with a link to set their password."
 msgstr "새 사용자를 생성합니다. 사용자가 비밀번호를 설정할 수 있는 링크가 포함된 환영 이메일이 전송됩니다."
+
+#: apps/remix/app/components/tables/admin-rules-table.tsx
+msgid "Create a rule to automatically respond to events across the platform."
+msgstr ""
 
 #: apps/remix/app/components/dialogs/team-create-dialog.tsx
 msgid "Create a team to collaborate with your team members."
@@ -3872,6 +4017,15 @@ msgstr "조직 생성"
 #: apps/remix/app/routes/_authenticated+/admin+/users.$id.tsx
 msgid "Create Organisation"
 msgstr "조직 생성"
+
+#: apps/remix/app/routes/_authenticated+/admin+/rules._index.tsx
+#: apps/remix/app/routes/_authenticated+/admin+/rules.new.tsx
+msgid "Create rule"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/admin+/rules.new.tsx
+msgid "Create Rule"
+msgstr ""
 
 #: apps/remix/app/components/general/billing-plans.tsx
 msgid "Create separate organisation"
@@ -4272,6 +4426,8 @@ msgstr "delete"
 
 #: apps/remix/app/components/dialogs/admin-organisation-delete-dialog.tsx
 #: apps/remix/app/components/dialogs/admin-organisation-delete-dialog.tsx
+#: apps/remix/app/components/dialogs/admin-rule-delete-dialog.tsx
+#: apps/remix/app/components/dialogs/admin-rule-delete-dialog.tsx
 #: apps/remix/app/components/dialogs/claim-delete-dialog.tsx
 #: apps/remix/app/components/dialogs/email-transport-delete-dialog.tsx
 #: apps/remix/app/components/dialogs/envelope-delete-dialog.tsx
@@ -4295,6 +4451,7 @@ msgstr "delete"
 #: apps/remix/app/components/general/folder/folder-card.tsx
 #: apps/remix/app/components/tables/admin-claims-table.tsx
 #: apps/remix/app/components/tables/admin-email-transports-table.tsx
+#: apps/remix/app/components/tables/admin-rules-table.tsx
 #: apps/remix/app/components/tables/documents-table-action-dropdown.tsx
 #: apps/remix/app/components/tables/envelopes-table-bulk-action-bar.tsx
 #: apps/remix/app/components/tables/organisation-email-domains-table.tsx
@@ -4457,10 +4614,15 @@ msgstr "계정 삭제 중..."
 msgid "Deletion scheduled"
 msgstr "삭제가 예약되었습니다"
 
+#: apps/remix/app/components/forms/admin-rule-form.tsx
+msgid "Description"
+msgstr ""
+
 #: apps/remix/app/components/general/webhook-logs-sheet.tsx
 msgid "Destination"
 msgstr "대상"
 
+#: apps/remix/app/components/forms/admin-rule-form.tsx
 #: apps/remix/app/components/general/webhook-logs-sheet.tsx
 #: apps/remix/app/routes/_internal+/[__htmltopdf]+/certificate.tsx
 #: packages/lib/server-only/pdf/render-certificate.ts
@@ -4617,20 +4779,37 @@ msgstr "계정 비활성화"
 msgid "Disable Account"
 msgstr "계정 비활성화"
 
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Disable organisation emails"
+msgstr ""
+
 #: apps/remix/app/components/dialogs/account-delete-dialog.tsx
 msgid "Disable Two Factor Authentication before deleting your account."
 msgstr "계정을 삭제하기 전에 2단계 인증을 비활성화해야 합니다."
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Disable user"
+msgstr ""
 
 #: apps/remix/app/components/forms/document-preferences-form.tsx
 #: apps/remix/app/components/general/admin-global-settings-section.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.webhooks._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.webhooks.$id._index.tsx
+#: packages/lib/constants/admin-rules-translations.ts
 msgid "Disabled"
 msgstr "비활성화됨"
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Disables the user's account, so they can't sign in until an administrator re-enables them."
+msgstr ""
 
 #: apps/remix/app/components/dialogs/template-direct-link-dialog.tsx
 msgid "Disabling direct link signing will prevent anyone from accessing the link."
 msgstr "직접 링크 서명을 비활성화하면 누구도 해당 링크에 접근할 수 없습니다."
+
+#: apps/remix/app/components/general/admin-rules/admin-rule-action-list-fields.tsx
+msgid "Disabling the user doesn't stop the event that triggered the rule. We recommend also blocking the event."
+msgstr ""
 
 #: apps/remix/app/components/dialogs/admin-user-disable-dialog.tsx
 msgid "Disabling the user results in the user not being able to use the account. It also disables all the related contents such as subscription, webhooks, teams, and API keys."
@@ -4883,6 +5062,10 @@ msgstr "문서 받은편지함"
 #: apps/remix/app/components/embed/authoring/configure-document-upload.tsx
 msgid "Document is already uploaded"
 msgstr "문서가 이미 업로드되었습니다."
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Document is sent"
+msgstr ""
 
 #: apps/remix/app/components/general/legacy-field-warning-popover.tsx
 msgid "Document is using legacy field insertion"
@@ -5243,7 +5426,6 @@ msgid "Don't repeat"
 msgstr "반복 안 함"
 
 #: apps/remix/app/components/dialogs/team-delete-dialog.tsx
-#: apps/remix/app/components/dialogs/team-delete-dialog.tsx
 msgid "Don't transfer (Delete all documents)"
 msgstr "전송하지 않음(모든 문서 삭제)"
 
@@ -5439,6 +5621,10 @@ msgstr ""
 msgid "e.g. Resend (free plans)"
 msgstr "예: Resend(무료 플랜)"
 
+#: apps/remix/app/components/forms/admin-rule-form.tsx
+msgid "e.g. Suspicious name change"
+msgstr ""
+
 #: apps/remix/app/components/general/settings-upsell/email-domains-upsell.tsx
 msgid "Easy DNS setup with auto-generated DKIM and SPF records"
 msgstr ""
@@ -5447,6 +5633,7 @@ msgstr ""
 #: apps/remix/app/components/general/document/document-page-view-dropdown.tsx
 #: apps/remix/app/components/tables/admin-dashboard-users-table.tsx
 #: apps/remix/app/components/tables/admin-email-transports-table.tsx
+#: apps/remix/app/components/tables/admin-rules-table.tsx
 #: apps/remix/app/components/tables/documents-table-action-button.tsx
 #: apps/remix/app/components/tables/documents-table-action-dropdown.tsx
 #: apps/remix/app/components/tables/settings-security-passkey-table-actions.tsx
@@ -5465,9 +5652,17 @@ msgstr "이메일 전송 방식 편집하기"
 msgid "Edit Item"
 msgstr "항목 편집"
 
+#: apps/remix/app/routes/_authenticated+/admin+/rules.$id.tsx
+msgid "Edit Rule"
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/templates.$id._index.tsx
 msgid "Edit Template"
 msgstr "템플릿 편집"
+
+#: apps/remix/app/components/general/admin-rules/admin-rule-tester.tsx
+msgid "Edit the sample event and watch the result."
+msgstr ""
 
 #: apps/remix/app/components/dialogs/webhook-edit-dialog.tsx
 msgid "Edit webhook"
@@ -5616,6 +5811,10 @@ msgstr "이메일 도메인이 동기화되었습니다."
 #: apps/remix/app/components/dialogs/sign-field-email-dialog.tsx
 msgid "Email is required"
 msgstr "이메일은 필수 항목입니다."
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Email is sent"
+msgstr ""
 
 #: packages/ui/primitives/template-flow/add-template-settings.tsx
 msgid "Email Options"
@@ -5838,6 +6037,7 @@ msgstr "팀 API 토큰을 활성화하여 문서 소유권을 다른 팀 구성�
 #: apps/remix/app/components/general/admin-email-blocklist-section.tsx
 #: apps/remix/app/components/general/admin-global-settings-section.tsx
 #: apps/remix/app/components/general/admin-site-banner-section.tsx
+#: apps/remix/app/components/tables/admin-rules-table.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.webhooks._index.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.webhooks.$id._index.tsx
 #: packages/ui/components/document/reminder-settings-picker.tsx
@@ -5859,6 +6059,14 @@ msgstr "동봉된 문서들"
 #: apps/remix/app/components/forms/email-transport-form.tsx
 msgid "Endpoint (optional)"
 msgstr "엔드포인트(선택 사항)"
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "ends with"
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Enforce"
+msgstr ""
 
 #: packages/lib/constants/i18n.ts
 msgid "English"
@@ -5891,6 +6099,10 @@ msgstr "새 폴더 이름을 입력하세요. 폴더는 항목을 정리하는 �
 #: apps/remix/app/components/dialogs/envelope-rename-dialog.tsx
 msgid "Enter a new title"
 msgstr "새 제목을 입력하세요."
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Enter a number"
+msgstr ""
 
 #: apps/remix/app/components/general/rate-limit-array-input.tsx
 msgid "Enter a window, e.g. 5m"
@@ -5945,6 +6157,10 @@ msgstr "다음 서명자의 이메일을 입력하세요"
 #: apps/remix/app/components/general/document-signing/document-signing-complete-dialog.tsx
 msgid "Enter the next signer's name"
 msgstr "다음 서명자의 이름을 입력하세요"
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Enter two numbers, smallest first"
+msgstr ""
 
 #: apps/remix/app/components/general/document-signing/access-auth-2fa-form.tsx
 msgid "Enter verification code"
@@ -6060,6 +6276,10 @@ msgstr "봉투 제목"
 msgid "Envelope updated"
 msgstr "봉투가 업데이트되었습니다"
 
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "equals"
+msgstr ""
+
 #: apps/remix/app/components/dialogs/admin-swap-subscription-dialog.tsx
 #: apps/remix/app/components/dialogs/admin-user-delete-dialog.tsx
 #: apps/remix/app/components/dialogs/admin-user-disable-dialog.tsx
@@ -6171,6 +6391,18 @@ msgstr "이벤트"
 msgid "Event Type"
 msgstr "이벤트 유형"
 
+#: apps/remix/app/routes/_authenticated+/admin+/rules._index.tsx
+msgid "Events"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/admin+/rules.$id.tsx
+msgid "Events this rule matched recently, including monitor mode evaluations."
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/admin+/rules.events.tsx
+msgid "Every time a rule matched an event, including monitor mode evaluations that took no action."
+msgstr ""
+
 #: apps/remix/app/components/dialogs/folder-update-dialog.tsx
 #: packages/lib/constants/document-visibility.ts
 #: packages/ui/components/document/document-visibility-select.tsx
@@ -6200,6 +6432,14 @@ msgstr ""
 #: apps/remix/app/components/dialogs/passkey-create-dialog.tsx
 msgid "Exceeded timeout"
 msgstr "시간 초과됨"
+
+#: apps/remix/app/components/forms/admin-rule-form.tsx
+msgid "Except"
+msgstr ""
+
+#: apps/remix/app/components/forms/admin-rule-form.tsx
+msgid "Exempt organisations"
+msgstr ""
 
 #: apps/remix/app/components/general/document-signing/document-signing-page-view-v2.tsx
 msgid "Expand sidebar"
@@ -6258,6 +6498,10 @@ msgstr "외부 ID"
 #: apps/remix/app/components/dialogs/ai-recipient-detection-dialog.tsx
 msgid "Extracting contact details"
 msgstr "연락처 정보 추출 중"
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "failed"
+msgstr ""
 
 #: apps/remix/app/components/general/webhook-logs-sheet.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.webhooks.$id._index.tsx
@@ -6415,6 +6659,10 @@ msgstr "기능"
 msgid "Fetch the latest subscription data from Stripe and apply it to this organisation."
 msgstr "Stripe에서 최신 구독 데이터를 가져와 이 조직에 적용합니다."
 
+#: apps/remix/app/components/general/admin-rules/admin-rule-condition-fields.tsx
+msgid "Field"
+msgstr ""
+
 #: packages/ui/primitives/document-flow/field-items-advanced-settings/text-field.tsx
 msgid "Field character limit"
 msgstr "필드 문자 수 제한"
@@ -6517,9 +6765,21 @@ msgstr "새 구독 클레임을 생성하려면 세부 정보를 입력하세요
 msgid "Fill Opacity"
 msgstr ""
 
+#: apps/remix/app/routes/_authenticated+/admin+/rules._index.tsx
+msgid "Filter by mode"
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/admin+/email-domains._index.tsx
 msgid "Filter by status"
 msgstr "상태로 필터링"
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Flag account for review"
+msgstr ""
+
+#: packages/lib/constants/admin-tags-translations.ts
+msgid "Flagged for review"
+msgstr ""
 
 #: apps/remix/app/components/forms/branding-preferences-form.tsx
 msgid "Focus ring colour."
@@ -6724,6 +6984,7 @@ msgid "Global Settings"
 msgstr "전역 설정"
 
 #: apps/remix/app/routes/_authenticated+/admin+/organisations.$id.tsx
+#: apps/remix/app/routes/_authenticated+/admin+/rules.$id.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/teams.$id.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/teams.$id.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/users.$id.tsx
@@ -7065,6 +7326,10 @@ msgstr "입력 필드 식별 중"
 msgid "Identifying recipients"
 msgstr "수신자 식별 중"
 
+#: apps/remix/app/components/general/admin-rules/admin-rule-definition-fields.tsx
+msgid "If"
+msgstr ""
+
 #: apps/remix/app/components/forms/email-preferences-form.tsx
 msgid "If a custom message has been provided while configuring the document, it replaces the default body text, but the heading still follows this setting."
 msgstr ""
@@ -7089,6 +7354,7 @@ msgstr ""
 #: packages/email/template-components/template-account-disabled.tsx
 msgid "If you believe this was a mistake, contact us at <0>{supportEmail}</0>."
 msgstr ""
+
 #: apps/remix/app/routes/_recipient+/report.$token.tsx
 msgid "If you did not expect this email or believe it is spam, you can report the sender to our team for review."
 msgstr "이 이메일을 예상하지 못했거나 스팸이라고 생각되면, 검토를 위해 보낸 사람을 저희 팀에 신고할 수 있습니다."
@@ -7319,6 +7585,10 @@ msgstr ""
 msgid "Invalid link"
 msgstr "유효하지 않은 링크입니다"
 
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Invalid regex"
+msgstr ""
+
 #: apps/remix/app/routes/_unauthenticated+/organisation.invite.$token.tsx
 msgid "Invalid token"
 msgstr "유효하지 않은 토큰입니다"
@@ -7437,6 +7707,46 @@ msgstr "IP 주소"
 msgid "Irreversible actions for this organisation"
 msgstr "이 조직에 대한 되돌릴 수 없는 작업"
 
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "is"
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "is between"
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "is empty"
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "is false"
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "is greater than"
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "is greater than or equal to"
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "is in list"
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "is less than"
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "is less than or equal to"
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "is true"
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.sso.tsx
 msgid "Issuer URL"
 msgstr "발급자 URL"
@@ -7484,6 +7794,10 @@ msgstr "일본어"
 
 #: packages/email/templates/organisation-invite.tsx
 msgid "Join {organisationName} on {appName}"
+msgstr ""
+
+#: apps/remix/app/components/general/admin-rules/admin-rule-condition-group-fields.tsx
+msgid "Join conditions with"
 msgstr ""
 
 #: apps/remix/app/components/tables/organisation-insights-table.tsx
@@ -7539,8 +7853,13 @@ msgstr ""
 msgid "Last 14 days"
 msgstr "최근 14일"
 
+#: apps/remix/app/routes/_authenticated+/admin+/rules.events.tsx
+msgid "Last 24 hours"
+msgstr ""
+
 #: apps/remix/app/components/general/period-selector.tsx
 #: apps/remix/app/components/tables/documents-table-period-filter.tsx
+#: apps/remix/app/routes/_authenticated+/admin+/rules.events.tsx
 #: apps/remix/app/utils/analytics.ts
 msgid "Last 30 days"
 msgstr "최근 30일"
@@ -7551,6 +7870,7 @@ msgstr "최근 30일"
 
 #: apps/remix/app/components/general/period-selector.tsx
 #: apps/remix/app/components/tables/documents-table-period-filter.tsx
+#: apps/remix/app/routes/_authenticated+/admin+/rules.events.tsx
 #: apps/remix/app/utils/analytics.ts
 msgid "Last 7 days"
 msgstr "최근 7일"
@@ -7570,6 +7890,11 @@ msgstr ""
 #: apps/remix/app/routes/_authenticated+/settings+/security.sessions.tsx
 msgid "Last Active"
 msgstr "마지막 활동"
+
+#: apps/remix/app/components/forms/admin-rule-form.tsx
+#: apps/remix/app/components/tables/admin-rules-table.tsx
+msgid "Last match"
+msgstr ""
 
 #: apps/remix/app/components/general/document/document-page-view-information.tsx
 #: apps/remix/app/components/general/template/template-page-view-information.tsx
@@ -7734,6 +8059,10 @@ msgctxt "Action button to link template to public profile"
 msgid "Link template"
 msgstr "템플릿 연결"
 
+#: apps/remix/app/utils/toast-error-messages.ts
+msgid "Link unavailable"
+msgstr ""
+
 #: packages/email/templates/organisation-account-link-confirmation.tsx
 msgid "Link your {appName} account"
 msgstr ""
@@ -7779,6 +8108,7 @@ msgid "Loading suggestions..."
 msgstr "제안 불러오는 중..."
 
 #: apps/remix/app/components/embed/embed-client-loading.tsx
+#: apps/remix/app/components/general/admin-rules/admin-organisations-multiselect-combobox.tsx
 #: apps/remix/app/components/general/default-recipients-multiselect-combobox.tsx
 #: apps/remix/app/components/general/document/document-page-view-recent-activity.tsx
 #: apps/remix/app/components/general/organisation-groups-multiselect-combobox.tsx
@@ -7790,6 +8120,10 @@ msgstr "로딩 중..."
 #: apps/remix/app/components/forms/document-preferences-form.tsx
 msgid "Local timezone"
 msgstr "현지 시간대"
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Log only"
+msgstr ""
 
 #: apps/remix/app/components/general/direct-template/direct-template-signing-auth-page.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-auth-account.tsx
@@ -7997,6 +8331,22 @@ msgstr "열람 완료로 표시"
 msgid "Mark as Viewed"
 msgstr "열람 처리"
 
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Marks the user's account for manual review by an administrator."
+msgstr ""
+
+#: apps/remix/app/components/tables/admin-rules-table.tsx
+msgid "Matches (7d)"
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "matches regex"
+msgstr ""
+
+#: apps/remix/app/components/forms/admin-rule-form.tsx
+msgid "Matches, 7d"
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/admin+/stats.tsx
 msgid "MAU (created document)"
 msgstr "MAU(문서 생성)"
@@ -8116,6 +8466,10 @@ msgstr "가운데"
 msgid "Min"
 msgstr "최소"
 
+#: apps/remix/app/components/general/admin-rules/admin-rule-condition-fields.tsx
+msgid "min, max"
+msgstr ""
+
 #: apps/remix/app/utils/toast-error-messages.ts
 #: apps/remix/app/utils/toast-error-messages.ts
 msgid "Missing images"
@@ -8134,6 +8488,13 @@ msgstr "수신자 누락"
 msgid "Missing signature fields"
 msgstr ""
 
+#: apps/remix/app/components/forms/admin-rule-form.tsx
+#: apps/remix/app/components/tables/admin-rule-matches-table.tsx
+#: apps/remix/app/components/tables/admin-rules-table.tsx
+#: apps/remix/app/routes/_authenticated+/admin+/rules.events.tsx
+msgid "Mode"
+msgstr ""
+
 #: apps/remix/app/components/general/document/document-page-view-recipients.tsx
 #: apps/remix/app/components/general/template/template-page-view-recipients.tsx
 msgid "Modify recipients"
@@ -8146,6 +8507,14 @@ msgstr "이메일 전송 방식의 세부 정보를 수정합니다."
 #: apps/remix/app/components/dialogs/claim-update-dialog.tsx
 msgid "Modify the details of the subscription claim."
 msgstr "구독 클레임 세부 정보를 수정합니다."
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Monitor"
+msgstr ""
+
+#: apps/remix/app/components/general/admin-rules/admin-rule-tester.tsx
+msgid "Monitor mode: the match would be logged but these actions would not run."
+msgstr ""
 
 #: apps/remix/app/components/dialogs/organisation-create-dialog.tsx
 #: apps/remix/app/components/general/analytics/analytics-documents-over-time-card.tsx
@@ -8180,6 +8549,10 @@ msgstr "이동"
 msgid "Move Documents to Folder"
 msgstr "문서를 폴더로 이동"
 
+#: apps/remix/app/components/tables/admin-rules-table.tsx
+msgid "Move down"
+msgstr ""
+
 #: apps/remix/app/components/dialogs/folder-move-dialog.tsx
 msgid "Move Folder"
 msgstr "폴더 이동"
@@ -8202,6 +8575,10 @@ msgstr "\"{sourceOrganisationName}\"의 구독을 이 사용자가 소유한 다
 #: apps/remix/app/components/tables/templates-table-action-dropdown.tsx
 msgid "Move to Folder"
 msgstr "폴더로 이동"
+
+#: apps/remix/app/components/tables/admin-rules-table.tsx
+msgid "Move up"
+msgstr ""
 
 #: packages/ui/components/document/document-global-auth-access-select.tsx
 msgid "Multiple access methods can be selected."
@@ -8306,6 +8683,7 @@ msgid "Needs to view"
 msgstr "열람 필요"
 
 #: apps/remix/app/components/dialogs/token-create-dialog.tsx
+#: apps/remix/app/components/general/admin-rules/admin-rule-last-match.tsx
 #: apps/remix/app/components/tables/settings-security-passkey-table.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.tokens.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.tokens.tsx
@@ -8370,6 +8748,10 @@ msgstr "다음 수신자 이름"
 #: apps/remix/app/components/tables/admin-document-recipients-table.tsx
 msgid "No"
 msgstr "아니요"
+
+#: apps/remix/app/components/general/admin-rules/admin-rule-definition-expression.tsx
+msgid "no actions"
+msgstr ""
 
 #: apps/remix/app/components/tables/documents-table-empty-state.tsx
 msgid "No active drafts"
@@ -8489,6 +8871,10 @@ msgstr ""
 msgid "No License Configured"
 msgstr "라이선스가 구성되지 않았습니다"
 
+#: apps/remix/app/components/general/admin-rules/admin-rule-tester.tsx
+msgid "No match"
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/analytics._index.tsx
 msgid "No members"
 msgstr ""
@@ -8513,6 +8899,7 @@ msgstr "사용 가능한 조직 구성원이 없습니다."
 msgid "No organisation templates are shared with your team yet."
 msgstr "아직 귀하의 팀과 공유된 조직 템플릿이 없습니다."
 
+#: apps/remix/app/components/general/admin-rules/admin-organisations-multiselect-combobox.tsx
 #: apps/remix/app/routes/_authenticated+/dashboard.tsx
 msgid "No organisations found"
 msgstr "조직을 찾을 수 없습니다."
@@ -8582,6 +8969,10 @@ msgstr "결과가 없습니다."
 msgid "No results found."
 msgstr "결과가 없습니다."
 
+#: apps/remix/app/components/tables/admin-rules-table.tsx
+msgid "No rules yet"
+msgstr ""
+
 #: packages/ui/primitives/document-flow/missing-signature-field-dialog.tsx
 msgid "No signature field found"
 msgstr "서명 필드를 찾을 수 없습니다."
@@ -8636,6 +9027,10 @@ msgstr "유효한 수신자를 찾을 수 없습니다"
 msgid "No value found."
 msgstr "값이 없습니다."
 
+#: apps/remix/app/components/general/admin-rules/admin-rule-condition-fields.tsx
+msgid "no value needed"
+msgstr ""
+
 #: apps/remix/app/routes/_unauthenticated+/forgot-password.tsx
 msgid "No worries, it happens! Enter your email and we'll email you a special link to reset your password."
 msgstr "걱정하지 마세요. 이메일을 입력하시면 비밀번호를 재설정할 수 있는 특별 링크를 보내드립니다."
@@ -8645,6 +9040,7 @@ msgstr "걱정하지 마세요. 이메일을 입력하시면 비밀번호를 재
 #: apps/remix/app/components/forms/editor/editor-field-number-form.tsx
 #: apps/remix/app/components/tables/admin-claims-table.tsx
 #: apps/remix/app/components/tables/admin-organisations-table.tsx
+#: apps/remix/app/components/tables/admin-rule-matches-table.tsx
 #: packages/lib/constants/document.ts
 #: packages/ui/primitives/document-flow/add-subject.tsx
 msgid "None"
@@ -8676,6 +9072,10 @@ msgstr "설정되지 않음"
 msgid "Not supported"
 msgstr "지원되지 않습니다"
 
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Note"
+msgstr ""
+
 #: apps/remix/app/components/tables/documents-table-empty-state.tsx
 msgid "Nothing cancelled"
 msgstr "취소된 문서가 없습니다"
@@ -8684,6 +9084,10 @@ msgstr "취소된 문서가 없습니다"
 #: apps/remix/app/components/tables/documents-table-empty-state.tsx
 msgid "Nothing to do"
 msgstr "할 일이 없습니다"
+
+#: apps/remix/app/components/general/admin-rules/admin-rule-tester.tsx
+msgid "Nothing would happen for this event."
+msgstr ""
 
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-settings-dialog.tsx
 msgid "Notifications"
@@ -8854,6 +9258,14 @@ msgstr "메뉴 열기"
 msgid "Opened"
 msgstr "열람됨"
 
+#: apps/remix/app/components/general/admin-rules/admin-rule-condition-fields.tsx
+msgid "Operator"
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Operator is not valid for this field"
+msgstr ""
+
 #: apps/remix/app/components/forms/editor/editor-field-dropdown-form.tsx
 #: packages/ui/primitives/document-flow/field-items-advanced-settings/dropdown-field.tsx
 #: packages/ui/primitives/document-flow/field-items-advanced-settings/dropdown-field.tsx
@@ -8869,6 +9281,10 @@ msgstr "옵션 값은 비워 둘 수 없습니다"
 #: apps/remix/app/components/dialogs/sign-field-dropdown-dialog.tsx
 msgid "Options"
 msgstr "옵션"
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "or"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/template-direct-link-dialog.tsx
 #: apps/remix/app/components/forms/signup.tsx
@@ -8916,6 +9332,11 @@ msgstr "조직 인증 포털 URL"
 msgid "Organisation created"
 msgstr "조직이 생성되었습니다."
 
+#: apps/remix/app/components/dialogs/organisation-create-dialog.tsx
+#: apps/remix/app/components/general/billing-plans.tsx
+msgid "Organisation creation blocked"
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.groups.$id.tsx
 msgid "Organisation group not found"
 msgstr "조직 그룹을 찾을 수 없습니다."
@@ -8954,6 +9375,10 @@ msgstr "조직 초대"
 #: apps/remix/app/components/dialogs/organisation-member-invite-dialog.tsx
 msgid "Organisation invitations have been sent."
 msgstr "조직 초대가 전송되었습니다."
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Organisation is created or renamed"
+msgstr ""
 
 #: packages/lib/constants/organisations-translations.ts
 msgid "Organisation Manager"
@@ -9027,6 +9452,10 @@ msgstr "조직 템플릿"
 #: apps/remix/app/components/tables/templates-table.tsx
 msgid "Organisation templates are shared across all teams within the same organisation. Only the owning team can edit them."
 msgstr "조직 템플릿은 동일한 조직 내의 모든 팀에서 공유됩니다. 소유 팀만 이를 수정할 수 있습니다."
+
+#: apps/remix/app/components/forms/organisation-update-form.tsx
+msgid "Organisation update blocked"
+msgstr ""
 
 #: apps/remix/app/components/forms/organisation-update-form.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/organisations.$id.tsx
@@ -9344,6 +9773,7 @@ msgstr "연간"
 #: apps/remix/app/components/tables/admin-organisation-stats-table.tsx
 #: apps/remix/app/components/tables/documents-table-period-filter.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/organisation-stats._index.tsx
+#: apps/remix/app/routes/_authenticated+/admin+/rules.events.tsx
 msgid "Period"
 msgstr "기간"
 
@@ -9760,6 +10190,10 @@ msgid "Profile is currently <0>visible</0>."
 msgstr "프로필은 현재 <0>공개</0> 상태입니다."
 
 #: apps/remix/app/components/forms/profile.tsx
+msgid "Profile update blocked"
+msgstr ""
+
+#: apps/remix/app/components/forms/profile.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/users.$id.tsx
 msgid "Profile updated"
 msgstr "프로필이 업데이트되었습니다"
@@ -9832,6 +10266,10 @@ msgstr "라디오 버튼 설정"
 msgid "Radio values"
 msgstr "라디오 값"
 
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "ran"
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/admin+/email-domains.$id.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/email-domains.$id.tsx
 msgid "Re-register"
@@ -9854,9 +10292,6 @@ msgstr "읽기 전용"
 msgid "Read Only"
 msgstr "읽기 전용"
 
-#: apps/remix/app/routes/_authenticated+/o.$orgUrl.support.tsx
-msgid "Read our documentation to get started with Documenso."
-msgstr "문서를 읽고 Documenso 사용을 시작하세요."
 #: apps/remix/app/components/tables/admin-document-recipient-item-table.tsx
 msgid "Read Status"
 msgstr "열람 상태"
@@ -9876,6 +10311,7 @@ msgstr "준비됨"
 
 #: apps/remix/app/components/dialogs/admin-recipient-delete-dialog.tsx
 #: apps/remix/app/routes/_internal+/[__htmltopdf]+/certificate.tsx
+#: packages/lib/constants/admin-rules-translations.ts
 #: packages/lib/server-only/pdf/render-certificate.ts
 msgid "Reason"
 msgstr "이유"
@@ -9926,6 +10362,10 @@ msgstr "최근 활동"
 #: apps/remix/app/components/general/template/template-page-view-recent-activity.tsx
 msgid "Recent documents"
 msgstr "최근 문서"
+
+#: apps/remix/app/routes/_authenticated+/admin+/rules.$id.tsx
+msgid "Recent matches"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/template-direct-link-dialog.tsx
 #: apps/remix/app/components/general/template/template-page-view-documents-table.tsx
@@ -10117,6 +10557,10 @@ msgstr "레코드 유형"
 msgid "Record Value"
 msgstr "레코드 값"
 
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Records the match without taking any other action."
+msgstr ""
+
 #: apps/remix/app/components/forms/2fa/recovery-code-list.tsx
 msgid "Recovery code copied"
 msgstr "복구 코드가 복사되었습니다"
@@ -10263,6 +10707,7 @@ msgstr "알림"
 
 #: apps/remix/app/components/dialogs/admin-organisation-member-delete-dialog.tsx
 #: apps/remix/app/components/dialogs/admin-recipient-delete-dialog.tsx
+#: apps/remix/app/components/dialogs/admin-tag-delete-dialog.tsx
 #: apps/remix/app/components/dialogs/admin-team-member-delete-dialog.tsx
 #: apps/remix/app/components/dialogs/sign-field-text-dialog.tsx
 #: apps/remix/app/components/dialogs/team-email-delete-dialog.tsx
@@ -10272,6 +10717,7 @@ msgstr "알림"
 #: apps/remix/app/components/dialogs/template-use-dialog.tsx
 #: apps/remix/app/components/forms/avatar-image.tsx
 #: apps/remix/app/components/forms/branding-preferences-form.tsx
+#: apps/remix/app/components/general/admin-user-tags-section.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-field-container.tsx
 #: apps/remix/app/components/general/envelope-editor/canvas/envelope-canvas-field-action-buttons.tsx
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-fields-page-renderer.tsx
@@ -10287,10 +10733,25 @@ msgstr "알림"
 msgid "Remove"
 msgstr "제거"
 
+#: apps/remix/app/components/general/admin-rules/admin-rule-action-list-fields.tsx
+#: apps/remix/app/components/general/admin-rules/admin-rule-action-list-fields.tsx
+msgid "Remove action"
+msgstr ""
+
+#: apps/remix/app/components/general/admin-rules/admin-rule-condition-fields.tsx
+#: apps/remix/app/components/general/admin-rules/admin-rule-condition-fields.tsx
+msgid "Remove condition"
+msgstr ""
+
 #: apps/remix/app/components/tables/organisation-email-domains-table.tsx
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.email-domains.$id.tsx
 msgid "Remove email domain"
 msgstr "이메일 도메인 제거"
+
+#: apps/remix/app/components/general/admin-rules/admin-rule-condition-group-fields.tsx
+#: apps/remix/app/components/general/admin-rules/admin-rule-condition-group-fields.tsx
+msgid "Remove group"
+msgstr ""
 
 #: apps/remix/app/components/forms/editor/editor-content-image-settings.tsx
 msgid "Remove image"
@@ -10326,6 +10787,10 @@ msgstr "수신자 제거"
 #: apps/remix/app/components/dialogs/admin-recipient-delete-dialog.tsx
 #: apps/remix/app/components/dialogs/admin-recipient-delete-dialog.tsx
 msgid "Remove Recipient"
+msgstr ""
+
+#: apps/remix/app/components/dialogs/admin-tag-delete-dialog.tsx
+msgid "Remove tag"
 msgstr ""
 
 #: apps/remix/app/components/dialogs/team-email-delete-dialog.tsx
@@ -10509,6 +10974,10 @@ msgstr "재설정 이메일이 전송되었습니다"
 msgid "Reset Password"
 msgstr "비밀번호 재설정"
 
+#: apps/remix/app/components/general/admin-rules/admin-rule-tester.tsx
+msgid "Reset sample event"
+msgstr ""
+
 #: apps/remix/app/components/dialogs/admin-user-reset-two-factor-dialog.tsx
 msgid "Reset the users two factor authentication. This action is irreversible and will disable two factor authentication for the user."
 msgstr "사용자의 2단계 인증을 재설정합니다. 이 작업은 되돌릴 수 없으며 사용자의 2단계 인증이 비활성화됩니다."
@@ -10676,6 +11145,91 @@ msgstr ""
 msgid "Rows per page"
 msgstr "페이지당 행 수"
 
+#: apps/remix/app/components/tables/admin-rule-matches-table.tsx
+#: apps/remix/app/components/tables/admin-rules-table.tsx
+#: apps/remix/app/routes/_authenticated+/admin+/rules.events.tsx
+msgid "Rule"
+msgstr ""
+
+#: apps/remix/app/components/tables/admin-rules-table.tsx
+msgid "Rule actions"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/admin+/rules.new.tsx
+msgid "Rule created"
+msgstr ""
+
+#: apps/remix/app/components/dialogs/admin-rule-delete-dialog.tsx
+msgid "Rule deleted"
+msgstr ""
+
+#: apps/remix/app/components/general/admin-rules/admin-rule-tester.tsx
+msgid "Rule disabled"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/admin+/rules.events.tsx
+msgid "Rule events"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/admin+/rules.events.tsx
+msgid "Rule Events"
+msgstr ""
+
+#: apps/remix/app/components/general/admin-rules/admin-rule-tester.tsx
+msgid "Rule incomplete"
+msgstr ""
+
+#: apps/remix/app/components/forms/admin-rule-form.tsx
+msgid "Rule name"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/admin+/rules.$id.tsx
+msgid "Rule not found"
+msgstr ""
+
+#: apps/remix/app/components/tables/admin-rules-table.tsx
+#: apps/remix/app/routes/_authenticated+/admin+/rules.$id.tsx
+msgid "Rule updated"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/admin+/_layout.tsx
+#: apps/remix/app/routes/_authenticated+/admin+/rules._index.tsx
+#: apps/remix/app/routes/_authenticated+/admin+/rules._index.tsx
+msgid "Rules"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/admin+/rules._index.tsx
+msgid "Run checks when something happens on the platform. Rules run top to bottom, and an enforced rule set to stop on match skips the rules below it."
+msgstr ""
+
+#: apps/remix/app/components/general/admin-rules/admin-rule-definition-fields.tsx
+msgid "run these actions"
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Runs after a new account is created through email, OAuth or SSO sign-up."
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Runs before a document is distributed to its recipients."
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Runs before a signing request, reminder, completion or rejection email is sent."
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Runs before a team is created or its name is changed."
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Runs before an organisation is created or its name is changed."
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Runs when any user updates their profile name."
+msgstr ""
+
 #: apps/remix/app/components/forms/editor/editor-field-initials-form.tsx
 msgid "Sans-Serif"
 msgstr ""
@@ -10684,6 +11238,7 @@ msgstr ""
 #: apps/remix/app/components/dialogs/template-direct-link-dialog.tsx
 #: apps/remix/app/components/embed/authoring/configure-fields-view.tsx
 #: apps/remix/app/components/embed/authoring/configure-fields-view.tsx
+#: apps/remix/app/components/forms/admin-rule-form.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-number-field.tsx
 #: apps/remix/app/components/general/document-signing/document-signing-text-field.tsx
 #: packages/ui/primitives/document-flow/field-item-advanced-settings.tsx
@@ -10772,6 +11327,10 @@ msgstr "조직 이름으로 검색"
 msgid "Search by organisation name, URL or ID"
 msgstr "조직 이름, URL 또는 ID로 검색"
 
+#: apps/remix/app/routes/_authenticated+/admin+/rules.events.tsx
+msgid "Search by user name or email"
+msgstr ""
+
 #: apps/remix/app/components/general/app-command-menu.tsx
 msgid "Search documents, users, organisations…"
 msgstr ""
@@ -10812,8 +11371,16 @@ msgstr "이름 또는 이메일로 구성원 검색"
 msgid "Search members..."
 msgstr ""
 
+#: apps/remix/app/components/general/admin-rules/admin-organisations-multiselect-combobox.tsx
+msgid "Search organisations by name, ID or owner email"
+msgstr ""
+
 #: apps/remix/app/components/general/settings-org-switcher.tsx
 msgid "Search organisations…"
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/admin+/rules.events.tsx
+msgid "Search rules"
 msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.analytics._index.tsx
@@ -10867,6 +11434,10 @@ msgstr "선택"
 msgid "Select a destination for this folder."
 msgstr "이 폴더의 대상 위치를 선택하세요."
 
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Select a field"
+msgstr ""
+
 #: apps/remix/app/components/general/envelope-editor/canvas/envelope-canvas-field-action-buttons.tsx
 msgid "Select a field type"
 msgstr "필드 유형을 선택하세요."
@@ -10902,6 +11473,10 @@ msgstr "팀의 공개 프로필에 표시할 템플릿을 선택하세요"
 #: apps/remix/app/components/forms/document-preferences-form.tsx
 msgid "Select a time zone"
 msgstr "시간대를 선택하세요."
+
+#: apps/remix/app/components/general/admin-rules/admin-rule-condition-fields.tsx
+msgid "Select a value"
+msgstr ""
 
 #: packages/ui/components/document/document-global-auth-access-select.tsx
 msgid "Select access methods"
@@ -11000,6 +11575,11 @@ msgstr "수신자를 선택하거나 추가하세요."
 msgid "Select or enter email address"
 msgstr "이메일 주소를 선택하거나 입력하세요."
 
+#: apps/remix/app/components/general/admin-rules/admin-organisations-multiselect-combobox.tsx
+#: apps/remix/app/components/general/admin-rules/admin-organisations-multiselect-combobox.tsx
+msgid "Select organisations"
+msgstr ""
+
 #: apps/remix/app/components/general/document-signing/document-signing-auth-passkey.tsx
 msgid "Select passkey"
 msgstr "패스키 선택"
@@ -11089,8 +11669,6 @@ msgstr "셀렉터"
 #: apps/remix/app/components/dialogs/webhook-test-dialog.tsx
 #: packages/ui/primitives/document-flow/add-subject.tsx
 #: packages/ui/primitives/document-flow/add-subject.tsx
-#: packages/ui/primitives/document-flow/send-document-action-dialog.tsx
-#: packages/ui/primitives/document-flow/send-document-action-dialog.tsx
 msgid "Send"
 msgstr "보내기"
 
@@ -11113,7 +11691,6 @@ msgstr "문서 보내기"
 #: apps/remix/app/components/dialogs/envelope-distribute-dialog.tsx
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-header.tsx
 #: apps/remix/app/components/general/envelope-editor/envelope-editor.tsx
-#: packages/ui/primitives/document-flow/send-document-action-dialog.tsx
 msgid "Send Document"
 msgstr "문서 보내기"
 
@@ -11185,6 +11762,10 @@ msgstr ""
 msgid "Sender reported"
 msgstr "발신자가 신고되었습니다"
 
+#: apps/remix/app/utils/toast-error-messages.ts
+msgid "Sending blocked"
+msgstr ""
+
 #: apps/remix/app/components/general/settings-upsell/email-domains-upsell.tsx
 msgid "Sending from app.documenso.com"
 msgstr ""
@@ -11234,6 +11815,10 @@ msgstr "세션이 해지되었습니다."
 #: apps/remix/app/routes/_authenticated+/settings+/security._index.tsx
 msgid "Set a password"
 msgstr "비밀번호 설정"
+
+#: apps/remix/app/components/tables/admin-rules-table.tsx
+msgid "Set mode"
+msgstr ""
 
 #: packages/email/template-components/template-admin-user-created.tsx
 msgid "Set Password"
@@ -11343,6 +11928,10 @@ msgstr "사용량 표시하기"
 #: apps/remix/app/routes/_authenticated+/admin+/organisation-stats._index.tsx
 msgid "Show usage with quotas"
 msgstr "할당량과 함께 사용량 표시하기"
+
+#: apps/remix/app/routes/_authenticated+/admin+/rules._index.tsx
+msgid "Showing {visibleCount} of {totalCount, plural, one {# rule} other {# rules}}"
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/analytics._index.tsx
 msgid "Showing {visibleCount} of {totalCount} members"
@@ -11725,6 +12314,14 @@ msgstr "사이트 설정"
 msgid "Skip"
 msgstr "건너뛰기"
 
+#: apps/remix/app/components/forms/admin-rule-form.tsx
+msgid "skip this rule for these organisations"
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "skipped"
+msgstr ""
+
 #: apps/remix/app/components/forms/editor/editor-content-generic-field-forms.tsx
 msgid "Solid"
 msgstr ""
@@ -11746,6 +12343,8 @@ msgstr ""
 msgid "Some signers have not been assigned a signature field. Please assign at least 1 signature field to each signer before proceeding."
 msgstr "일부 서명자에게 서명 필드가 할당되지 않았습니다. 진행하기 전에 각 서명자에게 최소 1개 이상의 서명 필드를 할당해 주세요."
 
+#: apps/remix/app/components/dialogs/admin-rule-delete-dialog.tsx
+#: apps/remix/app/components/dialogs/admin-tag-delete-dialog.tsx
 #: apps/remix/app/components/dialogs/envelope-cancel-dialog.tsx
 #: apps/remix/app/components/dialogs/envelope-delete-dialog.tsx
 #: apps/remix/app/components/dialogs/envelope-download-dialog.tsx
@@ -11774,11 +12373,15 @@ msgstr "일부 서명자에게 서명 필드가 할당되지 않았습니다. �
 #: apps/remix/app/components/general/organisations/organisation-invitations.tsx
 #: apps/remix/app/components/general/teams/team-email-usage.tsx
 #: apps/remix/app/components/general/webhook-logs-sheet.tsx
+#: apps/remix/app/components/tables/admin-rules-table.tsx
+#: apps/remix/app/components/tables/admin-rules-table.tsx
 #: apps/remix/app/components/tables/organisation-member-invites-table.tsx
 #: apps/remix/app/components/tables/organisation-member-invites-table.tsx
 #: apps/remix/app/components/tables/settings-security-passkey-table-actions.tsx
 #: apps/remix/app/components/tables/settings-security-passkey-table-actions.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/documents.$id.tsx
+#: apps/remix/app/routes/_authenticated+/admin+/rules.$id.tsx
+#: apps/remix/app/routes/_authenticated+/admin+/rules.new.tsx
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.branding.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.branding.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.general.tsx
@@ -11918,6 +12521,10 @@ msgstr ""
 msgid "Source"
 msgstr "소스"
 
+#: apps/remix/app/components/general/admin-user-tags-section.tsx
+msgid "source no longer available"
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.sso.tsx
 msgid "Space-separated list of domains. Leave empty to allow all domains."
 msgstr "도메인을 공백으로 구분하여 입력하세요. 비워 두면 모든 도메인이 허용됩니다."
@@ -11932,6 +12539,10 @@ msgstr "SSO"
 
 #: apps/remix/app/routes/embed+/auth+/popup.tsx
 msgid "Starting sign in..."
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "starts with"
 msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/admin+/_layout.tsx
@@ -11976,6 +12587,14 @@ msgstr "단계 <0>{step}/{maxStep}</0>"
 msgid "Stop"
 msgstr ""
 
+#: apps/remix/app/components/forms/admin-rule-form.tsx
+msgid "Stop on match"
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Stops the event: the name change is not saved, or the document or email is not sent."
+msgstr ""
+
 #: apps/remix/app/components/embed/embed-popup-auth.tsx
 msgid "Storage access was denied, so we cannot keep you signed in inside this embed. Please try again."
 msgstr ""
@@ -12000,9 +12619,6 @@ msgstr "멈춰 있던 시간"
 msgid "Style"
 msgstr ""
 
-#: apps/remix/app/components/forms/support-ticket-form.tsx
-msgid "Subject"
-msgstr "제목"
 #: apps/remix/app/components/dialogs/envelope-distribute-dialog.tsx
 #: apps/remix/app/components/embed/authoring/configure-document-advanced-settings.tsx
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-settings-dialog.tsx
@@ -12010,6 +12626,10 @@ msgstr "제목"
 #: packages/ui/primitives/template-flow/add-template-settings.tsx
 msgid "Subject <0>(Optional)</0>"
 msgstr "제목 <0>(선택 사항)</0>"
+
+#: apps/remix/app/utils/toast-error-messages.ts
+msgid "Submission blocked"
+msgstr ""
 
 #: apps/remix/app/components/tables/admin-document-jobs-table.tsx
 msgid "Submitted"
@@ -12189,6 +12809,14 @@ msgstr "시스템 요구 사항"
 msgid "System Theme"
 msgstr "시스템 테마"
 
+#: apps/remix/app/components/dialogs/admin-tag-delete-dialog.tsx
+msgid "Tag removed"
+msgstr ""
+
+#: apps/remix/app/components/general/admin-user-tags-section.tsx
+msgid "Tags placed on this account by an administrator or an admin rule."
+msgstr ""
+
 #: apps/remix/app/components/dialogs/admin-swap-subscription-dialog.tsx
 msgid "Target Organisation"
 msgstr "대상 조직"
@@ -12215,10 +12843,6 @@ msgstr ""
 msgid "Team activity"
 msgstr ""
 
-#: apps/remix/app/routes/_authenticated+/o.$orgUrl.analytics._index.tsx
-msgid "Team activity"
-msgstr ""
-
 #: packages/lib/constants/teams-translations.ts
 msgid "Team Admin"
 msgstr "팀 관리자"
@@ -12231,6 +12855,10 @@ msgstr "팀 할당"
 #: apps/remix/app/routes/_authenticated+/admin+/organisations.$id.tsx
 msgid "Team Count"
 msgstr "팀 수"
+
+#: apps/remix/app/components/dialogs/team-create-dialog.tsx
+msgid "Team creation blocked"
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/admin+/teams.$id.tsx
 msgid "Team details"
@@ -12287,6 +12915,10 @@ msgstr "팀 그룹"
 #: apps/remix/app/routes/_authenticated+/admin+/teams.$id.tsx
 msgid "Team ID"
 msgstr "팀 ID"
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Team is created or renamed"
+msgstr ""
 
 #: packages/lib/constants/teams-translations.ts
 msgid "Team Manager"
@@ -12347,6 +12979,10 @@ msgstr "팀 역할"
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings._layout.tsx
 msgid "Team Settings"
 msgstr "팀 설정"
+
+#: apps/remix/app/components/forms/team-update-form.tsx
+msgid "Team update blocked"
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/admin+/organisations.$id.tsx
 msgid "Team url"
@@ -12522,6 +13158,10 @@ msgstr "테스트 이메일을 보냈습니다."
 #: apps/remix/app/components/dialogs/email-transport-send-test-dialog.tsx
 msgid "Test failed."
 msgstr "테스트에 실패했습니다."
+
+#: apps/remix/app/components/general/admin-rules/admin-rule-tester.tsx
+msgid "Test this rule"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/webhook-test-dialog.tsx
 msgid "Test Webhook"
@@ -12864,6 +13504,7 @@ msgstr ""
 #: apps/remix/app/routes/_unauthenticated+/signup-invite.$token.tsx
 msgid "The invitation for <0>{0}</0> is no longer valid. Please contact your administrator."
 msgstr ""
+
 #: apps/remix/app/components/general/admin-license-card.tsx
 msgid "The license key has been copied to your clipboard"
 msgstr ""
@@ -12967,6 +13608,18 @@ msgstr "수신자가 문서를 완료하기 위해 서명해야 합니다."
 #: packages/ui/components/recipient/recipient-role-select.tsx
 msgid "The recipient is required to view the document for it to be completed."
 msgstr "수신자가 문서를 완료하기 위해 열람해야 합니다."
+
+#: apps/remix/app/components/general/admin-rules/admin-rule-tester.tsx
+msgid "The rule is disabled, so it would not be evaluated at all."
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "The rule is stored but never evaluated."
+msgstr ""
+
+#: apps/remix/app/routes/_authenticated+/admin+/rules.$id.tsx
+msgid "The rule you are looking for may have been removed, renamed or may have never existed."
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/admin+/email-domains.$id.tsx
 msgid "The SES identity has been deleted and recreated with the same keys. DNS records remain unchanged."
@@ -13104,6 +13757,10 @@ msgstr "찾고 있는 웹후크는 삭제되었거나 이름이 변경되었거�
 msgid "Theme"
 msgstr ""
 
+#: apps/remix/app/components/general/admin-rules/admin-rule-definition-fields.tsx
+msgid "Then"
+msgstr ""
+
 #: packages/ui/components/document/reminder-settings-picker.tsx
 msgid "Then repeat every"
 msgstr "그 후 반복 주기"
@@ -13144,9 +13801,17 @@ msgstr "파일 업로드 중 오류가 발생했습니다. 다시 시도해 주�
 msgid "There was an issue rendering some fields, please review the fields and try again."
 msgstr "일부 필드를 렌더링하는 데 문제가 있었습니다. 필드를 확인한 후 다시 시도해 주세요."
 
+#: apps/remix/app/components/general/admin-rules/admin-rule-tester.tsx
+msgid "These actions would run, in this order."
+msgstr ""
+
 #: packages/ui/components/document/document-global-auth-action-select.tsx
 msgid "These can be overriden by setting the authentication requirements directly on each recipient in the next step. Multiple methods can be selected."
 msgstr "이 설정은 다음 단계에서 각 수신자별로 인증 요구 사항을 직접 설정하면 재정의됩니다. 여러 방법을 선택할 수 있습니다."
+
+#: apps/remix/app/components/general/admin-rules/admin-rule-definition-fields.tsx
+msgid "these conditions are met"
+msgstr ""
 
 #: packages/ui/components/recipient/recipient-action-auth-select.tsx
 msgid "These will override any global settings. Multiple methods can be selected."
@@ -13196,6 +13861,15 @@ msgstr "이 작업은 되돌릴 수 있지만, 계정 설정 및 콘텐츠가 �
 msgid "This can take a minute or two depending on the size of your document."
 msgstr "문서 크기에 따라 1~2분 정도 소요될 수 있습니다."
 
+#: apps/remix/app/components/dialogs/organisation-create-dialog.tsx
+#: apps/remix/app/components/dialogs/team-create-dialog.tsx
+#: apps/remix/app/components/forms/organisation-update-form.tsx
+#: apps/remix/app/components/forms/profile.tsx
+#: apps/remix/app/components/forms/team-update-form.tsx
+#: apps/remix/app/components/general/billing-plans.tsx
+msgid "This change is blocked. Please contact support if you believe this is a mistake."
+msgstr ""
+
 #: apps/remix/app/components/dialogs/claim-delete-dialog.tsx
 msgid "This claim is locked and cannot be deleted."
 msgstr "이 클레임은 잠겨 있어 삭제할 수 없습니다."
@@ -13223,6 +13897,14 @@ msgstr ""
 #: packages/email/template-components/template-document-super-delete.tsx
 msgid "This document can not be recovered, if you would like to dispute the reason for future documents please contact support."
 msgstr "이 문서는 복구할 수 없습니다. 향후 문서에 대한 삭제 사유에 이의를 제기하시려면 고객 지원팀에 문의해 주세요."
+
+#: apps/remix/app/utils/toast-error-messages.ts
+msgid "This document can't be sent. Please contact support if you believe this is a mistake."
+msgstr ""
+
+#: apps/remix/app/utils/toast-error-messages.ts
+msgid "This document can't be submitted. Please contact the sender if you believe this is a mistake."
+msgstr ""
 
 #: apps/remix/app/components/embed/authoring/configure-document-upload.tsx
 msgid "This document cannot be changed"
@@ -13392,6 +14074,10 @@ msgstr ""
 msgid "This envelope has too many image content items. Please remove some, or contact support if you need more."
 msgstr ""
 
+#: apps/remix/app/components/forms/admin-rule-form.tsx
+msgid "this event happens"
+msgstr ""
+
 #: apps/remix/app/components/embed/embed-paywall.tsx
 msgid "This feature is not available on your current plan"
 msgstr "현재 요금제에서는 이 기능을 이용할 수 없습니다."
@@ -13399,6 +14085,10 @@ msgstr "현재 요금제에서는 이 기능을 이용할 수 없습니다."
 #: packages/ui/primitives/template-flow/add-template-placeholder-recipients.tsx
 msgid "This field cannot be modified or deleted. When you share this template's direct link or add it to your public profile, anyone who accesses it can input their name and email, and fill in the fields assigned to them."
 msgstr "이 필드는 수정하거나 삭제할 수 없습니다. 이 템플릿의 다이렉트 링크를 공유하거나 공개 프로필에 추가하면, 누구든지 링크에 접근해 이름과 이메일을 입력하고 본인에게 할당된 필드를 작성할 수 있습니다."
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "This field is required"
+msgstr ""
 
 #: apps/remix/app/utils/toast-error-messages.ts
 msgid "This file type isn't supported. Please upload a PDF or Word document."
@@ -13414,6 +14104,10 @@ msgstr ""
 
 #: packages/ui/primitives/signature-pad/signature-pad-upload.tsx
 msgid "This image is invalid, please upload a valid image file."
+msgstr ""
+
+#: apps/remix/app/components/general/envelope-editor/content-image-upload-dialog.tsx
+msgid "This image is larger than {APP_CONTENT_IMAGE_UPLOAD_SIZE_LIMIT} MB."
 msgstr ""
 
 #: packages/email/templates/signup-invite.tsx
@@ -13435,9 +14129,7 @@ msgstr ""
 #: apps/remix/app/components/forms/signup.tsx
 msgid "This invite is for this email address."
 msgstr ""
-#: apps/remix/app/components/general/envelope-editor/content-image-upload-dialog.tsx
-msgid "This image is larger than {APP_CONTENT_IMAGE_UPLOAD_SIZE_LIMIT} MB."
-msgstr ""
+
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-settings-dialog.tsx
 #: packages/ui/primitives/template-flow/add-template-settings.tsx
 msgid "This is how the document will reach the recipients once the document is ready for signing."
@@ -13458,6 +14150,10 @@ msgstr "이 URL을 통해 사용자가 귀하의 조직에 로그인합니다."
 #: apps/remix/app/components/dialogs/envelope-item-delete-dialog.tsx
 msgid "This item cannot be deleted"
 msgstr "이 항목은 삭제할 수 없습니다"
+
+#: apps/remix/app/utils/toast-error-messages.ts
+msgid "This link can no longer be used. Please contact the sender."
+msgstr ""
 
 #: apps/remix/app/routes/_unauthenticated+/team.verify.email.$token.tsx
 msgid "This link is invalid or has expired. Please contact your team to resend a verification."
@@ -13496,6 +14192,10 @@ msgstr "이 수신자는 이미 필드에 서명했거나 문서를 완료했으
 msgid "This recipient has already signed and cannot be removed."
 msgstr ""
 
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "This rule has too many conditions"
+msgstr ""
+
 #: apps/remix/app/components/forms/signin.tsx
 msgid "This session has expired. Please try again."
 msgstr "이 세션이 만료되었습니다. 다시 시도해 주세요."
@@ -13503,6 +14203,7 @@ msgstr "이 세션이 만료되었습니다. 다시 시도해 주세요."
 #: apps/remix/app/components/forms/signup.tsx
 msgid "This sign-in link is invalid or has expired. Sign in with your email and password."
 msgstr ""
+
 #: apps/remix/app/components/general/envelope-editor/recipient-step-list.tsx
 #: packages/ui/primitives/document-flow/add-signers.tsx
 msgid "This signer has already signed the document."
@@ -13775,6 +14476,10 @@ msgstr "이 필드를 보려면 <0>{0}</0>(으)로 로그인해야 합니다."
 msgid "To view this field, you need to be logged in."
 msgstr "이 필드를 보려면 로그인해야 합니다."
 
+#: apps/remix/app/components/tables/admin-rules-table.tsx
+msgid "Toggle rule"
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.public-profile.tsx
 msgid "Toggle the switch to hide your profile from the public."
 msgstr "스위치를 전환하여 프로필을 공개에서 숨깁니다."
@@ -13874,6 +14579,13 @@ msgstr "전송 방식 유형은 생성 후 변경할 수 없습니다."
 msgid "Transport updated."
 msgstr "전송 방식이 업데이트되었습니다."
 
+#: apps/remix/app/components/forms/admin-rule-form.tsx
+#: apps/remix/app/components/general/admin-rules/admin-rule-trigger-filter.tsx
+#: apps/remix/app/components/tables/admin-rule-matches-table.tsx
+#: apps/remix/app/components/tables/admin-rules-table.tsx
+msgid "Trigger"
+msgstr ""
+
 #: apps/remix/app/components/dialogs/webhook-create-dialog.tsx
 #: apps/remix/app/components/dialogs/webhook-edit-dialog.tsx
 msgid "Triggers"
@@ -13901,6 +14613,10 @@ msgstr "다시 시도"
 #: apps/remix/app/components/dialogs/ai-features-enable-dialog.tsx
 msgid "Turn on AI detection to automatically find recipients and fields in your documents. AI providers do not retain your data for training."
 msgstr "AI 감지를 켜서 문서에서 수신인과 필드를 자동으로 찾을 수 있습니다. AI 공급자는 학습을 위해 귀하의 데이터를 보관하지 않습니다."
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Turns on the \"disable emails\" claim flag for the document's organisation, so it sends no signing or notification emails."
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/settings+/security._index.tsx
 msgid "Two factor authentication"
@@ -14287,6 +15003,10 @@ msgstr "제목을 업데이트하거나 PDF 파일을 교체하세요."
 msgid "Update user"
 msgstr "사용자 업데이트"
 
+#: apps/remix/app/components/forms/admin-rule-form.tsx
+msgid "Updated"
+msgstr ""
+
 #. placeholder {0}: formatRelativeDate(template.updatedAt, i18n.locale)
 #: apps/remix/app/components/general/analytics/analytics-template-usage-card.tsx
 msgid "Updated {0}"
@@ -14511,6 +15231,7 @@ msgid "Used by claims"
 msgstr "클레임에서 사용됨"
 
 #: apps/remix/app/components/tables/admin-document-logs-table.tsx
+#: apps/remix/app/components/tables/admin-rule-matches-table.tsx
 #: apps/remix/app/components/tables/document-logs-table.tsx
 #: apps/remix/app/components/tables/internal-audit-log-table.tsx
 #: packages/lib/server-only/pdf/render-audit-logs.ts
@@ -14521,6 +15242,10 @@ msgstr "사용자"
 #: packages/lib/server-only/pdf/render-audit-logs.ts
 msgid "User Agent"
 msgstr "User Agent"
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "User changes their name"
+msgstr ""
 
 #: apps/remix/app/components/dialogs/admin-user-create-dialog.tsx
 msgid "User created and welcome email sent"
@@ -14554,6 +15279,10 @@ msgstr "사용자 조직"
 msgid "User profiles are here!"
 msgstr "사용자 프로필이 추가되었습니다!"
 
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "User signs up"
+msgstr ""
+
 #: apps/remix/app/components/forms/email-transport-form.tsx
 msgid "Username"
 msgstr "사용자 이름"
@@ -14577,12 +15306,21 @@ msgstr "검증 실패"
 
 #: apps/remix/app/components/forms/editor/editor-field-number-form.tsx
 #: apps/remix/app/components/forms/editor/editor-field-number-form.tsx
+#: apps/remix/app/components/general/admin-rules/admin-rule-condition-fields.tsx
 #: apps/remix/app/components/tables/admin-document-recipient-item-table.tsx
 #: apps/remix/app/routes/_authenticated+/admin+/email-domains.$id.tsx
 #: packages/ui/primitives/document-flow/field-items-advanced-settings/number-field.tsx
 #: packages/ui/primitives/document-flow/field-items-advanced-settings/number-field.tsx
 msgid "Value"
 msgstr "값"
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "Value is required"
+msgstr ""
+
+#: apps/remix/app/components/general/admin-rules/admin-rule-condition-fields.tsx
+msgid "value1, value2, value3"
+msgstr ""
 
 #: packages/email/template-components/template-access-auth-2fa.tsx
 msgid "Verification Code Required"
@@ -15207,6 +15945,10 @@ msgstr ""
 msgid "We were unable to copy your recovery code to your clipboard. Please try again."
 msgstr "복구 코드를 클립보드에 복사하지 못했습니다. 다시 시도해 주세요."
 
+#: apps/remix/app/routes/_authenticated+/admin+/rules.new.tsx
+msgid "We were unable to create the rule. Please try again."
+msgstr ""
+
 #: apps/remix/app/components/forms/signup.tsx
 msgid "We were unable to create your account. If you already have an account, try signing in instead."
 msgstr "계정을 생성할 수 없습니다. 이미 계정을 보유하고 있다면 대신 로그인해 주세요."
@@ -15214,6 +15956,10 @@ msgstr "계정을 생성할 수 없습니다. 이미 계정을 보유하고 있�
 #: apps/remix/app/components/forms/signup.tsx
 msgid "We were unable to create your account. Please review the information you provided and try again."
 msgstr "계정을 생성하지 못했습니다. 입력하신 정보를 확인한 뒤 다시 시도해 주세요."
+
+#: apps/remix/app/components/dialogs/admin-rule-delete-dialog.tsx
+msgid "We were unable to delete the rule. Please try again."
+msgstr ""
 
 #: apps/remix/app/components/forms/2fa/disable-authenticator-app-dialog.tsx
 msgid "We were unable to disable two-factor authentication for your account. Please ensure that you have entered your password and backup code correctly and try again."
@@ -15225,9 +15971,21 @@ msgstr "계정의 2단계 인증을 비활성화할 수 없습니다. 비밀번�
 msgid "We were unable to log you out at this time."
 msgstr "현재 로그아웃할 수 없습니다."
 
+#: apps/remix/app/components/dialogs/admin-tag-delete-dialog.tsx
+msgid "We were unable to remove the tag. Please try again."
+msgstr ""
+
+#: apps/remix/app/components/tables/admin-rules-table.tsx
+msgid "We were unable to reorder the rules. Please try again."
+msgstr ""
+
 #: apps/remix/app/routes/_recipient+/report.$token.tsx
 msgid "We were unable to report this sender at this time. Please try again later."
 msgstr "현재 이 발신자를 신고할 수 없습니다. 잠시 후 다시 시도해 주세요."
+
+#: apps/remix/app/routes/_authenticated+/admin+/rules.$id.tsx
+msgid "We were unable to save the rule. Please try again."
+msgstr ""
 
 #: apps/remix/app/components/forms/password-setup-request-button.tsx
 msgid "We were unable to send the email. Please try again later."
@@ -15254,6 +16012,10 @@ msgstr ""
 #: apps/remix/app/utils/toast-error-messages.ts
 msgid "We were unable to submit this document at this time. Please try again later."
 msgstr "현재 이 문서를 제출할 수 없습니다. 나중에 다시 시도해 주세요."
+
+#: apps/remix/app/components/tables/admin-rules-table.tsx
+msgid "We were unable to update the rule. Please try again."
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.branding.tsx
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/settings.branding.tsx
@@ -15456,9 +16218,18 @@ msgstr "Well-known URL은 필수입니다"
 msgid "Were you trying to edit this document instead?"
 msgstr "이 문서를 편집하려던 것이었나요?"
 
+#: apps/remix/app/components/forms/admin-rule-form.tsx
+msgid "What this rule protects against"
+msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl._index.tsx
 msgid "What you can do with teams:"
 msgstr "팀으로 할 수 있는 일:"
+
+#: apps/remix/app/components/forms/admin-rule-form.tsx
+#: apps/remix/app/components/tables/admin-rule-matches-table.tsx
+msgid "When"
+msgstr ""
 
 #: apps/remix/app/components/embed/authoring/configure-document-recipients.tsx
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-recipient-form.tsx
@@ -15471,6 +16242,10 @@ msgstr "활성화하면, 미리 정의된 순서 대신 서명자가 다음 서�
 msgid "When enabled, users signing in via SSO for the first time will also receive their own personal organisation."
 msgstr "활성화하면, 처음으로 SSO를 통해 로그인하는 사용자는 자신의 개인 조직도 함께 생성됩니다."
 
+#: apps/remix/app/components/forms/admin-rule-form.tsx
+msgid "When this rule matches, skip any lower priority rules for the same trigger."
+msgstr ""
+
 #: apps/remix/app/components/dialogs/passkey-create-dialog.tsx
 msgid "When you click continue, you will be prompted to add the first available authenticator on your system."
 msgstr "계속을 클릭하면 시스템에서 사용 가능한 첫 번째 인증 수단을 추가하라는 안내가 표시됩니다."
@@ -15482,6 +16257,10 @@ msgstr "문서에 서명할 때, 이미 제공된 정보를 사용하여 아래 
 #: apps/remix/app/routes/_unauthenticated+/articles.signature-disclosure.tsx
 msgid "When you use our platform to affix your electronic signature to documents, you are consenting to do so under the Electronic Signatures in Global and National Commerce Act (E-Sign Act) and other applicable laws. This action indicates your agreement to use electronic means to sign documents and receive notifications."
 msgstr "플랫폼을 사용해 문서에 전자 서명을 하는 것은 「전자 서명법(E-Sign Act)」 및 기타 관련 법률에 따른 동의를 의미합니다. 이는 문서 서명 및 알림 수신을 전자적인 방식으로 진행하는 데 동의한다는 뜻입니다."
+
+#: apps/remix/app/components/general/admin-rules/admin-rule-condition-group-fields.tsx
+msgid "where"
+msgstr ""
 
 #: apps/remix/app/routes/_authenticated+/o.$orgUrl.settings.sso.tsx
 msgid "Whether to enable the SSO portal for your organisation"
@@ -15514,6 +16293,10 @@ msgstr ""
 
 #: apps/remix/app/components/general/settings-upsell/sso-portal-upsell.tsx
 msgid "Works with any OIDC provider — Okta, Entra ID, Google and more"
+msgstr ""
+
+#: packages/lib/constants/admin-rules-translations.ts
+msgid "would run"
 msgstr ""
 
 #: apps/remix/app/components/forms/public-profile-form.tsx
@@ -15589,6 +16372,10 @@ msgstr "곧 <0>{0}</0>을(를) 삭제하려고 합니다. 팀, 문서 및 기타
 msgid "You are about to delete <0>{organisationName}</0>. This action is not reversible. All teams will be removed and all documents will be orphaned to the deleted-account service account."
 msgstr "<0>{organisationName}</0>을(를) 삭제하려고 합니다. 이 작업은 되돌릴 수 없습니다. 모든 팀이 삭제되며, 모든 문서는 삭제된 계정 서비스 계정에 고아 상태로 남게 됩니다."
 
+#: apps/remix/app/components/dialogs/admin-rule-delete-dialog.tsx
+msgid "You are about to delete the following rule. Its match history will also be removed."
+msgstr ""
+
 #: apps/remix/app/components/dialogs/team-email-delete-dialog.tsx
 msgid "You are about to delete the following team email from <0>{teamName}</0>."
 msgstr "<0>{teamName}</0>에서 다음 팀 이메일을 삭제하려고 합니다."
@@ -15639,6 +16426,14 @@ msgctxt "Removing group from team"
 msgid "You are about to remove the following group from <0>{0}</0>."
 msgstr "다음 그룹을 <0>{0}</0>에서 제거하려고 합니다."
 
+#: apps/remix/app/components/dialogs/admin-tag-delete-dialog.tsx
+msgid "You are about to remove the following tag from this user. The rule that added it can tag them again the next time it matches."
+msgstr ""
+
+#: apps/remix/app/components/dialogs/admin-tag-delete-dialog.tsx
+msgid "You are about to remove the following tag from this user. This can't be undone."
+msgstr ""
+
 #. placeholder {0}: organisation.name
 #: apps/remix/app/components/dialogs/organisation-member-delete-dialog.tsx
 msgid "You are about to remove the following user from <0>{0}</0>."
@@ -15661,10 +16456,6 @@ msgstr "다음 사용자를 팀 <0>{teamName}</0>에서 제거하려고 합니�
 #: apps/remix/app/components/general/teams/team-email-usage.tsx
 msgid "You are about to revoke access for team <0>{0}</0> ({1}) to use your email."
 msgstr "팀 <0>{0}</0>({1})이(가) 귀하의 이메일을 사용하도록 허용한 접근 권한을 철회하려고 합니다."
-
-#: packages/ui/primitives/document-flow/send-document-action-dialog.tsx
-msgid "You are about to send this document to the recipients. Are you sure you want to continue?"
-msgstr "지금 이 문서를 수신자에게 전송하려고 합니다. 계속하시겠습니까?"
 
 #: apps/remix/app/components/general/billing-plans.tsx
 msgid "You are about to subscribe to the {planName}"
@@ -16397,6 +17188,7 @@ msgstr ""
 #: apps/remix/app/components/forms/signup.tsx
 msgid "Your account has been created. Signing you in now."
 msgstr ""
+
 #: apps/remix/app/components/dialogs/account-delete-dialog.tsx
 msgid "Your account has been deleted successfully."
 msgstr "계정이 성공적으로 삭제되었습니다."
@@ -16404,6 +17196,7 @@ msgstr "계정이 성공적으로 삭제되었습니다."
 #: packages/email/template-components/template-account-disabled.tsx
 msgid "Your account has been disabled"
 msgstr ""
+
 #: apps/remix/app/routes/_authenticated+/settings+/security._index.tsx
 msgid "Your account has no password. Add one to sign in with your email and to sign documents that require it. We'll email you a link."
 msgstr ""
