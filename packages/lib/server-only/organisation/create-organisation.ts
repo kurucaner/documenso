@@ -167,6 +167,7 @@ type CreatePersonalOrganisationOptions = {
   type?: OrganisationType;
   isManagedOrganisation?: boolean;
   managedExternalId?: string;
+  skipInitialTeam?: boolean;
 };
 
 export const createPersonalOrganisation = async ({
@@ -180,6 +181,7 @@ export const createPersonalOrganisation = async ({
   type = OrganisationType.PERSONAL,
   isManagedOrganisation = false,
   managedExternalId,
+  skipInitialTeam = false,
 }: CreatePersonalOrganisationOptions) => {
   const freeSubscriptionClaim = await getSubscriptionClaim(INTERNAL_CLAIM_ID.FREE);
 
@@ -200,7 +202,7 @@ export const createPersonalOrganisation = async ({
     // Todo: (LOGS)
   });
 
-  if (organisation) {
+  if (organisation && !skipInitialTeam) {
     const resolvedTeamUrl = teamUrl?.trim() || prefixedId('personal');
 
     await createTeam({

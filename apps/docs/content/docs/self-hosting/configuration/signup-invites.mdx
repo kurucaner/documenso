@@ -183,8 +183,9 @@ Creates a fully provisioned email/password user in one request. Bypasses `NEXT_P
 | `signature`          | string | Yes      | Initial user signature (typed or image data) |
 | `organisationName` | string | No       | Display name for the user's personal organisation |
 | `teamName`           | string | No       | Display name for the user's personal team |
+| `skipInitialTeam`    | boolean | No       | When `true`, creates the managed personal organisation only — no personal team (default `false`). Response omits `teamUrl`; use `POST /api/internal/organisations/{orgUrl}/teams` to add teams later. |
 | `disableAccountDeletion` | boolean | No  | When `true`, blocks self-service account deletion in profile settings (default `false`) |
-| `managedExternalId` | string (UUID) | No | When set, stores an integrator-owned id on the provisioned personal team (e.g. property UUID). The personal organisation is created with `isManaged: true`. |
+| `managedExternalId` | string (UUID) | No | When set, stores an integrator-owned id on the provisioned personal team (e.g. property UUID). The personal organisation is created with `isManaged: true`. Ignored when `skipInitialTeam` is `true`. |
 | `propertyOsPropertyId` | string (UUID) | No | **Deprecated** — same as `managedExternalId`. Do not send both with different values. |
 
 <Tabs items={['curl']}>
@@ -502,7 +503,7 @@ Creates a team API token in one request. The plaintext token is returned **once*
 
 Typical flow:
 
-1. `POST /api/internal/users` → get `teamUrl`, `userId`, and `orgUrl` (first property / account)
+1. `POST /api/internal/users` → get `userId` and `orgUrl` (and `teamUrl` unless `skipInitialTeam` is `true`)
 2. `POST /api/internal/organisations/{orgUrl}/teams` → get a new `teamUrl` for each additional property-scoped team
 3. `POST /api/internal/teams/{teamUrl}/api-tokens` → get `api_...` token
 4. Call v2 endpoints with the team API token

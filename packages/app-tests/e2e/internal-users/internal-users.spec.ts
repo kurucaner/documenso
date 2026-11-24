@@ -24,6 +24,45 @@ test.describe('@internal Internal user provisioning API', () => {
     expect(response.status()).toBe(401);
   });
 
+  test('should create a user with org only when skipInitialTeam is true', async ({ request }) => {
+    const email = `internal-user-skip-team-${Date.now()}@example.com`;
+    const organisationName = 'Org Only Operator';
+
+    const response = await request.post(`${WEBAPP_BASE_URL}/api/internal/users`, {
+      headers: {
+        Authorization: `Bearer ${INTERNAL_SECRET}`,
+      },
+      data: {
+        ...validUserPayload(email),
+        organisationName,
+        skipInitialTeam: true,
+      },
+    });
+
+    expect(response.status()).toBe(201);
+
+    const body = await response.json();
+
+    expect(body.email).toBe(email.toLowerCase());
+    expect(body.userId).toBeTruthy();
+    expect(body.orgUrl).toMatch(/^org_/);
+    expect(body.teamUrl).toBeUndefined();
+
+    const organisation = await prisma.organisation.findFirstOrThrow({
+      where: {
+        ownerUserId: body.userId,
+        type: OrganisationType.PERSONAL,
+      },
+      include: {
+        teams: true,
+      },
+    });
+
+    expect(organisation.name).toBe(organisationName);
+    expect(organisation.isManaged).toBe(true);
+    expect(organisation.teams).toHaveLength(0);
+  });
+
   test('should create a user with custom organisation and team names', async ({ request }) => {
     const email = `internal-user-${Date.now()}@example.com`;
     const organisationName = 'Acme Corp';

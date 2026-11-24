@@ -29,6 +29,7 @@ const ZProvisionInternalUserRequestSchema = addManagedExternalIdAliasRefinement(
       organisationName: ZNameSchema.optional(),
       password: ZPasswordSchema,
       signature: z.string().min(1),
+      skipInitialTeam: z.boolean().optional().default(false),
       teamName: ZNameSchema.optional(),
       ...ZManagedExternalIdBodyFields,
     })

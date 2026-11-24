@@ -13,6 +13,8 @@ export type PersonalOrganisationOptions = {
   isManagedOrganisation?: boolean;
   /** When set, initial personal team stores this external integrator id (e.g. property UUID). */
   managedExternalId?: string;
+  /** When true, create managed personal org without an initial team. */
+  skipInitialTeam?: boolean;
 };
 
 export interface CreateUserOptions {
@@ -93,6 +95,7 @@ export const onCreateUserHook = async (user: User, options: OnCreateUserHookOpti
       teamName: options.personalOrganisation?.teamName,
       isManagedOrganisation: options.personalOrganisation?.isManagedOrganisation ?? false,
       managedExternalId: options.personalOrganisation?.managedExternalId,
+      skipInitialTeam: options.personalOrganisation?.skipInitialTeam,
     });
   }
 

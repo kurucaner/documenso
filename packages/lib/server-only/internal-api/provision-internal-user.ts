@@ -16,13 +16,14 @@ export type ProvisionInternalUserOptions = {
   teamName?: string;
   disableAccountDeletion?: boolean;
   managedExternalId?: string;
+  skipInitialTeam?: boolean;
 };
 
 export type ProvisionInternalUserResult = {
   userId: number;
   email: string;
   orgUrl: string;
-  teamUrl: string;
+  teamUrl?: string;
 };
 
 export const provisionInternalUser = async ({
@@ -34,6 +35,7 @@ export const provisionInternalUser = async ({
   teamName,
   disableAccountDeletion = false,
   managedExternalId,
+  skipInitialTeam = false,
 }: ProvisionInternalUserOptions): Promise<ProvisionInternalUserResult> => {
   if (!isInternalSecretConfigured()) {
     throw new AppError(AppErrorCode.NOT_SETUP, {
@@ -62,8 +64,9 @@ export const provisionInternalUser = async ({
     personalOrganisation: {
       organisationName,
       isManagedOrganisation: true,
-      managedExternalId,
-      teamName,
+      managedExternalId: skipInitialTeam ? undefined : managedExternalId,
+      teamName: skipInitialTeam ? undefined : teamName,
+      skipInitialTeam,
     },
   });
 
@@ -86,11 +89,25 @@ export const provisionInternalUser = async ({
     },
   });
 
-  const teamUrl = personalOrganisation?.teams[0]?.url;
-
-  if (!personalOrganisation?.url || !teamUrl) {
+  if (!personalOrganisation?.url) {
     throw new AppError(AppErrorCode.UNKNOWN_ERROR, {
       message: 'Failed to resolve personal organisation after user creation',
+    });
+  }
+
+  if (skipInitialTeam) {
+    return {
+      userId: user.id,
+      email: user.email,
+      orgUrl: personalOrganisation.url,
+    };
+  }
+
+  const teamUrl = personalOrganisation.teams[0]?.url;
+
+  if (!teamUrl) {
+    throw new AppError(AppErrorCode.UNKNOWN_ERROR, {
+      message: 'Failed to resolve personal organisation team after user creation',
     });
   }
 
