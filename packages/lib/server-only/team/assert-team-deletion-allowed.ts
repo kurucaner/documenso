@@ -1,19 +1,15 @@
-import { prisma } from '@documenso/prisma';
-
-import { AppError, AppErrorCode } from '../../errors/app-error';
-
-const TEAM_DELETION_MANAGED_MESSAGE = 'Team deletion is managed by PropertyOS';
+import {
+  assertManagedOrganisationDashboardWriteAllowed,
+  assertManagedOrganisationDashboardWriteAllowedByTeamId,
+} from '../organisation/assert-managed-organisation-dashboard-write-allowed';
 
 /**
- * Throws if dashboard team deletion is blocked for a PropertyOS-managed team.
+ * Throws if dashboard team deletion is blocked for an integration-managed organisation.
  */
 export const assertTeamDeletionAllowed = (team: { organisationIsManaged: boolean }): void => {
-  if (team.organisationIsManaged) {
-    throw new AppError(AppErrorCode.FORBIDDEN, {
-      message: TEAM_DELETION_MANAGED_MESSAGE,
-      statusCode: 403,
-    });
-  }
+  assertManagedOrganisationDashboardWriteAllowed({
+    isManaged: team.organisationIsManaged,
+  });
 };
 
 export type AssertTeamDeletionAllowedByIdOptions = {
@@ -21,28 +17,10 @@ export type AssertTeamDeletionAllowedByIdOptions = {
 };
 
 /**
- * Re-queries the team so a freshly-updated flag cannot be bypassed via a stale session.
+ * Re-queries the team organisation flag before delete.
  */
 export const assertTeamDeletionAllowedById = async ({
   teamId,
 }: AssertTeamDeletionAllowedByIdOptions): Promise<void> => {
-  const team = await prisma.team.findFirst({
-    select: {
-      organisation: {
-        select: {
-          isManaged: true,
-        },
-      },
-    },
-    where: { id: teamId },
-  });
-
-  if (!team) {
-    throw new AppError(AppErrorCode.NOT_FOUND, {
-      message: 'Team not found',
-      statusCode: 404,
-    });
-  }
-
-  assertTeamDeletionAllowed({ organisationIsManaged: team.organisation.isManaged });
+  await assertManagedOrganisationDashboardWriteAllowedByTeamId({ teamId });
 };

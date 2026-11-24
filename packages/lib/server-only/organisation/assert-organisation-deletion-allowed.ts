@@ -1,8 +1,7 @@
-import { prisma } from '@documenso/prisma';
-
-import { AppError, AppErrorCode } from '../../errors/app-error';
-
-const ORGANISATION_DELETION_MANAGED_MESSAGE = 'Organisation deletion is managed by PropertyOS';
+import {
+  assertManagedOrganisationDashboardWriteAllowed,
+  assertManagedOrganisationDashboardWriteAllowedById,
+} from './assert-managed-organisation-dashboard-write-allowed';
 
 export type OrganisationDeletionGuardInput = {
   isManaged: boolean;
@@ -12,12 +11,9 @@ export type OrganisationDeletionGuardInput = {
  * Throws if dashboard organisation deletion is blocked for integration-managed resources.
  */
 export const assertOrganisationDeletionAllowed = (input: OrganisationDeletionGuardInput): void => {
-  if (input.isManaged) {
-    throw new AppError(AppErrorCode.FORBIDDEN, {
-      message: ORGANISATION_DELETION_MANAGED_MESSAGE,
-      statusCode: 403,
-    });
-  }
+  assertManagedOrganisationDashboardWriteAllowed({
+    isManaged: input.isManaged,
+  });
 };
 
 export type AssertOrganisationDeletionAllowedByIdOptions = {
@@ -25,26 +21,10 @@ export type AssertOrganisationDeletionAllowedByIdOptions = {
 };
 
 /**
- * Re-queries the organisation and managed teams before delete.
+ * Re-queries the organisation before delete.
  */
-export const assertOrganisationDeletionAllowedById = async ({
-  organisationId,
-}: AssertOrganisationDeletionAllowedByIdOptions): Promise<void> => {
-  const organisation = await prisma.organisation.findFirst({
-    select: {
-      isManaged: true,
-    },
-    where: { id: organisationId },
-  });
-
-  if (!organisation) {
-    throw new AppError(AppErrorCode.NOT_FOUND, {
-      message: 'Organisation not found',
-      statusCode: 404,
-    });
-  }
-
-  assertOrganisationDeletionAllowed({
-    isManaged: organisation.isManaged,
-  });
+export const assertOrganisationDeletionAllowedById = async (
+  options: AssertOrganisationDeletionAllowedByIdOptions,
+): Promise<void> => {
+  await assertManagedOrganisationDashboardWriteAllowedById(options);
 };

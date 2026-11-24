@@ -72,7 +72,7 @@ test.describe('@internal POS-managed team deletion', () => {
     });
 
     expect(dashboardDeleteResponse.ok()).toBeFalsy();
-    expect(await dashboardDeleteResponse.text()).toContain('PropertyOS');
+    expect(await dashboardDeleteResponse.text()).toContain('managed by an integration');
 
     const teamBeforeInternalDelete = await prisma.team.findUnique({
       where: { id: team.id },
