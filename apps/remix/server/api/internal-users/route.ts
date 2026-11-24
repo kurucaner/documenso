@@ -46,7 +46,10 @@ export const internalUsersRoute = new Hono<HonoEnv>()
     const body = c.req.valid('json');
 
     try {
-      const result = await provisionInternalUser(body);
+      const result = await provisionInternalUser({
+        ...body,
+        managedExternalId: body.propertyOsPropertyId,
+      });
 
       return c.json(result, 201);
     } catch (error) {

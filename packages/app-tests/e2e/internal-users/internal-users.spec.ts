@@ -74,16 +74,15 @@ test.describe('@internal Internal user provisioning API', () => {
 
     expect(organisation.url).toBe(body.orgUrl);
     expect(organisation.name).toBe(organisationName);
-    expect(organisation.propertyOsManaged).toBe(true);
+    expect(organisation.isManaged).toBe(true);
     expect(organisation.teams[0]?.url).toBe(body.teamUrl);
     expect(organisation.teams[0]?.name).toBe(teamName);
-    expect(organisation.teams[0]?.propertyOsManaged).toBe(false);
-    expect(organisation.teams[0]?.propertyOsPropertyId).toBeNull();
+    expect(organisation.teams[0]?.managedExternalId).toBeNull();
   });
 
-  test('should mark team POS-managed when propertyOsPropertyId is sent', async ({ request }) => {
+  test('should store managedExternalId when propertyOsPropertyId is sent', async ({ request }) => {
     const email = `internal-user-pos-team-${Date.now()}@example.com`;
-    const propertyOsPropertyId = crypto.randomUUID();
+    const managedExternalId = crypto.randomUUID();
 
     const response = await request.post(`${WEBAPP_BASE_URL}/api/internal/users`, {
       headers: {
@@ -91,7 +90,7 @@ test.describe('@internal Internal user provisioning API', () => {
       },
       data: {
         ...validUserPayload(email),
-        propertyOsPropertyId,
+        propertyOsPropertyId: managedExternalId,
       },
     });
 
@@ -100,17 +99,15 @@ test.describe('@internal Internal user provisioning API', () => {
     const body = await response.json();
 
     const team = await prisma.team.findFirstOrThrow({
+      select: {
+        managedExternalId: true,
+      },
       where: {
         url: body.teamUrl,
       },
-      select: {
-        propertyOsManaged: true,
-        propertyOsPropertyId: true,
-      },
     });
 
-    expect(team.propertyOsManaged).toBe(true);
-    expect(team.propertyOsPropertyId).toBe(propertyOsPropertyId);
+    expect(team.managedExternalId).toBe(managedExternalId);
   });
 
   test('should create a user with account deletion disabled when requested', async ({ request }) => {

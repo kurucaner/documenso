@@ -45,8 +45,7 @@ export const TeamDeleteDialog = ({ className, trigger, teamId, teamName, redirec
 
   const currentOrganisation = useCurrentOrganisation();
 
-  const managedTeam = currentOrganisation.teams.find((team) => team.id === teamId);
-  const isPropertyOsManaged = managedTeam?.propertyOsManaged ?? false;
+  const isIntegrationManaged = currentOrganisation.isManaged;
 
   const deleteMessage = _(msg`delete ${teamName}`);
 
@@ -119,7 +118,7 @@ export const TeamDeleteDialog = ({ className, trigger, teamId, teamName, redirec
     }
   }, [open, form]);
 
-  if (isPropertyOsManaged) {
+  if (isIntegrationManaged) {
     return (
       <Alert className={className} variant="neutral">
         <AlertTitle>

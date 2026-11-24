@@ -5,15 +5,14 @@ import { AppError, AppErrorCode } from '../../errors/app-error';
 const ORGANISATION_DELETION_MANAGED_MESSAGE = 'Organisation deletion is managed by PropertyOS';
 
 export type OrganisationDeletionGuardInput = {
-  propertyOsManaged: boolean;
-  hasPropertyOsManagedTeam: boolean;
+  isManaged: boolean;
 };
 
 /**
- * Throws if dashboard organisation deletion is blocked for PropertyOS-managed resources.
+ * Throws if dashboard organisation deletion is blocked for integration-managed resources.
  */
 export const assertOrganisationDeletionAllowed = (input: OrganisationDeletionGuardInput): void => {
-  if (input.propertyOsManaged || input.hasPropertyOsManagedTeam) {
+  if (input.isManaged) {
     throw new AppError(AppErrorCode.FORBIDDEN, {
       message: ORGANISATION_DELETION_MANAGED_MESSAGE,
       statusCode: 403,
@@ -32,15 +31,10 @@ export const assertOrganisationDeletionAllowedById = async ({
   organisationId,
 }: AssertOrganisationDeletionAllowedByIdOptions): Promise<void> => {
   const organisation = await prisma.organisation.findFirst({
-    where: { id: organisationId },
     select: {
-      propertyOsManaged: true,
-      teams: {
-        select: { id: true },
-        take: 1,
-        where: { propertyOsManaged: true },
-      },
+      isManaged: true,
     },
+    where: { id: organisationId },
   });
 
   if (!organisation) {
@@ -51,7 +45,6 @@ export const assertOrganisationDeletionAllowedById = async ({
   }
 
   assertOrganisationDeletionAllowed({
-    hasPropertyOsManagedTeam: organisation.teams.length > 0,
-    propertyOsManaged: organisation.propertyOsManaged,
+    isManaged: organisation.isManaged,
   });
 };

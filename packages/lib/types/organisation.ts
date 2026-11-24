@@ -12,7 +12,7 @@ export const ZOrganisationSchema = OrganisationSchema.pick({
   avatarImageId: true,
   customerId: true,
   ownerUserId: true,
-  propertyOsManaged: true,
+  isManaged: true,
 }).extend({
   organisationClaim: OrganisationClaimSchema.pick({
     id: true,

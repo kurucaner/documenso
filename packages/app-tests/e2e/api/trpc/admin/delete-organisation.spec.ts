@@ -201,11 +201,11 @@ test('[ADMIN][TRPC][DELETE_ORG]: admin can delete a PropertyOS-managed organisat
     select: {
       id: true,
       name: true,
-      propertyOsManaged: true,
+      isManaged: true,
     },
   });
 
-  expect(organisation.propertyOsManaged).toBe(true);
+  expect(organisation.isManaged).toBe(true);
 
   await apiSignin({ page, email: adminUser.email });
 

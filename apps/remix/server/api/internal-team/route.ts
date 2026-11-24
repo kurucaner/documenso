@@ -39,7 +39,7 @@ export const internalTeamRoute = new Hono<HonoEnv>()
 
       try {
         await deleteInternalManagedTeam({
-          propertyOsPropertyId: body.propertyOsPropertyId,
+          managedExternalId: body.propertyOsPropertyId,
           teamUrl: teamReference,
         });
 

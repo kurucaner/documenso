@@ -37,9 +37,11 @@ describe('deleteInternalManagedTeam', () => {
     vi.clearAllMocks();
     prismaMock.team.findFirst.mockResolvedValue({
       id: 7,
+      managedExternalId: PROPERTY_ID,
+      organisation: {
+        isManaged: true,
+      },
       organisationId: 'org_test',
-      propertyOsManaged: true,
-      propertyOsPropertyId: PROPERTY_ID,
     });
     prismaMock.$transaction.mockImplementation(async (callback) =>
       callback({
@@ -50,18 +52,22 @@ describe('deleteInternalManagedTeam', () => {
     orphanEnvelopesMock.mockResolvedValue(undefined);
   });
 
-  it('deletes a managed team when the property id matches', async () => {
+  it('deletes a managed team when the external id matches', async () => {
     await deleteInternalManagedTeam({
-      propertyOsPropertyId: PROPERTY_ID,
+      managedExternalId: PROPERTY_ID,
       teamUrl: 'My_Team',
     });
 
     expect(prismaMock.team.findFirst).toHaveBeenCalledWith({
       select: {
         id: true,
+        managedExternalId: true,
+        organisation: {
+          select: {
+            isManaged: true,
+          },
+        },
         organisationId: true,
-        propertyOsManaged: true,
-        propertyOsPropertyId: true,
       },
       where: {
         url: 'my_team',
@@ -76,7 +82,7 @@ describe('deleteInternalManagedTeam', () => {
 
     await expect(
       deleteInternalManagedTeam({
-        propertyOsPropertyId: PROPERTY_ID,
+        managedExternalId: PROPERTY_ID,
         teamUrl: 'missing',
       }),
     ).rejects.toMatchObject({
@@ -86,10 +92,10 @@ describe('deleteInternalManagedTeam', () => {
     expect(orphanEnvelopesMock).not.toHaveBeenCalled();
   });
 
-  it('returns NOT_FOUND when the property id does not match', async () => {
+  it('returns NOT_FOUND when the external id does not match', async () => {
     await expect(
       deleteInternalManagedTeam({
-        propertyOsPropertyId: OTHER_PROPERTY_ID,
+        managedExternalId: OTHER_PROPERTY_ID,
         teamUrl: 'my_team',
       }),
     ).rejects.toMatchObject({
@@ -99,17 +105,19 @@ describe('deleteInternalManagedTeam', () => {
     expect(orphanEnvelopesMock).not.toHaveBeenCalled();
   });
 
-  it('returns INVALID_REQUEST when the team is not PropertyOS-managed', async () => {
+  it('returns INVALID_REQUEST when the organisation is not integration-managed', async () => {
     prismaMock.team.findFirst.mockResolvedValue({
       id: 7,
+      managedExternalId: PROPERTY_ID,
+      organisation: {
+        isManaged: false,
+      },
       organisationId: 'org_test',
-      propertyOsManaged: false,
-      propertyOsPropertyId: PROPERTY_ID,
     });
 
     await expect(
       deleteInternalManagedTeam({
-        propertyOsPropertyId: PROPERTY_ID,
+        managedExternalId: PROPERTY_ID,
         teamUrl: 'my_team',
       }),
     ).rejects.toMatchObject({

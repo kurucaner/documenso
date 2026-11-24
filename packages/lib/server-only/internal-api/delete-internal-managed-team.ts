@@ -6,14 +6,14 @@ import { orphanEnvelopes } from '../envelope/orphan-envelopes';
 import { isInternalSecretConfigured } from './is-internal-secret-configured';
 
 export type DeleteInternalManagedTeamOptions = {
-  propertyOsPropertyId: string;
+  managedExternalId: string;
   teamUrl: string;
 };
 
 const normalizeTeamUrl = (teamUrl: string): string => teamUrl.trim().toLowerCase();
 
 export const deleteInternalManagedTeam = async ({
-  propertyOsPropertyId,
+  managedExternalId,
   teamUrl,
 }: DeleteInternalManagedTeamOptions): Promise<void> => {
   if (!isInternalSecretConfigured()) {
@@ -24,20 +24,24 @@ export const deleteInternalManagedTeam = async ({
   }
 
   const normalizedUrl = normalizeTeamUrl(teamUrl);
-  const normalizedPropertyId = propertyOsPropertyId.trim();
+  const normalizedExternalId = managedExternalId.trim();
 
-  if (!normalizedUrl || normalizedPropertyId === '') {
+  if (!normalizedUrl || normalizedExternalId === '') {
     throw new AppError(AppErrorCode.INVALID_REQUEST, {
-      message: 'Team URL and propertyOsPropertyId are required',
+      message: 'Team URL and managedExternalId are required',
     });
   }
 
   const team = await prisma.team.findFirst({
     select: {
       id: true,
+      managedExternalId: true,
+      organisation: {
+        select: {
+          isManaged: true,
+        },
+      },
       organisationId: true,
-      propertyOsManaged: true,
-      propertyOsPropertyId: true,
     },
     where: {
       url: normalizedUrl,
@@ -50,13 +54,13 @@ export const deleteInternalManagedTeam = async ({
     });
   }
 
-  if (!team.propertyOsManaged) {
+  if (!team.organisation.isManaged) {
     throw new AppError(AppErrorCode.INVALID_REQUEST, {
-      message: 'Team is not managed by PropertyOS',
+      message: 'Team organisation is not integration-managed',
     });
   }
 
-  if (team.propertyOsPropertyId !== normalizedPropertyId) {
+  if (team.managedExternalId !== normalizedExternalId) {
     throw new AppError(AppErrorCode.NOT_FOUND, {
       message: 'Team not found',
     });

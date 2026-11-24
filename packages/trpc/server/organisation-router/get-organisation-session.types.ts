@@ -14,7 +14,7 @@ export const ZGetOrganisationSessionResponseSchema = ZOrganisationSchema.extend(
       createdAt: true,
       avatarImageId: true,
       organisationId: true,
-      propertyOsManaged: true,
+      managedExternalId: true,
     }).extend({
       currentTeamRole: z.nativeEnum(TeamMemberRole),
       teamEmail: TeamEmailSchema.pick({ email: true }).nullable(),

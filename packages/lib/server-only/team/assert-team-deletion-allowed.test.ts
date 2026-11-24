@@ -4,13 +4,13 @@ import { AppError, AppErrorCode } from '../../errors/app-error';
 import { assertTeamDeletionAllowed } from './assert-team-deletion-allowed';
 
 describe('assertTeamDeletionAllowed', () => {
-  it('passes when the team is not PropertyOS-managed', () => {
-    expect(() => assertTeamDeletionAllowed({ propertyOsManaged: false })).not.toThrow();
+  it('passes when the organisation is not integration-managed', () => {
+    expect(() => assertTeamDeletionAllowed({ organisationIsManaged: false })).not.toThrow();
   });
 
-  it('throws FORBIDDEN when the team is PropertyOS-managed', () => {
+  it('throws FORBIDDEN when the organisation is integration-managed', () => {
     try {
-      assertTeamDeletionAllowed({ propertyOsManaged: true });
+      assertTeamDeletionAllowed({ organisationIsManaged: true });
       expect.unreachable('should have thrown');
     } catch (error) {
       expect(error).toBeInstanceOf(AppError);

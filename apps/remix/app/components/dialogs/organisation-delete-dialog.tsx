@@ -40,8 +40,7 @@ export const OrganisationDeleteDialog = ({ className, trigger }: OrganisationDel
 
   const organisation = useCurrentOrganisation();
 
-  const isPropertyOsManaged =
-    organisation.propertyOsManaged || organisation.teams.some((team) => team.propertyOsManaged);
+  const isPropertyOsManaged = organisation.isManaged;
 
   const deleteMessage = _(msg`delete ${organisation.name}`);
 

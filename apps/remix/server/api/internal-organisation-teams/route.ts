@@ -37,8 +37,8 @@ export const internalOrganisationTeamsRoute = new Hono<HonoEnv>()
 
     try {
       const result = await createInternalTeam({
+        managedExternalId: body.propertyOsPropertyId,
         orgUrl,
-        propertyOsPropertyId: body.propertyOsPropertyId,
         teamName: body.teamName,
         teamUrl: body.teamUrl,
         userId: body.userId,

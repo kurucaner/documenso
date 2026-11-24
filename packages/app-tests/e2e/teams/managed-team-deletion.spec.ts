@@ -16,7 +16,7 @@ test.describe('@internal POS-managed team deletion', () => {
     request,
   }) => {
     const email = `managed-team-delete-${Date.now()}@example.com`;
-    const propertyOsPropertyId = crypto.randomUUID();
+    const managedExternalId = crypto.randomUUID();
 
     const provisionResponse = await request.post(`${WEBAPP_BASE_URL}/api/internal/users`, {
       headers: {
@@ -27,7 +27,7 @@ test.describe('@internal POS-managed team deletion', () => {
         email,
         password: PROVISIONED_USER_PASSWORD,
         signature: 'Provisioned User',
-        propertyOsPropertyId,
+        propertyOsPropertyId: managedExternalId,
       },
     });
 
@@ -44,13 +44,17 @@ test.describe('@internal POS-managed team deletion', () => {
       },
       select: {
         id: true,
-        propertyOsManaged: true,
-        propertyOsPropertyId: true,
+        managedExternalId: true,
+        organisation: {
+          select: {
+            isManaged: true,
+          },
+        },
       },
     });
 
-    expect(team.propertyOsManaged).toBe(true);
-    expect(team.propertyOsPropertyId).toBe(propertyOsPropertyId);
+    expect(team.organisation.isManaged).toBe(true);
+    expect(team.managedExternalId).toBe(managedExternalId);
 
     await apiSignin({
       page,
@@ -80,7 +84,7 @@ test.describe('@internal POS-managed team deletion', () => {
         Authorization: `Bearer ${INTERNAL_SECRET}`,
       },
       data: {
-        propertyOsPropertyId,
+        propertyOsPropertyId: managedExternalId,
       },
     });
 

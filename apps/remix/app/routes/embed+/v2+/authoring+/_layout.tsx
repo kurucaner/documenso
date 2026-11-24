@@ -112,8 +112,8 @@ export default function AuthoringLayout() {
     url: '',
     createdAt: new Date(),
     avatarImageId: null,
+    managedExternalId: null,
     organisationId: '',
-    propertyOsManaged: false,
     teamEmail: null,
     currentTeamRole: TeamMemberRole.MEMBER,
     preferences: {
@@ -135,7 +135,7 @@ export default function AuthoringLayout() {
     customerId: null,
     ownerUserId: -1,
     organisationClaim,
-    propertyOsManaged: false,
+    isManaged: false,
     teams: [team],
     subscription: null,
     currentOrganisationRole: OrganisationMemberRole.MEMBER,

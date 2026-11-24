@@ -7,8 +7,8 @@ const TEAM_DELETION_MANAGED_MESSAGE = 'Team deletion is managed by PropertyOS';
 /**
  * Throws if dashboard team deletion is blocked for a PropertyOS-managed team.
  */
-export const assertTeamDeletionAllowed = (team: { propertyOsManaged: boolean }): void => {
-  if (team.propertyOsManaged) {
+export const assertTeamDeletionAllowed = (team: { organisationIsManaged: boolean }): void => {
+  if (team.organisationIsManaged) {
     throw new AppError(AppErrorCode.FORBIDDEN, {
       message: TEAM_DELETION_MANAGED_MESSAGE,
       statusCode: 403,
@@ -27,8 +27,14 @@ export const assertTeamDeletionAllowedById = async ({
   teamId,
 }: AssertTeamDeletionAllowedByIdOptions): Promise<void> => {
   const team = await prisma.team.findFirst({
+    select: {
+      organisation: {
+        select: {
+          isManaged: true,
+        },
+      },
+    },
     where: { id: teamId },
-    select: { propertyOsManaged: true },
   });
 
   if (!team) {
@@ -38,5 +44,5 @@ export const assertTeamDeletionAllowedById = async ({
     });
   }
 
-  assertTeamDeletionAllowed(team);
+  assertTeamDeletionAllowed({ organisationIsManaged: team.organisation.isManaged });
 };
