@@ -9,6 +9,10 @@ import { createPersonalOrganisation } from '../organisation/create-organisation'
 export type PersonalOrganisationOptions = {
   organisationName?: string;
   teamName?: string;
+  /** Internal PropertyOS provision: mark personal org as POS-managed. */
+  propertyOsManagedOrganisation?: boolean;
+  /** When set, initial personal team is POS-managed and linked to this property id. */
+  propertyOsPropertyId?: string;
 };
 
 export interface CreateUserOptions {
@@ -87,6 +91,8 @@ export const onCreateUserHook = async (user: User, options: OnCreateUserHookOpti
       userId: user.id,
       organisationName: options.personalOrganisation?.organisationName,
       teamName: options.personalOrganisation?.teamName,
+      propertyOsManagedOrganisation: options.personalOrganisation?.propertyOsManagedOrganisation ?? false,
+      propertyOsPropertyId: options.personalOrganisation?.propertyOsPropertyId,
     });
   }
 

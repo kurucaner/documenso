@@ -24,6 +24,7 @@ const ZProvisionInternalUserRequestSchema = z
     organisationName: ZNameSchema.optional(),
     teamName: ZNameSchema.optional(),
     disableAccountDeletion: z.boolean().optional().default(false),
+    propertyOsPropertyId: z.string().uuid().optional(),
   })
   .refine(
     (data) => {

@@ -18,6 +18,7 @@ export type CreateInternalTeamOptions = {
   teamName: string;
   userId: number;
   teamUrl?: string;
+  propertyOsPropertyId?: string;
 };
 
 export type CreateInternalTeamResult = {
@@ -116,6 +117,7 @@ export const createInternalTeam = async ({
   teamName,
   userId,
   teamUrl,
+  propertyOsPropertyId,
 }: CreateInternalTeamOptions): Promise<CreateInternalTeamResult> => {
   if (!isInternalSecretConfigured()) {
     throw new AppError(AppErrorCode.NOT_SETUP, {
@@ -146,12 +148,17 @@ export const createInternalTeam = async ({
 
   // PropertyOS property teams: do not inherit all org members onto each team.
   // The connect owner stays on the team via org ADMIN/MANAGER inheritance in createTeam.
+  const trimmedPropertyId = propertyOsPropertyId?.trim();
+  const propertyOsManaged = Boolean(trimmedPropertyId);
+
   await createTeam({
     inheritMembers: false,
     organisationId: organisation.id,
     teamName,
     teamUrl: resolvedTeamUrl,
     userId,
+    propertyOsManaged,
+    propertyOsPropertyId: trimmedPropertyId || undefined,
   });
 
   const team = await prisma.team.findUnique({

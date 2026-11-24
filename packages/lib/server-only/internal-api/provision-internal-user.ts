@@ -15,6 +15,7 @@ export type ProvisionInternalUserOptions = {
   organisationName?: string;
   teamName?: string;
   disableAccountDeletion?: boolean;
+  propertyOsPropertyId?: string;
 };
 
 export type ProvisionInternalUserResult = {
@@ -32,6 +33,7 @@ export const provisionInternalUser = async ({
   organisationName,
   teamName,
   disableAccountDeletion = false,
+  propertyOsPropertyId,
 }: ProvisionInternalUserOptions): Promise<ProvisionInternalUserResult> => {
   if (!isInternalSecretConfigured()) {
     throw new AppError(AppErrorCode.NOT_SETUP, {
@@ -59,6 +61,8 @@ export const provisionInternalUser = async ({
     accountDeletionDisabled: disableAccountDeletion,
     personalOrganisation: {
       organisationName,
+      propertyOsManagedOrganisation: true,
+      propertyOsPropertyId,
       teamName,
     },
   });

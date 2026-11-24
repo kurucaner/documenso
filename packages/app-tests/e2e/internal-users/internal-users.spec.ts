@@ -72,8 +72,43 @@ test.describe('Internal user provisioning API', () => {
 
     expect(organisation.url).toBe(body.orgUrl);
     expect(organisation.name).toBe(organisationName);
+    expect(organisation.propertyOsManaged).toBe(true);
     expect(organisation.teams[0]?.url).toBe(body.teamUrl);
     expect(organisation.teams[0]?.name).toBe(teamName);
+    expect(organisation.teams[0]?.propertyOsManaged).toBe(false);
+    expect(organisation.teams[0]?.propertyOsPropertyId).toBeNull();
+  });
+
+  test('should mark team POS-managed when propertyOsPropertyId is sent', async ({ request }) => {
+    const email = `internal-user-pos-team-${Date.now()}@example.com`;
+    const propertyOsPropertyId = crypto.randomUUID();
+
+    const response = await request.post(`${WEBAPP_BASE_URL}/api/internal/users`, {
+      headers: {
+        Authorization: `Bearer ${INTERNAL_SECRET}`,
+      },
+      data: {
+        ...validUserPayload(email),
+        propertyOsPropertyId,
+      },
+    });
+
+    expect(response.status()).toBe(201);
+
+    const body = await response.json();
+
+    const team = await prisma.team.findFirstOrThrow({
+      where: {
+        url: body.teamUrl,
+      },
+      select: {
+        propertyOsManaged: true,
+        propertyOsPropertyId: true,
+      },
+    });
+
+    expect(team.propertyOsManaged).toBe(true);
+    expect(team.propertyOsPropertyId).toBe(propertyOsPropertyId);
   });
 
   test('should create a user with account deletion disabled when requested', async ({ request }) => {

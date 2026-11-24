@@ -54,6 +54,9 @@ export type CreateTeamOptions = {
    */
   bypassAdminRules?: boolean;
 
+  propertyOsManaged?: boolean;
+  propertyOsPropertyId?: string;
+
   requestMetadata?: ApiRequestMetadata;
 };
 
@@ -64,6 +67,8 @@ export const createTeam = async ({
   organisationId,
   inheritMembers,
   bypassAdminRules,
+  propertyOsManaged = false,
+  propertyOsPropertyId,
   requestMetadata,
 }: CreateTeamOptions) => {
   const organisation = await prisma.organisation.findFirst({
@@ -200,6 +205,8 @@ export const createTeam = async ({
             name: teamName,
             url: teamUrl,
             organisationId,
+            propertyOsManaged,
+            propertyOsPropertyId: propertyOsPropertyId?.trim() || null,
             teamGlobalSettingsId: teamSettings.id,
             teamGroups: {
               createMany: {

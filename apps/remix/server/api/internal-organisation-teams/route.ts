@@ -18,6 +18,7 @@ const ZCreateInternalTeamRequestSchema = z.object({
   teamName: ZNameSchema,
   userId: z.number().int().positive(),
   teamUrl: ZTeamUrlSchema.optional(),
+  propertyOsPropertyId: z.string().uuid().optional(),
 });
 
 export const internalOrganisationTeamsRoute = new Hono<HonoEnv>()
@@ -37,9 +38,10 @@ export const internalOrganisationTeamsRoute = new Hono<HonoEnv>()
     try {
       const result = await createInternalTeam({
         orgUrl,
+        propertyOsPropertyId: body.propertyOsPropertyId,
         teamName: body.teamName,
-        userId: body.userId,
         teamUrl: body.teamUrl,
+        userId: body.userId,
       });
 
       return c.json(result, 201);

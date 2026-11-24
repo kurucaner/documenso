@@ -899,6 +899,7 @@ model Organisation {
   name          String
   url           String           @unique
   avatarImageId String?
+  propertyOsManaged Boolean      @default(false)
 
   customerId   String?       @unique
   subscription Subscription?
@@ -1163,6 +1164,8 @@ model Team {
   url           String   @unique
   createdAt     DateTime @default(now())
   avatarImageId String?
+  propertyOsManaged   Boolean  @default(false)
+  propertyOsPropertyId String?
 
   teamEmail         TeamEmail?
   emailVerification TeamEmailVerification?

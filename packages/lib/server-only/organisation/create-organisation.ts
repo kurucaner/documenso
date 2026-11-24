@@ -28,9 +28,18 @@ type CreateOrganisationOptions = {
   url?: string;
   customerId?: string;
   claim: Omit<SubscriptionClaim, 'createdAt' | 'updatedAt'>;
+  propertyOsManaged?: boolean;
 };
 
-export const createOrganisation = async ({ name, url, type, userId, customerId, claim }: CreateOrganisationOptions) => {
+export const createOrganisation = async ({
+  name,
+  url,
+  type,
+  userId,
+  customerId,
+  claim,
+  propertyOsManaged = false,
+}: CreateOrganisationOptions) => {
   let customerIdToUse = customerId;
 
   if (!customerId && IS_BILLING_ENABLED()) {
@@ -95,6 +104,7 @@ export const createOrganisation = async ({ name, url, type, userId, customerId, 
           type,
           url: url || orgIdAndUrl,
           ownerUserId: userId,
+          propertyOsManaged,
           organisationGlobalSettingsId: organisationSetting.id,
           organisationClaimId: organisationClaim.id,
           organisationAuthenticationPortalId: organisationAuthenticationPortal.id,
@@ -155,6 +165,8 @@ type CreatePersonalOrganisationOptions = {
   throwErrorOnOrganisationCreationFailure?: boolean;
   inheritMembers?: boolean;
   type?: OrganisationType;
+  propertyOsManagedOrganisation?: boolean;
+  propertyOsPropertyId?: string;
 };
 
 export const createPersonalOrganisation = async ({
@@ -166,6 +178,8 @@ export const createPersonalOrganisation = async ({
   throwErrorOnOrganisationCreationFailure = false,
   inheritMembers = true,
   type = OrganisationType.PERSONAL,
+  propertyOsManagedOrganisation = false,
+  propertyOsPropertyId,
 }: CreatePersonalOrganisationOptions) => {
   const freeSubscriptionClaim = await getSubscriptionClaim(INTERNAL_CLAIM_ID.FREE);
 
@@ -175,6 +189,7 @@ export const createPersonalOrganisation = async ({
     url: orgUrl,
     type,
     claim: freeSubscriptionClaim,
+    propertyOsManaged: propertyOsManagedOrganisation,
   }).catch((err) => {
     console.error(err);
 
@@ -188,6 +203,8 @@ export const createPersonalOrganisation = async ({
   if (organisation) {
     const resolvedTeamUrl = teamUrl?.trim() || prefixedId('personal');
 
+    const propertyOsManaged = Boolean(propertyOsPropertyId?.trim());
+
     await createTeam({
       userId,
       teamName: resolvePersonalTeamName(teamName),
@@ -195,6 +212,8 @@ export const createPersonalOrganisation = async ({
       organisationId: organisation.id,
       inheritMembers,
       bypassAdminRules: true,
+      propertyOsManaged,
+      propertyOsPropertyId: propertyOsPropertyId?.trim() || undefined,
     }).catch((err) => {
       console.error(err);
 
