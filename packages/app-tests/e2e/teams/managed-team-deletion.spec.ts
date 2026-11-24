@@ -95,4 +95,83 @@ test.describe('@internal Integration-managed team deletion (org isManaged policy
     });
     expect(teamAfterInternalDelete).toBeNull();
   });
+
+  test('[INTERNAL][TEAMS]: internal PATCH updates managed team display name only', async ({ request }) => {
+    const email = `managed-team-patch-${Date.now()}@example.com`;
+    const managedExternalId = crypto.randomUUID();
+    const updatedName = 'Updated Property Display Name';
+
+    const provisionResponse = await request.post(`${WEBAPP_BASE_URL}/api/internal/users`, {
+      headers: {
+        Authorization: `Bearer ${INTERNAL_SECRET}`,
+      },
+      data: {
+        name: 'Provisioned User',
+        email,
+        password: PROVISIONED_USER_PASSWORD,
+        signature: 'Provisioned User',
+        managedExternalId,
+        teamName: 'Original Property Name',
+      },
+    });
+
+    expect(provisionResponse.status()).toBe(201);
+
+    const body = (await provisionResponse.json()) as {
+      teamUrl: string;
+    };
+
+    const teamBefore = await prisma.team.findFirstOrThrow({
+      where: {
+        url: body.teamUrl,
+      },
+      select: {
+        name: true,
+        url: true,
+      },
+    });
+
+    const patchResponse = await request.patch(`${WEBAPP_BASE_URL}/api/internal/teams/${body.teamUrl}`, {
+      headers: {
+        Authorization: `Bearer ${INTERNAL_SECRET}`,
+      },
+      data: {
+        managedExternalId,
+        name: updatedName,
+      },
+    });
+
+    expect(patchResponse.status()).toBe(200);
+
+    const patchBody = await patchResponse.json();
+
+    expect(patchBody.teamName).toBe(updatedName);
+    expect(patchBody.teamUrl).toBe(body.teamUrl);
+
+    const teamAfter = await prisma.team.findFirstOrThrow({
+      where: {
+        url: body.teamUrl,
+      },
+      select: {
+        name: true,
+        url: true,
+      },
+    });
+
+    expect(teamAfter.name).toBe(updatedName);
+    expect(teamAfter.url).toBe(teamBefore.url);
+
+    const rejectUrlResponse = await request.patch(`${WEBAPP_BASE_URL}/api/internal/teams/${body.teamUrl}`, {
+      headers: {
+        Authorization: `Bearer ${INTERNAL_SECRET}`,
+      },
+      data: {
+        managedExternalId,
+        name: updatedName,
+        url: 'attempted_slug_change',
+      },
+    });
+
+    expect(rejectUrlResponse.status()).toBe(400);
+  });
 });

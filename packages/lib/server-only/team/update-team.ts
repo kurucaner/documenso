@@ -18,6 +18,34 @@ export type UpdateTeamOptions = {
   requestMetadata?: ApiRequestMetadata;
 };
 
+export type UpdateTeamDisplayNameForIntegrationOptions = {
+  name: string;
+  teamId: number;
+};
+
+/** Internal API only — updates display name; does not change team URL. */
+export const updateTeamDisplayNameForIntegration = async ({
+  name,
+  teamId,
+}: UpdateTeamDisplayNameForIntegrationOptions): Promise<void> => {
+  const trimmed = name.trim();
+
+  if (!trimmed) {
+    throw new AppError(AppErrorCode.INVALID_REQUEST, {
+      message: 'Team name is required',
+    });
+  }
+
+  await prisma.team.update({
+    data: {
+      name: trimmed,
+    },
+    where: {
+      id: teamId,
+    },
+  });
+};
+
 export const updateTeam = async ({ userId, teamId, data, requestMetadata }: UpdateTeamOptions): Promise<void> => {
   try {
     // Prisma ignores an undefined `url` filter, so without this guard a name-only update would
