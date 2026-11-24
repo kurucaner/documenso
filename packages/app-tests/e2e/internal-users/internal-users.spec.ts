@@ -13,7 +13,9 @@ const validUserPayload = (email: string) => ({
   signature: 'Provisioned User',
 });
 
-test.describe('Internal user provisioning API', () => {
+test.describe.configure({ mode: 'serial' });
+
+test.describe('@internal Internal user provisioning API', () => {
   test('should reject requests without a secret', async ({ request }) => {
     const response = await request.post(`${WEBAPP_BASE_URL}/api/internal/users`, {
       data: validUserPayload(`missing-secret-${Date.now()}@example.com`),

@@ -172,6 +172,71 @@ test('[ADMIN][TRPC][DELETE_ORG]: zod schema rejects malformed input', async ({ p
 
 // ─── Happy path via tRPC (admin) ────────────────────────────────────────────
 
+test('[ADMIN][TRPC][DELETE_ORG]: admin can delete a PropertyOS-managed organisation', async ({ page, request }) => {
+  const { user: adminUser } = await seedUser({ isAdmin: true });
+  const email = `managed-org-admin-delete-${Date.now()}@example.com`;
+  const internalSecret = process.env.NEXT_PRIVATE_INTERNAL_SECRET ?? 'test-internal-secret';
+
+  const provisionResponse = await request.post(`${WEBAPP_BASE_URL}/api/internal/users`, {
+    headers: {
+      Authorization: `Bearer ${internalSecret}`,
+    },
+    data: {
+      name: 'Provisioned User',
+      email,
+      password: 'Password123#',
+      signature: 'Provisioned User',
+      propertyOsPropertyId: crypto.randomUUID(),
+    },
+  });
+
+  expect(provisionResponse.status()).toBe(201);
+
+  const provisionBody = (await provisionResponse.json()) as { orgUrl: string };
+
+  const organisation = await prisma.organisation.findFirstOrThrow({
+    where: {
+      url: provisionBody.orgUrl,
+    },
+    select: {
+      id: true,
+      name: true,
+      propertyOsManaged: true,
+    },
+  });
+
+  expect(organisation.propertyOsManaged).toBe(true);
+
+  await apiSignin({ page, email: adminUser.email });
+
+  const res = await callDeleteOrganisation(page, {
+    organisationId: organisation.id,
+    organisationName: organisation.name,
+    sendEmailToOwner: false,
+  });
+
+  expect(res.ok()).toBeTruthy();
+
+  await expect
+    .poll(
+      async () => {
+        const job = await prisma.backgroundJob.findFirst({
+          where: {
+            jobId: 'internal.admin-delete-organisation',
+            payload: { path: ['organisationId'], equals: organisation.id },
+          },
+        });
+
+        return job?.status ?? null;
+      },
+      { timeout: 30_000, intervals: [250, 500, 1000] },
+    )
+    .toBe('COMPLETED');
+
+  const org = await prisma.organisation.findUnique({ where: { id: organisation.id } });
+  expect(org).toBeNull();
+});
+
 test('[ADMIN][TRPC][DELETE_ORG]: admin can delete via the tRPC endpoint directly', async ({ page }) => {
   const { user: adminUser } = await seedUser({ isAdmin: true });
   const { organisation } = await seedUser({ isPersonalOrganisation: false });
