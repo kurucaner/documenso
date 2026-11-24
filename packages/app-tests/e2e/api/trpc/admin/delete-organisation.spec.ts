@@ -172,7 +172,7 @@ test('[ADMIN][TRPC][DELETE_ORG]: zod schema rejects malformed input', async ({ p
 
 // ─── Happy path via tRPC (admin) ────────────────────────────────────────────
 
-test('[ADMIN][TRPC][DELETE_ORG]: admin can delete a PropertyOS-managed organisation', async ({ page, request }) => {
+test('[ADMIN][TRPC][DELETE_ORG]: admin can delete an integration-managed organisation', async ({ page, request }) => {
   const { user: adminUser } = await seedUser({ isAdmin: true });
   const email = `managed-org-admin-delete-${Date.now()}@example.com`;
   const internalSecret = process.env.NEXT_PRIVATE_INTERNAL_SECRET ?? 'test-internal-secret';
@@ -186,7 +186,7 @@ test('[ADMIN][TRPC][DELETE_ORG]: admin can delete a PropertyOS-managed organisat
       email,
       password: 'Password123#',
       signature: 'Provisioned User',
-      propertyOsPropertyId: crypto.randomUUID(),
+      managedExternalId: crypto.randomUUID(),
     },
   });
 

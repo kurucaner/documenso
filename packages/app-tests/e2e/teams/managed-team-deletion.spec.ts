@@ -10,7 +10,7 @@ const PROVISIONED_USER_PASSWORD = 'Password123#';
 
 test.describe.configure({ mode: 'serial' });
 
-test.describe('@internal POS-managed team deletion', () => {
+test.describe('@internal Integration-managed team deletion (org isManaged policy)', () => {
   test('[INTERNAL][TEAMS]: dashboard team.delete is blocked; internal DELETE removes the team', async ({
     page,
     request,
