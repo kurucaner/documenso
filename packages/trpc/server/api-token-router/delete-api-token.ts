@@ -1,3 +1,4 @@
+import { assertManagedOrganisationDashboardWriteAllowedByTeamId } from '@documenso/lib/server-only/organisation/assert-managed-organisation-dashboard-write-allowed';
 import { deleteTokenById } from '@documenso/lib/server-only/public-api/delete-api-token-by-id';
 
 import { authenticatedProcedure } from '../trpc';
@@ -15,6 +16,8 @@ export const deleteApiTokenRoute = authenticatedProcedure
         teamId,
       },
     });
+
+    await assertManagedOrganisationDashboardWriteAllowedByTeamId({ teamId });
 
     await deleteTokenById({
       id,

@@ -102,6 +102,43 @@ test.describe('@internal Integration-managed org dashboard write guards', () => 
     expect(teamCreateResponse.ok()).toBeFalsy();
     expect(await teamCreateResponse.text()).toContain('managed by an integration');
 
+    const apiTokenCreateResponse = await page.request.post(`${WEBAPP_BASE_URL}/api/trpc/apiToken.create`, {
+      headers: {
+        ...WEBAPP_ORIGIN_HEADERS,
+        'content-type': 'application/json',
+        'x-team-id': team.id.toString(),
+      },
+      data: JSON.stringify({
+        json: {
+          teamId: team.id,
+          tokenName: 'Blocked Token',
+          expirationDate: null,
+        },
+      }),
+    });
+
+    expect(apiTokenCreateResponse.ok()).toBeFalsy();
+    expect(await apiTokenCreateResponse.text()).toContain('managed by an integration');
+
+    const webhookCreateResponse = await page.request.post(`${WEBAPP_BASE_URL}/api/trpc/webhook.create`, {
+      headers: {
+        ...WEBAPP_ORIGIN_HEADERS,
+        'content-type': 'application/json',
+        'x-team-id': team.id.toString(),
+      },
+      data: JSON.stringify({
+        json: {
+          enabled: true,
+          eventTriggers: ['DOCUMENT_COMPLETED'],
+          secret: null,
+          webhookUrl: 'https://example.com/hook',
+        },
+      }),
+    });
+
+    expect(webhookCreateResponse.ok()).toBeFalsy();
+    expect(await webhookCreateResponse.text()).toContain('managed by an integration');
+
     const organisationUpdateResponse = await page.request.post(`${WEBAPP_BASE_URL}/api/trpc/organisation.update`, {
       headers: {
         ...WEBAPP_ORIGIN_HEADERS,

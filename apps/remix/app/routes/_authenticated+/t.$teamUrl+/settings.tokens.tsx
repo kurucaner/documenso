@@ -13,6 +13,7 @@ import { useMemo } from 'react';
 
 import { TokenCreateDialog } from '~/components/dialogs/token-create-dialog';
 import TokenDeleteDialog from '~/components/dialogs/token-delete-dialog';
+import { ManagedIntegrationCredentialsSettingsRedirect } from '~/components/general/managed-integration-credentials-settings-redirect';
 import { SettingsHeader } from '~/components/general/settings-header';
 import { useOptionalCurrentTeam } from '~/providers/team';
 import { appMetaTags } from '~/utils/meta';
@@ -97,6 +98,7 @@ export default function ApiTokensPage() {
 
   return (
     <div>
+      <ManagedIntegrationCredentialsSettingsRedirect />
       <SettingsHeader
         hideDivider
         title={<Trans>API Tokens</Trans>}

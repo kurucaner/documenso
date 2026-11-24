@@ -27,6 +27,7 @@ import { z } from 'zod';
 import { WebhookEditDialog } from '~/components/dialogs/webhook-edit-dialog';
 import { WebhookTestDialog } from '~/components/dialogs/webhook-test-dialog';
 import { GenericErrorLayout } from '~/components/general/generic-error-layout';
+import { ManagedIntegrationCredentialsSettingsRedirect } from '~/components/general/managed-integration-credentials-settings-redirect';
 import { SettingsHeader } from '~/components/general/settings-header';
 import { WebhookLogsSheet } from '~/components/general/webhook-logs-sheet';
 import { useCurrentTeam } from '~/providers/team';
@@ -201,6 +202,7 @@ export default function WebhookPage({ params }: Route.ComponentProps) {
 
   return (
     <div>
+      <ManagedIntegrationCredentialsSettingsRedirect />
       <SettingsHeader
         hideDivider
         title={

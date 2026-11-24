@@ -1,3 +1,4 @@
+import { assertManagedOrganisationDashboardWriteAllowedByTeamId } from '@documenso/lib/server-only/organisation/assert-managed-organisation-dashboard-write-allowed';
 import { triggerTestWebhook } from '@documenso/lib/server-only/webhooks/trigger-test-webhook';
 
 import { authenticatedProcedure } from '../trpc';
@@ -16,6 +17,8 @@ export const testWebhookRoute = authenticatedProcedure
         event,
       },
     });
+
+    await assertManagedOrganisationDashboardWriteAllowedByTeamId({ teamId: ctx.teamId });
 
     return await triggerTestWebhook({
       id,

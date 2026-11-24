@@ -1,3 +1,4 @@
+import { assertManagedOrganisationDashboardWriteAllowedByTeamId } from '@documenso/lib/server-only/organisation/assert-managed-organisation-dashboard-write-allowed';
 import { deleteWebhookById } from '@documenso/lib/server-only/webhooks/delete-webhook-by-id';
 
 import { authenticatedProcedure } from '../trpc';
@@ -15,6 +16,8 @@ export const deleteWebhookRoute = authenticatedProcedure
         id,
       },
     });
+
+    await assertManagedOrganisationDashboardWriteAllowedByTeamId({ teamId: ctx.teamId });
 
     return await deleteWebhookById({
       id,

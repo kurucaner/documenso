@@ -1,6 +1,7 @@
 import { TEAM_MEMBER_ROLE_PERMISSIONS_MAP } from '@documenso/lib/constants/teams';
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
 import { jobs } from '@documenso/lib/jobs/client';
+import { assertManagedOrganisationDashboardWriteAllowedByTeamId } from '@documenso/lib/server-only/organisation/assert-managed-organisation-dashboard-write-allowed';
 import { ZWebhookPayloadSchema } from '@documenso/lib/types/webhook-payload';
 import { buildTeamWhereQuery } from '@documenso/lib/utils/teams';
 import { prisma } from '@documenso/prisma';
@@ -24,6 +25,8 @@ export const resendWebhookCallRoute = authenticatedProcedure
     ctx.logger.info({
       input: { webhookId, webhookCallId },
     });
+
+    await assertManagedOrganisationDashboardWriteAllowedByTeamId({ teamId });
 
     const webhookCall = await prisma.webhookCall.findFirst({
       where: {

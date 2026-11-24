@@ -1,4 +1,5 @@
 import { captureServerEvent } from '@documenso/lib/server-only/analytics/capture-server-event';
+import { assertManagedOrganisationDashboardWriteAllowedByTeamId } from '@documenso/lib/server-only/organisation/assert-managed-organisation-dashboard-write-allowed';
 import { createWebhook } from '@documenso/lib/server-only/webhooks/create-webhook';
 import { fireAndForget } from '@documenso/lib/universal/fire-and-forget';
 import { prisma } from '@documenso/prisma';
@@ -12,6 +13,8 @@ export const createWebhookRoute = authenticatedProcedure
   .output(ZCreateWebhookResponseSchema)
   .mutation(async ({ input, ctx }) => {
     const { enabled, eventTriggers, secret, webhookUrl } = input;
+
+    await assertManagedOrganisationDashboardWriteAllowedByTeamId({ teamId: ctx.teamId });
 
     const webhook = await createWebhook({
       enabled,

@@ -1,4 +1,5 @@
 import { captureServerEvent } from '@documenso/lib/server-only/analytics/capture-server-event';
+import { assertManagedOrganisationDashboardWriteAllowedByTeamId } from '@documenso/lib/server-only/organisation/assert-managed-organisation-dashboard-write-allowed';
 import { createApiToken } from '@documenso/lib/server-only/public-api/create-api-token';
 import { fireAndForget } from '@documenso/lib/universal/fire-and-forget';
 import { prisma } from '@documenso/prisma';
@@ -17,6 +18,8 @@ export const createApiTokenRoute = authenticatedProcedure
         teamId,
       },
     });
+
+    await assertManagedOrganisationDashboardWriteAllowedByTeamId({ teamId });
 
     const createdToken = await createApiToken({
       userId: ctx.user.id,

@@ -21,6 +21,7 @@ import { Link } from 'react-router';
 import { WebhookCreateDialog } from '~/components/dialogs/webhook-create-dialog';
 import { WebhookDeleteDialog } from '~/components/dialogs/webhook-delete-dialog';
 import { WebhookEditDialog } from '~/components/dialogs/webhook-edit-dialog';
+import { ManagedIntegrationCredentialsSettingsRedirect } from '~/components/general/managed-integration-credentials-settings-redirect';
 import { SettingsHeader } from '~/components/general/settings-header';
 import { useCurrentTeam } from '~/providers/team';
 import { appMetaTags } from '~/utils/meta';
@@ -138,6 +139,7 @@ export default function WebhookPage() {
 
   return (
     <div>
+      <ManagedIntegrationCredentialsSettingsRedirect />
       <SettingsHeader
         hideDivider
         title={t`Webhooks`}

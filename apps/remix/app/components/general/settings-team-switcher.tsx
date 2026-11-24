@@ -63,6 +63,7 @@ export const SettingsTeamSwitcher = ({ currentOrgUrl, currentTeamUrl }: Settings
         url: currentOrg.url,
         currentOrganisationRole: currentOrg.currentOrganisationRole,
         organisationClaim: currentOrg.organisationClaim,
+        isManaged: currentOrg.isManaged,
       },
       team: { url: destinationTeam.url, currentTeamRole: destinationTeam.currentTeamRole },
       hasManageableBillingOrgs: false,

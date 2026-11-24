@@ -49,6 +49,7 @@ export type GetSettingsNavGroupsArgs = {
     url: string;
     currentOrganisationRole: OrganisationMemberRole;
     organisationClaim: { flags: { emailDomains?: boolean; authenticationPortal?: boolean } };
+    isManaged: boolean;
   } | null;
   team: {
     url: string;
@@ -245,18 +246,22 @@ export const getSettingsNavGroups = ({
               label: msg`Public Profile`,
               icon: Globe2Icon,
             },
-            {
-              key: 'tokens',
-              path: `/t/${team.url}/settings/tokens`,
-              label: msg`API Tokens`,
-              icon: BracesIcon,
-            },
-            {
-              key: 'webhooks',
-              path: `/t/${team.url}/settings/webhooks`,
-              label: msg`Webhooks`,
-              icon: WebhookIcon,
-            },
+            ...(organisation !== null && organisation.isManaged
+              ? []
+              : [
+                  {
+                    key: 'tokens',
+                    path: `/t/${team.url}/settings/tokens`,
+                    label: msg`API Tokens`,
+                    icon: BracesIcon,
+                  },
+                  {
+                    key: 'webhooks',
+                    path: `/t/${team.url}/settings/webhooks`,
+                    label: msg`Webhooks`,
+                    icon: WebhookIcon,
+                  },
+                ]),
           ],
         }
       : null;

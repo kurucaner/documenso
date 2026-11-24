@@ -37,6 +37,27 @@ describe('organisation managed F3d team group tRPC guards', () => {
     expect(source).toContain('assertManagedOrganisationDashboardWriteAllowedById');
   });
 
+  it('guards dashboard api tokens and webhooks with managed organisation write guard', () => {
+    const apiTokenRouterDirectory = join(testDirectory, '../../../trpc/server/api-token-router');
+    const webhookRouterDirectory = join(testDirectory, '../../../trpc/server/webhook-router');
+
+    expect(readFileSync(join(apiTokenRouterDirectory, 'create-api-token.ts'), 'utf8')).toContain(
+      'assertManagedOrganisationDashboardWriteAllowedByTeamId',
+    );
+    expect(readFileSync(join(apiTokenRouterDirectory, 'delete-api-token.ts'), 'utf8')).toContain(
+      'assertManagedOrganisationDashboardWriteAllowedByTeamId',
+    );
+    expect(readFileSync(join(webhookRouterDirectory, 'create-webhook.ts'), 'utf8')).toContain(
+      'assertManagedOrganisationDashboardWriteAllowedByTeamId',
+    );
+    expect(readFileSync(join(webhookRouterDirectory, 'edit-webhook.ts'), 'utf8')).toContain(
+      'assertManagedOrganisationDashboardWriteAllowedByTeamId',
+    );
+    expect(readFileSync(join(webhookRouterDirectory, 'delete-webhook.ts'), 'utf8')).toContain(
+      'assertManagedOrganisationDashboardWriteAllowedByTeamId',
+    );
+  });
+
   it('blocks createTeamGroups when the parent organisation is managed', async () => {
     prismaMock.team.findFirst.mockResolvedValue({
       organisation: { isManaged: true },
