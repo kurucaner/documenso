@@ -44,6 +44,7 @@ describe('patchInternalManagedTeam', () => {
       url: 'my_team',
     });
     getInternalTeamMock.mockResolvedValue({
+      managedExternalId: PROPERTY_ID,
       organisationId: 'org_test',
       orgUrl: 'org_test',
       teamId: 7,

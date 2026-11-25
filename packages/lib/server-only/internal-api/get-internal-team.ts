@@ -8,6 +8,7 @@ export type GetInternalTeamOptions = {
 };
 
 export type GetInternalTeamResult = {
+  managedExternalId: string | null;
   organisationId: string;
   orgUrl: string;
   teamId: number;
@@ -60,6 +61,7 @@ export const getInternalTeam = async ({ teamReference }: GetInternalTeamOptions)
     },
     select: {
       id: true,
+      managedExternalId: true,
       name: true,
       organisation: {
         select: {
@@ -78,6 +80,7 @@ export const getInternalTeam = async ({ teamReference }: GetInternalTeamOptions)
   }
 
   return {
+    managedExternalId: team.managedExternalId,
     organisationId: team.organisationId,
     orgUrl: team.organisation.url,
     teamId: team.id,

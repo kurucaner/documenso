@@ -1,4 +1,5 @@
 import { AppError, AppErrorCode } from '@documenso/lib/errors/app-error';
+import { claimInternalManagedTeam } from '@documenso/lib/server-only/internal-api/claim-internal-managed-team';
 import { deleteInternalManagedTeam } from '@documenso/lib/server-only/internal-api/delete-internal-managed-team';
 import { getInternalTeam } from '@documenso/lib/server-only/internal-api/get-internal-team';
 import {
@@ -32,6 +33,18 @@ const ZDeleteInternalManagedTeamRequestSchema = addManagedExternalIdAliasRefinem
     }),
 );
 
+const ZClaimInternalManagedTeamRequestSchema = addManagedExternalIdAliasRefinement(
+  z
+    .object({
+      ...ZManagedExternalIdBodyFields,
+    })
+    .strict()
+    .refine((body) => resolveManagedExternalIdFromRequest(body) != null, {
+      message: 'managedExternalId is required',
+      path: ['managedExternalId'],
+    }),
+);
+
 const ZPatchInternalManagedTeamRequestSchema = addManagedExternalIdAliasRefinement(
   z
     .object({
@@ -47,6 +60,69 @@ const ZPatchInternalManagedTeamRequestSchema = addManagedExternalIdAliasRefineme
 
 export const internalTeamRoute = new Hono<HonoEnv>()
   .use('*', internalTeamReadRateLimitMiddleware)
+  .post(
+    '/claim',
+    internalTeamWriteRateLimitMiddleware,
+    sValidator('json', ZClaimInternalManagedTeamRequestSchema),
+    async (c) => {
+      requireInternalSecret(c.req.header('authorization'));
+
+      const teamReference = c.req.param('teamReference');
+
+      if (!teamReference) {
+        throw new HTTPException(400, {
+          message: 'Team reference is required',
+        });
+      }
+
+      const body = c.req.valid('json');
+
+      try {
+        const managedExternalId = resolveManagedExternalIdFromRequest(body);
+
+        if (!managedExternalId) {
+          throw new HTTPException(400, {
+            message: 'managedExternalId is required',
+          });
+        }
+
+        const result = await claimInternalManagedTeam({
+          managedExternalId,
+          teamUrl: teamReference,
+        });
+
+        return c.json(result, 200);
+      } catch (error) {
+        const appError = AppError.parseError(error);
+
+        if (appError.code === AppErrorCode.NOT_FOUND) {
+          throw new HTTPException(404, {
+            message: appError.message ?? 'Team not found',
+          });
+        }
+
+        if (appError.code === AppErrorCode.ALREADY_EXISTS) {
+          throw new HTTPException(409, {
+            message: appError.message,
+          });
+        }
+
+        if (appError.code === AppErrorCode.NOT_SETUP && appError.statusCode === 503) {
+          throw new HTTPException(503, {
+            message: appError.message,
+          });
+        }
+
+        if (appError.code === AppErrorCode.INVALID_REQUEST) {
+          throw new HTTPException(400, {
+            message: appError.message,
+          });
+        }
+
+        throw error;
+      }
+    },
+  )
   .patch(
     '/',
     internalTeamWriteRateLimitMiddleware,
