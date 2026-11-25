@@ -535,14 +535,15 @@ Example `200` response: same shape as `GET /api/internal/teams/{teamReference}` 
 
 `POST /api/internal/teams/{teamUrl}/api-tokens`
 
-Creates a team API token in one request. The plaintext token is returned **once** in the response — store it immediately. Use the token as `Authorization: Bearer api_...` for v2 API calls (webhooks, envelopes, etc.).
+Creates a team API token in one request. The plaintext token is returned **once** in the response — store it immediately. Use the token as `Authorization: Bearer api_...` for v2 API calls (envelopes, templates, downloads, etc.).
 
 Typical flow:
 
 1. `POST /api/internal/users` → get `userId` and `orgUrl` (and `teamUrl` unless `skipInitialTeam` is `true`)
 2. `POST /api/internal/organisations/{orgUrl}/teams` → get a new `teamUrl` for each additional property-scoped team
 3. `POST /api/internal/teams/{teamUrl}/api-tokens` → get `api_...` token
-4. Call v2 endpoints with the team API token
+4. `POST /api/internal/teams/{teamUrl}/webhooks` → register the outbound webhook (required for integration-managed organisations — v2 `webhook/create` returns `403` on those teams)
+5. Call other v2 endpoints with the team API token
 
 | Field              | Type    | Required | Description |
 | ------------------ | ------- | -------- | ----------- |
@@ -606,6 +607,108 @@ curl -X DELETE "https://documenso.example.com/api/internal/teams/personal_xyz789
 | `400`  | Invalid token ID |
 | `401`  | Invalid or missing secret |
 | `404`  | Team or token not found |
+| `503`  | `NEXT_PRIVATE_INTERNAL_SECRET` is not configured |
+
+### Team Webhook Provisioning
+
+`POST /api/internal/teams/{teamUrl}/webhooks`
+
+Creates a webhook subscription without using the dashboard or v2 OpenAPI routes. This is the supported path for **integration-managed** organisations (`isManaged: true`), where `POST /api/v2-beta/webhook/create` and dashboard webhook CRUD are blocked.
+
+| Field            | Type           | Required | Description |
+| ---------------- | -------------- | -------- | ----------- |
+| `webhookUrl`     | string (URL)   | Yes      | HTTPS callback URL (must be a public URL; private/loopback hosts are rejected) |
+| `eventTriggers`  | string[]       | Yes      | One or more webhook event names (e.g. `DOCUMENT_COMPLETED`, `DOCUMENT_SIGNED`) |
+| `secret`         | string \| null | Yes      | Signing secret sent with deliveries; use `null` when optional |
+| `enabled`        | boolean        | Yes      | When `false`, deliveries are paused |
+| `userId`         | number         | Yes      | Documenso user id that must already be a member of the team |
+
+<Tabs items={['curl']}>
+<Tab value="curl">
+```bash
+curl -X POST "https://documenso.example.com/api/internal/teams/personal_xyz789/webhooks" \
+  -H "Authorization: Bearer your-long-random-secret" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "webhookUrl": "https://integrator.example.com/webhooks/documenso",
+    "eventTriggers": ["DOCUMENT_COMPLETED", "DOCUMENT_SIGNED"],
+    "secret": "whsec_xxxxxxxx",
+    "enabled": true,
+    "userId": 42
+  }'
+```
+</Tab>
+</Tabs>
+
+Example `201` response:
+
+```json
+{
+  "id": "clxxxxxxxxxxxxxxxx",
+  "webhookUrl": "https://integrator.example.com/webhooks/documenso",
+  "eventTriggers": ["DOCUMENT_COMPLETED", "DOCUMENT_SIGNED"],
+  "secret": "whsec_xxxxxxxx",
+  "enabled": true,
+  "createdAt": "2026-06-04T12:00:00.000Z",
+  "updatedAt": "2026-06-04T12:00:00.000Z",
+  "userId": 42,
+  "teamId": 7
+}
+```
+
+| Status | Meaning |
+| ------ | ------- |
+| `201`  | Webhook created |
+| `400`  | Invalid body, private webhook URL, or user not on team |
+| `401`  | Invalid or missing secret |
+| `404`  | Team not found |
+| `503`  | `NEXT_PRIVATE_INTERNAL_SECRET` is not configured |
+
+### List Team Webhooks (internal)
+
+`GET /api/internal/teams/{teamUrl}/webhooks`
+
+Returns all webhooks for the team (newest first). Use for integration health checks without a team API token.
+
+<Tabs items={['curl']}>
+<Tab value="curl">
+```bash
+curl "https://documenso.example.com/api/internal/teams/personal_xyz789/webhooks" \
+  -H "Authorization: Bearer your-long-random-secret"
+```
+</Tab>
+</Tabs>
+
+Example `200` response: JSON array of webhook objects (same shape as the `201` create response).
+
+| Status | Meaning |
+| ------ | ------- |
+| `200`  | Webhooks returned |
+| `401`  | Invalid or missing secret |
+| `404`  | Team not found |
+| `503`  | `NEXT_PRIVATE_INTERNAL_SECRET` is not configured |
+
+### Delete Team Webhook (internal)
+
+`DELETE /api/internal/teams/{teamUrl}/webhooks/{webhookId}`
+
+Deletes a webhook created through the internal API or dashboard. Call before revoking the team API token on disconnect.
+
+<Tabs items={['curl']}>
+<Tab value="curl">
+```bash
+curl -X DELETE "https://documenso.example.com/api/internal/teams/personal_xyz789/webhooks/clxxxxxxxxxxxxxxxx" \
+  -H "Authorization: Bearer your-long-random-secret"
+```
+</Tab>
+</Tabs>
+
+| Status | Meaning |
+| ------ | ------- |
+| `204`  | Webhook deleted |
+| `400`  | Missing webhook id |
+| `401`  | Invalid or missing secret |
+| `404`  | Team or webhook not found |
 | `503`  | `NEXT_PRIVATE_INTERNAL_SECRET` is not configured |
 
 <Callout type="warn">
