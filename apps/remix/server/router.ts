@@ -33,6 +33,7 @@ import { internalOrganisationTeamAccessRoute } from './api/internal-organisation
 import { internalOrganisationTeamIsolationRoute } from './api/internal-organisation-team-isolation/route';
 import { internalOrganisationTeamsRoute } from './api/internal-organisation-teams/route';
 import { internalTeamRoute } from './api/internal-team/route';
+import { internalTeamWebhooksRoute } from './api/internal-team-webhooks/route';
 import { internalUserBootstrapSessionRoute } from './api/internal-user-bootstrap-session/route';
 import { internalUserByEmailRoute } from './api/internal-user-by-email/route';
 import { internalUserOrganisationsRoute } from './api/internal-user-organisations/route';
@@ -143,6 +144,7 @@ app.route('/api/internal/organisations/:orgUrl/teams/:teamUrl', internalOrganisa
 app.route('/api/internal/organisations/:orgUrl/teams', internalOrganisationTeamsRoute);
 app.route('/api/internal/teams/:teamReference', internalTeamRoute);
 app.route('/api/internal/teams/:teamUrl/api-tokens', internalApiTokensRoute);
+app.route('/api/internal/teams/:teamUrl/webhooks', internalTeamWebhooksRoute);
 
 // Files route.
 app.use('/api/files/upload-pdf', fileRateLimitMiddleware);
