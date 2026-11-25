@@ -145,7 +145,7 @@ For **parallel phases** in separate worktrees, use branch suffixes (e.g. `feat/t
 
 **Done when:**
 
-- [ ] `CI=true bun run test:dev --filter '@documenso/app-tests' -- e2e/templates/template-copy-to-team.spec.ts` passes
+- [x] `CI=true bun run test:dev --filter '@documenso/app-tests' -- e2e/templates/template-copy-to-team.spec.ts` passes
 - [x] Negative: `targetTeamId` for team in another org rejected
 
 **Standalone prompt:** Implement Phase 3 of `.cursor/plans/template-copy-cross-team.plan.md`. Add Playwright spec seeding two teams in one org, exercise Copy to team UI, verify template on destination. Add one trpc negative for cross-org target in the same file.
@@ -248,11 +248,11 @@ For **parallel phases** in separate worktrees, use branch suffixes (e.g. `feat/t
 
 **Tasks:**
 
-- [ ] Reuse `createTeam` pattern from `organisation-templates.spec.ts`
+- [x] Reuse `createTeam` pattern from `organisation-templates.spec.ts`
 
 **Done when:**
 
-- [ ] Import E2E passes in CI
+- [ ] Import E2E passes in CI (run locally: dev server + `CI=true bun run test:dev -- e2e/templates/template-import-from-team.spec.ts`)
 - [ ] Phase 1 forward E2E still green
 
 **Standalone prompt:** Implement Phase 4d of `.cursor/plans/template-copy-cross-team.plan.md`. Add Playwright spec for Import from team wizard only.
