@@ -196,12 +196,12 @@ For **parallel phases** in separate worktrees, use branch suffixes (e.g. `feat/t
 
 **Tasks:**
 
-- [ ] OpenAPI GET only (Documenso convention)
+- [x] OpenAPI GET only (Documenso convention)
 
 **Done when:**
 
-- [ ] Typecheck trpc green
-- [ ] `trpcQuery` from team B context with `sourceTeamId: A` returns seeded template
+- [x] Typecheck trpc green
+- [x] `trpcQuery` from team B context with `sourceTeamId: A` returns seeded template
 
 **Standalone prompt:** Implement Phase 4b of `.cursor/plans/template-copy-cross-team.plan.md`. Add template-router find-importable route + types and register on router.
 
