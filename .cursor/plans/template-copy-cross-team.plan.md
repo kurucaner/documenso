@@ -112,15 +112,15 @@ For **parallel phases** in separate worktrees, use branch suffixes (e.g. `feat/t
 
 **Tasks:**
 
-- [ ] Empty state when no other teams in org (disable submit)
-- [ ] Primary button label includes selected team name
-- [ ] Lingui strings for title, description, errors
+- [x] Empty state when no other teams in org (disable submit)
+- [x] Primary button label includes selected team name
+- [x] Lingui strings for title, description, errors
 
 **Done when:**
 
-- [ ] `bun run typecheck --filter @documenso/remix` passes
-- [ ] Manual: two teams same org → copy → lands on destination editor
-- [ ] Duplicate menu item still works unchanged
+- [x] `bun run typecheck --filter @documenso/remix` passes
+- [x] Manual: two teams same org → copy → lands on destination editor
+- [x] Duplicate menu item still works unchanged
 
 **Standalone prompt:** Implement Phase 2 of `.cursor/plans/template-copy-cross-team.plan.md`. Add `TemplateCopyToTeamDialog` and wire it into `templates-table-action-dropdown.tsx` for mutable team templates. Use `trpc.envelope.copyToTeam` and navigate to destination team after success.
 

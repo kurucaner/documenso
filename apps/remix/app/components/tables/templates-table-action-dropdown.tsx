@@ -9,7 +9,18 @@ import {
 } from '@documenso/ui/primitives/dropdown-menu';
 import { Trans } from '@lingui/react/macro';
 import { DocumentStatus, EnvelopeType, type TemplateDirectLink } from '@prisma/client';
-import { Copy, Download, Edit, FolderIcon, MoreHorizontal, Pencil, Share2Icon, Trash2, Upload } from 'lucide-react';
+import {
+  Copy,
+  Download,
+  Edit,
+  FolderIcon,
+  Forward,
+  MoreHorizontal,
+  Pencil,
+  Share2Icon,
+  Trash2,
+  Upload,
+} from 'lucide-react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 
@@ -19,6 +30,7 @@ import { EnvelopeDuplicateDialog } from '../dialogs/envelope-duplicate-dialog';
 import { EnvelopeRenameDialog } from '../dialogs/envelope-rename-dialog';
 import { EnvelopesBulkMoveDialog } from '../dialogs/envelopes-bulk-move-dialog';
 import { TemplateBulkSendDialog } from '../dialogs/template-bulk-send-dialog';
+import { TemplateCopyToTeamDialog } from '../dialogs/template-copy-to-team-dialog';
 import { TemplateDirectLinkDialog } from '../dialogs/template-direct-link-dialog';
 
 export type TemplatesTableActionDropdownProps = {
@@ -98,6 +110,18 @@ export const TemplatesTableActionDropdown = ({
                   <div>
                     <Copy className="mr-2 h-4 w-4" />
                     <Trans>Duplicate</Trans>
+                  </div>
+                </DropdownMenuItem>
+              }
+            />
+
+            <TemplateCopyToTeamDialog
+              envelopeId={row.envelopeId}
+              trigger={
+                <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
+                  <div data-testid="template-copy-to-team-menuitem">
+                    <Forward className="mr-2 h-4 w-4" />
+                    <Trans>Copy to team</Trans>
                   </div>
                 </DropdownMenuItem>
               }
