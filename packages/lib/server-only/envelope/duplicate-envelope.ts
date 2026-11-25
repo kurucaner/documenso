@@ -17,12 +17,20 @@ import { getEnvelopeWhereInput } from '../envelope/get-envelope-by-id';
 import { incrementDocumentId, incrementTemplateId } from '../envelope/increment-id';
 import { assertOrganisationRatesAndLimits } from '../rate-limit/assert-organisation-rates-and-limits';
 import { resolveSignatureLevel } from '../signature-level/resolve-signature-level';
+import { getTeamById } from '../team/get-team';
 import { triggerWebhook } from '../webhooks/trigger/trigger-webhook';
 
 export interface DuplicateEnvelopeOptions {
   id: EnvelopeIdOptions;
   userId: number;
+  /**
+   * Team context used to authorize read access to the source envelope.
+   */
   teamId: number;
+  /**
+   * When set, the duplicate is created on this team instead of `teamId`.
+   */
+  targetTeamId?: number;
   requestMetadata: ApiRequestMetadata;
   overrides?: {
     duplicateAsTemplate?: boolean;
@@ -36,6 +44,7 @@ export const duplicateEnvelope = async ({
   id,
   userId,
   teamId,
+  targetTeamId,
   requestMetadata,
   overrides,
 }: DuplicateEnvelopeOptions) => {
@@ -46,12 +55,22 @@ export const duplicateEnvelope = async ({
     includeContents = true,
   } = overrides ?? {};
 
+  const destinationTeamId = targetTeamId ?? teamId;
+
   const { envelopeWhereInput, team } = await getEnvelopeWhereInput({
     id,
     type: null,
     userId,
     teamId,
   });
+
+  const destinationTeam =
+    destinationTeamId === teamId
+      ? team
+      : await getTeamById({
+          userId,
+          teamId: destinationTeamId,
+        });
 
   const envelope = await prisma.envelope.findFirst({
     where: envelopeWhereInput,
@@ -110,7 +129,7 @@ export const duplicateEnvelope = async ({
   // Enforce the organisation document-creation limit before creating the duplicate.
   if (targetType === EnvelopeType.DOCUMENT) {
     await assertOrganisationRatesAndLimits({
-      organisationId: team.organisationId,
+      organisationId: destinationTeam.organisationId,
       type: 'document',
       count: 1,
     });
@@ -135,7 +154,7 @@ export const duplicateEnvelope = async ({
   ]);
 
   const duplicatedTemplateType =
-    envelope.templateType === 'ORGANISATION' && envelope.teamId !== teamId
+    envelope.templateType === 'ORGANISATION' && envelope.teamId !== destinationTeamId
       ? 'PRIVATE'
       : (envelope.templateType ?? undefined);
 
@@ -155,7 +174,7 @@ export const duplicateEnvelope = async ({
       internalVersion: envelope.internalVersion,
       signatureLevel: duplicatedSignatureLevel,
       userId,
-      teamId,
+      teamId: destinationTeamId,
       title: `${envelope.title} (copy)`,
       documentMetaId: createdDocumentMeta.id,
       authOptions: envelope.authOptions || undefined,
@@ -334,7 +353,7 @@ export const duplicateEnvelope = async ({
       event: WebhookTriggerEvents.DOCUMENT_CREATED,
       data: ZWebhookDocumentSchema.parse(mapEnvelopeToWebhookDocumentPayload(refetchedEnvelope)),
       userId: userId,
-      teamId: teamId,
+      teamId: destinationTeamId,
     });
   }
 

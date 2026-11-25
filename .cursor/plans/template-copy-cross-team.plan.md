@@ -54,15 +54,15 @@ For **parallel phases** in separate worktrees, use branch suffixes (e.g. `feat/t
 
 **Tasks:**
 
-- [ ] Refactor `DuplicateEnvelopeOptions` to name `teamId` as read context (or add `targetTeamId` alongside without breaking call sites)
-- [ ] Implement `copyTemplateToTeam({ id, userId, contextTeamId, targetTeamId, requestMetadata, overrides? })`
-- [ ] Unit tests cover guard rails without full DB integration
+- [x] Refactor `DuplicateEnvelopeOptions` to name `teamId` as read context (or add `targetTeamId` alongside without breaking call sites)
+- [x] Implement `copyTemplateToTeam({ id, userId, contextTeamId, targetTeamId, requestMetadata, overrides? })`
+- [x] Unit tests cover guard rails without full DB integration
 
 **Done when:**
 
-- [ ] `cd packages/lib && bun test server-only/envelope/copy-template-to-team.test.ts` passes
-- [ ] `bun run typecheck --filter @documenso/lib` passes
-- [ ] Existing `duplicateEnvelope` callers unchanged (same-team duplicate behavior)
+- [x] `cd packages/lib && bun test server-only/envelope/copy-template-to-team.test.ts` passes
+- [x] `bun run typecheck --filter @documenso/lib` passes
+- [x] Existing `duplicateEnvelope` callers unchanged (same-team duplicate behavior)
 
 **Standalone prompt:** Implement Phase 0 of `.cursor/plans/template-copy-cross-team.plan.md`. Extend `duplicate-envelope.ts` so create `teamId` can differ from read context when `targetTeamId` is set. Add `copy-template-to-team.ts` with org/membership/template-type checks and colocated vitest mocks. Do not add TRPC or UI yet.
 
