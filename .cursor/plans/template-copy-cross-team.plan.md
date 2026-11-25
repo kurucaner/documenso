@@ -140,13 +140,13 @@ For **parallel phases** in separate worktrees, use branch suffixes (e.g. `feat/t
 
 **Tasks:**
 
-- [ ] `data-testid` on dialog submit or stable role/name selectors
-- [ ] Run with `CI=true`
+- [x] `data-testid` on dialog submit or stable role/name selectors
+- [x] Run with `CI=true`
 
 **Done when:**
 
 - [ ] `CI=true bun run test:dev --filter '@documenso/app-tests' -- e2e/templates/template-copy-to-team.spec.ts` passes
-- [ ] Negative: `targetTeamId` for team in another org rejected
+- [x] Negative: `targetTeamId` for team in another org rejected
 
 **Standalone prompt:** Implement Phase 3 of `.cursor/plans/template-copy-cross-team.plan.md`. Add Playwright spec seeding two teams in one org, exercise Copy to team UI, verify template on destination. Add one trpc negative for cross-org target in the same file.
 
