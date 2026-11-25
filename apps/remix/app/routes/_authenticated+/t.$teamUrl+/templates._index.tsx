@@ -10,13 +10,13 @@ import type { RowSelectionState } from '@documenso/ui/primitives/data-table';
 import { msg } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { EnvelopeType, OrganisationType } from '@prisma/client';
-import { Bird, XIcon } from 'lucide-react';
+import { Bird, Import, XIcon } from 'lucide-react';
 import { useQueryStates } from 'nuqs';
 import { useMemo, useState } from 'react';
 import { useParams } from 'react-router';
-
 import { EnvelopesBulkDeleteDialog } from '~/components/dialogs/envelopes-bulk-delete-dialog';
 import { EnvelopesBulkMoveDialog } from '~/components/dialogs/envelopes-bulk-move-dialog';
+import { TemplateImportFromTeamDialog } from '~/components/dialogs/template-import-from-team-dialog';
 import { EnvelopeDropZoneWrapper } from '~/components/general/envelope/envelope-drop-zone-wrapper';
 import { FolderGrid } from '~/components/general/folder/folder-grid';
 import { TemplateSearch } from '~/components/general/template/template-search';
@@ -51,6 +51,8 @@ export default function TemplatesPage() {
 
   const isOrgView = findTemplateSearchParams.view === 'organisation';
   const showOrgFilter = organisation.type !== OrganisationType.PERSONAL;
+
+  const hasOtherTeamsInOrg = organisation.teams.some((organisationTeam) => organisationTeam.id !== team.id);
 
   const hasActiveFilters = Boolean(ownerIds?.length);
   const isSearchingOrFiltering = hasActiveFilters || Boolean(query);
@@ -130,6 +132,17 @@ export default function TemplatesPage() {
             {showOrgFilter && <TemplatesTableViewFilter />}
 
             {!isOrgView && <TemplatesTableOwnerFilter teamId={team.id} />}
+
+            {!isOrgView && showOrgFilter && hasOtherTeamsInOrg && (
+              <TemplateImportFromTeamDialog
+                trigger={
+                  <Button variant="outline" data-testid="template-import-from-team-trigger">
+                    <Import className="mr-2 h-4 w-4" />
+                    <Trans>Import from team</Trans>
+                  </Button>
+                }
+              />
+            )}
 
             {hasActiveFilters && (
               <Button variant="ghost" className="px-2 text-muted-foreground lg:px-3" onClick={onResetFilters}>

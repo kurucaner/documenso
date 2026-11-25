@@ -222,13 +222,13 @@ For **parallel phases** in separate worktrees, use branch suffixes (e.g. `feat/t
 
 **Tasks:**
 
-- [ ] Disable wizard on organisation-wide view filter
-- [ ] Invalidate `findTemplatesInternal` on success
+- [x] Disable wizard on organisation-wide view filter
+- [x] Invalidate `findTemplatesInternal` on success
 
 **Done when:**
 
-- [ ] Manual import from team A while on team B works without row action on A
-- [ ] Remix typecheck passes
+- [x] Manual import from team A while on team B works without row action on A
+- [x] Remix typecheck passes
 
 **Standalone prompt:** Implement Phase 4c of `.cursor/plans/template-copy-cross-team.plan.md`. Add multi-step import dialog and entry button on team templates index (not org view). Reuse `envelope.copyToTeam`.
 
