@@ -6,6 +6,7 @@ import type { ApiRequestMetadata } from '../../universal/extract-request-metadat
 import type { EnvelopeIdOptions } from '../../utils/envelope';
 import { getEnvelopeWhereInput } from '../envelope/get-envelope-by-id';
 import { getTeamById } from '../team/get-team';
+import { getOrganisationTemplateById } from '../template/get-organisation-template-by-id';
 import { type DuplicateEnvelopeOptions, duplicateEnvelope } from './duplicate-envelope';
 
 export type CopyTemplateToTeamOptions = {
@@ -42,6 +43,33 @@ export const copyTemplateToTeam = async ({
     });
   }
 
+  const sourceEnvelope = await resolveCopyTemplateSource({
+    id,
+    userId,
+    contextTeamId,
+  });
+
+  await getTeamById({ userId, teamId: sourceEnvelope.teamId });
+
+  return duplicateEnvelope({
+    id,
+    userId,
+    teamId: sourceEnvelope.teamId,
+    targetTeamId,
+    requestMetadata,
+    overrides,
+  });
+};
+
+const resolveCopyTemplateSource = async ({
+  id,
+  userId,
+  contextTeamId,
+}: {
+  id: EnvelopeIdOptions;
+  userId: number;
+  contextTeamId: number;
+}) => {
   const { envelopeWhereInput } = await getEnvelopeWhereInput({
     id,
     type: EnvelopeType.TEMPLATE,
@@ -49,7 +77,7 @@ export const copyTemplateToTeam = async ({
     teamId: contextTeamId,
   });
 
-  const sourceEnvelope = await prisma.envelope.findFirst({
+  const teamScopedEnvelope = await prisma.envelope.findFirst({
     where: envelopeWhereInput,
     select: {
       id: true,
@@ -58,24 +86,35 @@ export const copyTemplateToTeam = async ({
     },
   });
 
-  if (!sourceEnvelope) {
-    throw new AppError(AppErrorCode.NOT_FOUND, {
-      message: 'Template not found',
-    });
+  if (teamScopedEnvelope) {
+    if (teamScopedEnvelope.type !== EnvelopeType.TEMPLATE) {
+      throw new AppError(AppErrorCode.INVALID_REQUEST, {
+        message: 'Only templates can be copied to another team',
+      });
+    }
+
+    return teamScopedEnvelope;
   }
 
-  if (sourceEnvelope.type !== EnvelopeType.TEMPLATE) {
-    throw new AppError(AppErrorCode.INVALID_REQUEST, {
-      message: 'Only templates can be copied to another team',
+  try {
+    const organisationTemplate = await getOrganisationTemplateById({
+      id,
+      userId,
+      teamId: contextTeamId,
     });
-  }
 
-  return duplicateEnvelope({
-    id,
-    userId,
-    teamId: contextTeamId,
-    targetTeamId,
-    requestMetadata,
-    overrides,
-  });
+    return {
+      id: organisationTemplate.id,
+      type: organisationTemplate.type,
+      teamId: organisationTemplate.teamId,
+    };
+  } catch (error) {
+    if (error instanceof AppError && error.code === AppErrorCode.NOT_FOUND) {
+      throw new AppError(AppErrorCode.NOT_FOUND, {
+        message: 'Template not found',
+      });
+    }
+
+    throw error;
+  }
 };

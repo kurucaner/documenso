@@ -1,7 +1,7 @@
 import { EnvelopeType } from '@prisma/client';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { AppErrorCode } from '../../errors/app-error';
+import { AppError, AppErrorCode } from '../../errors/app-error';
 
 const prismaMock = vi.hoisted(() => ({
   envelope: {
@@ -11,6 +11,7 @@ const prismaMock = vi.hoisted(() => ({
 
 const getTeamByIdMock = vi.hoisted(() => vi.fn());
 const getEnvelopeWhereInputMock = vi.hoisted(() => vi.fn());
+const getOrganisationTemplateByIdMock = vi.hoisted(() => vi.fn());
 const duplicateEnvelopeMock = vi.hoisted(() => vi.fn());
 
 vi.mock('@documenso/prisma', () => ({
@@ -23,6 +24,10 @@ vi.mock('../team/get-team', () => ({
 
 vi.mock('../envelope/get-envelope-by-id', () => ({
   getEnvelopeWhereInput: getEnvelopeWhereInputMock,
+}));
+
+vi.mock('../template/get-organisation-template-by-id', () => ({
+  getOrganisationTemplateById: getOrganisationTemplateByIdMock,
 }));
 
 vi.mock('./duplicate-envelope', () => ({
@@ -112,6 +117,11 @@ describe('copyTemplateToTeam', () => {
     }));
 
     prismaMock.envelope.findFirst.mockResolvedValue(null);
+    getOrganisationTemplateByIdMock.mockRejectedValue(
+      new AppError(AppErrorCode.NOT_FOUND, {
+        message: 'Organisation template not found',
+      }),
+    );
 
     await expect(
       copyTemplateToTeam({

@@ -168,13 +168,13 @@ For **parallel phases** in separate worktrees, use branch suffixes (e.g. `feat/t
 
 **Tasks:**
 
-- [ ] Pagination `page` / `perPage` / optional `query`
-- [ ] Return lite rows: `envelopeId`, `title`, `teamId`, `templateType`
+- [x] Pagination `page` / `perPage` / optional `query`
+- [x] Return lite rows: `envelopeId`, `title`, `teamId`, `templateType`
 
 **Done when:**
 
-- [ ] Vitest passes for find-importable module
-- [ ] Typecheck lib package green
+- [x] Vitest passes for find-importable module
+- [x] Typecheck lib package green
 
 **Standalone prompt:** Implement Phase 4a of `.cursor/plans/template-copy-cross-team.plan.md`. Add `find-importable-templates.ts` and extend `copy-template-to-team.ts` for org-template source reads. Vitest guards only.
 
