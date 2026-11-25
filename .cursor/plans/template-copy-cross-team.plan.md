@@ -84,14 +84,14 @@ For **parallel phases** in separate worktrees, use branch suffixes (e.g. `feat/t
 
 **Tasks:**
 
-- [ ] Mirror optional `includeRecipients` / `includeFields` / `includeContents` defaults from duplicate
-- [ ] Return `{ id: string }` only (same as duplicate response shape)
+- [x] Mirror optional `includeRecipients` / `includeFields` / `includeContents` defaults from duplicate
+- [x] Return `{ id: string }` only (same as duplicate response shape)
 
 **Done when:**
 
-- [ ] `bun run typecheck --filter @documenso/trpc` passes
-- [ ] Manual or `trpcQuery` from app-tests: copy between two teams in one org returns new id
-- [ ] Request with foreign org `targetTeamId` returns error (not 500)
+- [x] `bun run typecheck --filter @documenso/trpc` passes
+- [x] Manual or `trpcQuery` from app-tests: copy between two teams in one org returns new id
+- [x] Request with foreign org `targetTeamId` returns error (not 500)
 
 **Standalone prompt:** Implement Phase 1 of `.cursor/plans/template-copy-cross-team.plan.md`. Add `copy-to-team.ts` + `.types.ts` under envelope-router and wire into `router.ts`. Call `copyTemplateToTeam` from lib with `contextTeamId = ctx.teamId`.
 

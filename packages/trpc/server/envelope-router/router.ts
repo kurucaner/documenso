@@ -7,6 +7,7 @@ import { bulkCancelEnvelopesRoute } from './bulk-cancel-envelopes';
 import { bulkDeleteEnvelopesRoute } from './bulk-delete-envelopes';
 import { bulkMoveEnvelopesRoute } from './bulk-move-envelopes';
 import { cancelEnvelopeRoute } from './cancel-envelope';
+import { copyTemplateToTeamRoute } from './copy-to-team';
 import { createEnvelopeRoute } from './create-envelope';
 import { createEnvelopeItemsRoute } from './create-envelope-items';
 import { deleteEnvelopeRoute } from './delete-envelope';
@@ -114,6 +115,7 @@ export const envelopeRouter = router({
   delete: deleteEnvelopeRoute,
   cancel: cancelEnvelopeRoute,
   duplicate: duplicateEnvelopeRoute,
+  copyToTeam: copyTemplateToTeamRoute,
   saveAsTemplate: saveAsTemplateRoute,
   distribute: distributeEnvelopeRoute,
   redistribute: redistributeEnvelopeRoute,
